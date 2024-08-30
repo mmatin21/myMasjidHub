@@ -4,4 +4,5 @@ class Masjid < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   has_many :expenses
+  has_many :revenues
 end

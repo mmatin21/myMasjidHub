@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_08_30_230101) do
+ActiveRecord::Schema[7.0].define(version: 2024_08_30_234920) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -55,15 +55,13 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_30_230101) do
   end
 
   create_table "revenues", force: :cascade do |t|
+    t.bigint "masjid_id"
     t.string "name"
-    t.string "address"
-    t.string "city"
-    t.string "state"
-    t.string "zipcode"
-    t.string "email"
-    t.string "phone_number"
+    t.decimal "amount", precision: 10, scale: 2
+    t.date "revenue_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["masjid_id"], name: "index_revenues_on_masjid_id"
   end
 
 end
