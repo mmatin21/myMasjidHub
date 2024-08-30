@@ -3,7 +3,7 @@ class MasjidsController < ApplicationController
 
   # GET /masjids or /masjids.json
   def index
-    @masjids = Masjid.all
+    @masjids = Masjid.where(id: current_masjid.id)
   end
 
   # GET /masjids/1 or /masjids/1.json

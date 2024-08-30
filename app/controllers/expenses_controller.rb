@@ -3,7 +3,7 @@ class ExpensesController < ApplicationController
 
   # GET /expenses or /expenses.json
   def index
-    @expenses = Expense.all
+    @expenses = Expense.where(masjid_id: current_masjid.id)
   end
 
   # GET /expenses/1 or /expenses/1.json
@@ -22,6 +22,10 @@ class ExpensesController < ApplicationController
   # POST /expenses or /expenses.json
   def create
     @expense = Expense.new(expense_params)
+
+    if masjid_signed_in?
+      @expense.masjid_id = current_masjid.id
+    end
 
     respond_to do |format|
       if @expense.save
@@ -65,6 +69,10 @@ class ExpensesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def expense_params
-      params.fetch(:expense, {})
+      params.require(:expense).permit(
+        :name,
+        :amount,
+        :expense_date
+      )
     end
 end
