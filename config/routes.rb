@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :events
   resources :revenues
   devise_for :masjids
   resources :expenses

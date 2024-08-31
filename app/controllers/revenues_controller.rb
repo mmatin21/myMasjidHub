@@ -22,10 +22,8 @@ class RevenuesController < ApplicationController
   # POST /revenues or /revenues.json
   def create
     @revenue = Revenue.new(revenue_params)
+    @revenue.masjid_id = current_masjid.id
 
-    if masjid_signed_in?
-      @revenue.masjid_id = current_masjid.id
-    end
 
     respond_to do |format|
       if @revenue.save

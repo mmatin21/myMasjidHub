@@ -22,10 +22,7 @@ class ExpensesController < ApplicationController
   # POST /expenses or /expenses.json
   def create
     @expense = Expense.new(expense_params)
-
-    if masjid_signed_in?
-      @expense.masjid_id = current_masjid.id
-    end
+    @expense.masjid_id = current_masjid.id
 
     respond_to do |format|
       if @expense.save
