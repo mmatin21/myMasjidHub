@@ -10,9 +10,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_08_31_003153) do
+ActiveRecord::Schema[7.0].define(version: 2024_08_31_015206) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "attendees", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "name"
+    t.string "phone_number"
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_attendees_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_attendees_on_reset_password_token", unique: true
+  end
+
+  create_table "donations", force: :cascade do |t|
+    t.bigint "attendee_id", null: false
+    t.bigint "fundraiser_id", null: false
+    t.bigint "masjid_id", null: false
+    t.decimal "amount", precision: 10, scale: 2
+    t.string "currency"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["attendee_id"], name: "index_donations_on_attendee_id"
+    t.index ["fundraiser_id"], name: "index_donations_on_fundraiser_id"
+    t.index ["masjid_id"], name: "index_donations_on_masjid_id"
+  end
 
   create_table "events", force: :cascade do |t|
     t.bigint "masjid_id"
@@ -36,6 +63,26 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_31_003153) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["masjid_id"], name: "index_expenses_on_masjid_id"
+  end
+
+  create_table "fundraisers", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.decimal "goal_amount", precision: 10, scale: 2
+    t.bigint "masjid_id", null: false
+    t.datetime "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["masjid_id"], name: "index_fundraisers_on_masjid_id"
+  end
+
+  create_table "masjid_attendees", force: :cascade do |t|
+    t.bigint "attendee_id", null: false
+    t.bigint "masjid_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["attendee_id"], name: "index_masjid_attendees_on_attendee_id"
+    t.index ["masjid_id"], name: "index_masjid_attendees_on_masjid_id"
   end
 
   create_table "masjids", force: :cascade do |t|
@@ -78,4 +125,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_31_003153) do
     t.index ["masjid_id"], name: "index_revenues_on_masjid_id"
   end
 
+  add_foreign_key "donations", "attendees"
+  add_foreign_key "donations", "fundraisers"
+  add_foreign_key "donations", "masjids"
+  add_foreign_key "fundraisers", "masjids"
+  add_foreign_key "masjid_attendees", "attendees"
+  add_foreign_key "masjid_attendees", "masjids"
 end

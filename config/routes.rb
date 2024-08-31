@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :fundraisers
+  devise_for :attendees
   resources :events
   resources :revenues
   devise_for :masjids
