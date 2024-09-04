@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_08_31_015206) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_04_190940) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -115,6 +115,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_31_015206) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "prayers", force: :cascade do |t|
+    t.bigint "masjid_id", null: false
+    t.string "name"
+    t.time "adhaan"
+    t.time "iqaamah"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["masjid_id"], name: "index_prayers_on_masjid_id"
+  end
+
   create_table "revenues", force: :cascade do |t|
     t.bigint "masjid_id"
     t.string "name"
@@ -131,4 +141,5 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_31_015206) do
   add_foreign_key "fundraisers", "masjids"
   add_foreign_key "masjid_attendees", "attendees"
   add_foreign_key "masjid_attendees", "masjids"
+  add_foreign_key "prayers", "masjids"
 end

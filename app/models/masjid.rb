@@ -9,4 +9,5 @@ class Masjid < ApplicationRecord
   has_many :attendees, through: :masjid_attendees
   has_many :fundraisers
   has_many :donations
+  has_many :prayers
 end

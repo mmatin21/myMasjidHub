@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  masjid: one
+  name: MyString
+  adhaan: 2024-09-04 15:09:41
+  iqaamah: 2024-09-04 15:09:41
+
+two:
+  masjid: two
+  name: MyString
+  adhaan: 2024-09-04 15:09:41
+  iqaamah: 2024-09-04 15:09:41
