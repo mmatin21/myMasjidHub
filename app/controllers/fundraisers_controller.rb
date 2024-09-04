@@ -3,11 +3,13 @@ class FundraisersController < ApplicationController
 
   # GET /fundraisers or /fundraisers.json
   def index
-    @fundraisers = Fundraiser.all
+    @fundraisers = Fundraiser.where(id: current_masjid.id)
   end
 
   # GET /fundraisers/1 or /fundraisers/1.json
   def show
+    @donation = Donation.new
+    @donations = Donation.where(fundraiser_id: @fundraiser.id)
   end
 
   # GET /fundraisers/new
