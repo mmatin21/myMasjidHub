@@ -3,7 +3,7 @@ class PrayersController < ApplicationController
 
   # GET /prayers or /prayers.json
   def index
-    @prayers = Prayer.all
+    @prayers = Prayer.where(masjid_id: current_masjid.id)
   end
 
   # GET /prayers/1 or /prayers/1.json

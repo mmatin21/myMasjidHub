@@ -3,7 +3,7 @@ class EventsController < ApplicationController
 
   # GET /events or /events.json
   def index
-    @events = Event.where(id: current_masjid.id)
+    @events = Event.where(masjid_id: current_masjid.id)
   end
 
   # GET /events/1 or /events/1.json

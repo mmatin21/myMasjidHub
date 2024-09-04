@@ -32,14 +32,8 @@
         <%= form.label :attendee_id %>
         <%= form.text_field :attendee_id, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
       </div>
-      <div class="my-5">
-        <%= form.label :fundraiser_id %>
-        <%= form.text_field :fundraiser_id, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
-      </div>
-      <div class="my-5">
-        <%= form.label :masjid_id %>
-        <%= form.text_field :masjid_id, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
-      </div>
+      <%= form.hidden_field :masjid_id, value: @fundraiser.masjid_id %>
+      <%= form.hidden_field :fundraiser_id, value: @fundraiser.id %>
       <div class="my-5">
         <%= form.label :amount %>
         <%= form.text_field :amount, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>

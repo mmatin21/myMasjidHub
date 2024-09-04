@@ -3,7 +3,7 @@ class FundraisersController < ApplicationController
 
   # GET /fundraisers or /fundraisers.json
   def index
-    @fundraisers = Fundraiser.where(id: current_masjid.id)
+    @fundraisers = Fundraiser.where(masjid_id: current_masjid.id)
   end
 
   # GET /fundraisers/1 or /fundraisers/1.json
@@ -24,6 +24,8 @@ class FundraisersController < ApplicationController
   # POST /fundraisers or /fundraisers.json
   def create
     @fundraiser = Fundraiser.new(fundraiser_params)
+    @fundraiser.masjid_id = current_masjid.id
+
 
     respond_to do |format|
       if @fundraiser.save
