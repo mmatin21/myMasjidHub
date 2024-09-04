@@ -10,4 +10,12 @@ class Masjid < ApplicationRecord
   has_many :fundraisers
   has_many :donations
   has_many :prayers
+
+  validates :email, presence: true
+  validates :phone_number, presence: true
+  validates :address, presence: true
+  validates :city, presence: true
+  validates :state, presence: true
+  validates :zipcode, presence: true
+
 end
