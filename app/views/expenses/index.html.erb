@@ -2,14 +2,23 @@
   <% if notice.present? %>
     <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
   <% end %>
-
   <% content_for :title, "Expenses" %>
-
   <div class="flex justify-between items-center">
     <h1 class="font-bold text-4xl">Expenses</h1>
     <%= link_to "New expense", new_expense_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
   </div>
-
+  <h2>Filter Expenses</h2>
+  <%= form_with url: expenses_path, method: :get, local: true, data: { controller: "month-filter" } do %>
+    <div>
+      <label>Filter by Year:</label>
+      <%= select_tag :year, options_for_select(@available_years, selected: params[:year]), include_blank: 'Select Year', data: { action: "change->month-filter#updateMonths", month_filter_target: "year" } %>
+    </div>
+    <div>
+      <label>Filter by Month:</label>
+      <%= select_tag :month, options_for_select(@available_months.map { |m| [Date::MONTHNAMES[m], m] }, selected: params[:month]), include_blank: 'Select Month', data: { month_filter_target: "month" }, disabled: @available_months.empty? %>
+    </div>
+    <%= submit_tag 'Filter', class: 'btn btn-primary' %>
+  <% end %>
   <div id="expenses" class="min-w-full">
     <% @expenses.each do |expense| %>
       <%= render expense %>

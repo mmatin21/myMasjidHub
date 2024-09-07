@@ -3,7 +3,30 @@ class ExpensesController < ApplicationController
 
   # GET /expenses or /expenses.json
   def index
-    @expenses = Expense.where(masjid_id: current_masjid.id)
+    @expenses = Expense.all
+
+    # Filter by category
+    @expenses = @expenses.by_category(params[:category]) if params[:category].present?
+
+    # Filter by year and fetch available months for that year
+    if params[:year].present?
+      @expenses = @expenses.by_year(params[:year].to_i)
+
+      # Fetch available months based on selected year
+      @available_months = Expense.where('extract(year from expense_date) = ?', params[:year].to_i)
+                                 .select("DISTINCT extract(month from expense_date) AS month")
+                                 .map { |e| e.month.to_i }
+    else
+      @available_months = []
+    end
+
+    # Filter by year and month
+    if params[:year].present? && params[:month].present?
+      @expenses = @expenses.by_year_and_month(params[:year].to_i, params[:month].to_i)
+    end
+
+    # Fetch available years for the dropdown
+    @available_years = Expense.pluck(Arel.sql("distinct extract(year from expense_date)")).map(&:to_i)
   end
 
   # GET /expenses/1 or /expenses/1.json
