@@ -6,7 +6,11 @@ Rails.application.routes.draw do
   resources :events
   resources :revenues
   devise_for :masjids
-  resources :expenses
+  resources :expenses do
+    collection do
+      get :months
+    end
+  end
   resources :masjids
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

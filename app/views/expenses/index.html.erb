@@ -8,23 +8,25 @@
     <%= link_to "New expense", new_expense_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
   </div>
   <h2>Filter Expenses</h2>
-  <%= form_with url: expenses_path, method: :get, local: true, data: { controller: "month-filter" } do %>
+  <%= form_with model: Expense, method: :get, local: true do %>
+  <div data-controller = "select" data-select-url-value="<%= months_expenses_path %>" data-select-param-value="year">
     <div>
       <label>Filter by Year:</label>
-      <%= select_tag :year, options_for_select(@available_years, selected: params[:year]), include_blank: 'Select Year', data: { action: "change->month-filter#updateMonths", month_filter_target: "year" } %>
+      <%= select_tag :year, options_for_select(@available_years, selected: params[:year]), include_blank: 'Select Year', data: { action: "change->select#change" } %>
     </div>
     <div>
       <label>Filter by Month:</label>
-      <%= select_tag :month, options_for_select(@available_months.map { |m| [Date::MONTHNAMES[m], m] }, selected: params[:month]), include_blank: 'Select Month', data: { month_filter_target: "month" }, disabled: @available_months.empty? %>
+      <%= select_tag :months, [], {data: { select_target: "select" } } %>
     </div>
-    <%= submit_tag 'Filter', class: 'btn btn-primary' %>
-  <% end %>
-  <div id="expenses" class="min-w-full">
-    <% @expenses.each do |expense| %>
-      <%= render expense %>
-      <p>
-        <%= link_to "Show this expense", expense, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-      </p>
-    <% end %>
   </div>
+  <%= submit_tag 'Filter', class: 'btn btn-primary' %>
+<% end %>
+<div id="expenses" class="min-w-full">
+  <% @expenses.each do |expense| %>
+    <%= render expense %>
+    <p>
+      <%= link_to "Show this expense", expense, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+    </p>
+  <% end %>
+</div>
 </div>

@@ -19,6 +19,7 @@ class ExpensesController < ApplicationController
     else
       @available_months = []
     end
+    
 
     # Filter by year and month
     if params[:year].present? && params[:month].present?
@@ -78,6 +79,20 @@ class ExpensesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to expenses_url, notice: "Expense was successfully destroyed." }
       format.json { head :no_content }
+    end
+  end
+
+  def months
+    @target = params[:target]
+    @months = Expense.where('extract(year from expense_date) = ?', params[:year].to_i)
+                                 .select("DISTINCT extract(month from expense_date) AS month")
+                                 .map { |e| e.month.to_i }
+
+    @months.each do |month|
+      Rails.logger.debug "Month Name: #{month}" 
+    end
+    respond_to do |format|
+      format.turbo_stream
     end
   end
 
