@@ -17,7 +17,7 @@ class BalancesControllerTest < ActionDispatch::IntegrationTest
 
   test "should create balance" do
     assert_difference("Balance.count") do
-      post balances_url, params: { balance: { amount: @balance.amount, balance_date: @balance.balance_date, expense_id: @balance.expense_id, fundraiser_id: @balance.fundraiser_id, masjid_id: @balance.masjid_id, revenue_id: @balance.revenue_id } }
+      post balances_url, params: { balance: { amount: @balance.amount, balance_date: @balance.balance_date, masjid_id: @balance.masjid_id } }
     end
 
     assert_redirected_to balance_url(Balance.last)
@@ -34,7 +34,7 @@ class BalancesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update balance" do
-    patch balance_url(@balance), params: { balance: { amount: @balance.amount, balance_date: @balance.balance_date, expense_id: @balance.expense_id, fundraiser_id: @balance.fundraiser_id, masjid_id: @balance.masjid_id, revenue_id: @balance.revenue_id } }
+    patch balance_url(@balance), params: { balance: { amount: @balance.amount, balance_date: @balance.balance_date, masjid_id: @balance.masjid_id } }
     assert_redirected_to balance_url(@balance)
   end
 

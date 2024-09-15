@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_15_200010) do
+ActiveRecord::Schema[7.0].define(version: 2024_09_15_200832) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -32,15 +32,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_15_200010) do
     t.date "balance_date"
     t.decimal "amount"
     t.bigint "masjid_id", null: false
-    t.bigint "expense_id", null: false
-    t.bigint "revenue_id", null: false
-    t.bigint "fundraiser_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["expense_id"], name: "index_balances_on_expense_id"
-    t.index ["fundraiser_id"], name: "index_balances_on_fundraiser_id"
     t.index ["masjid_id"], name: "index_balances_on_masjid_id"
-    t.index ["revenue_id"], name: "index_balances_on_revenue_id"
   end
 
   create_table "donations", force: :cascade do |t|
@@ -150,10 +144,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_15_200010) do
     t.index ["masjid_id"], name: "index_revenues_on_masjid_id"
   end
 
-  add_foreign_key "balances", "expenses"
-  add_foreign_key "balances", "fundraisers"
   add_foreign_key "balances", "masjids"
-  add_foreign_key "balances", "revenues"
   add_foreign_key "donations", "attendees"
   add_foreign_key "donations", "fundraisers"
   add_foreign_key "donations", "masjids"
