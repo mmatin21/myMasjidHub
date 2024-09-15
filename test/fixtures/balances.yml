@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  balance_date: 2024-09-15
+  amount: 9.99
+  masjid: one
+  expense: one
+  revenue: one
+  fundraiser: one
+
+two:
+  balance_date: 2024-09-15
+  amount: 9.99
+  masjid: two
+  expense: two
+  revenue: two
+  fundraiser: two

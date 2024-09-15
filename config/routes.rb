@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :balances
   resources :prayers
   resources :donations
   resources :fundraisers
