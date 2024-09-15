@@ -11,10 +11,10 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="bg-white>
+  <body class="bg-white dark:bg-gray-900">
     <main>
       <%= yield %>
-      
+      <%= render "sidebar/index" %>
     </main>
   </body>
 </html>

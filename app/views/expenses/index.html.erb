@@ -9,24 +9,26 @@
   </div>
   <h2>Filter Expenses</h2>
   <%= form_with model: Expense, method: :get, local: true do %>
-  <div data-controller = "select" data-select-url-value="<%= months_expenses_path %>" data-select-param-value="year">
-    <div>
-      <label>Filter by Year:</label>
-      <%= select_tag :year, options_for_select(@available_years, selected: params[:year]), include_blank: 'Select Year', data: { action: "change->select#change" } %>
+    <div data-controller = "select" data-select-url-value="<%= months_expenses_path %>" data-select-param-value="year">
+      <div>
+        <label>Filter by Year:</label>
+        <%= select_tag :year, options_for_select(@available_years, selected: params[:year]), include_blank: 'Select Year', data: { action: "change->select#change" } %>
+      </div>
+      <div>
+        <label>Filter by Month:</label>
+        <%= select_tag :months, [], {data: { select_target: "select" } } %>
+      </div>
     </div>
-    <div>
-      <label>Filter by Month:</label>
-      <%= select_tag :months, [], {data: { select_target: "select" } } %>
-    </div>
-  </div>
-  <%= submit_tag 'Filter', class: 'btn btn-primary' %>
-<% end %>
-<div id="expenses" class="min-w-full">
-  <% @expenses.each do |expense| %>
-    <%= render expense %>
-    <p>
-      <%= link_to "Show this expense", expense, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    </p>
+    <%= submit_tag 'Filter', class: 'btn btn-primary' %>
   <% end %>
+  <div id="expenses" class="min-w-full">
+    <% @expenses.each do |expense| %>
+      <%= render expense %>
+      <p>
+        <%= link_to "Show this expense", expense, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
+      </p>
+    <% end %>
+  </div>
 </div>
-</div>
+
+<%= pie_chart @expenses.group(:name).sum(:amount) %>
