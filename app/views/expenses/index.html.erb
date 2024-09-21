@@ -1,4 +1,4 @@
-
+<!--
 <div class="w-full">
   <% if notice.present? %>
     <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
@@ -31,28 +31,208 @@
     <% end %>
   </div>
 </div>
-
-<%= pie_chart @expenses.group(:name).sum(:amount), legend: false %>
+ !-->
 <div class="antialiased bg-gray-50 dark:bg-gray-900">
   <main class="p-4 md:ml-64 h-auto pt-20">
-    <div
-        class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-96 mb-4"
-      >
-      <%= area_chart @expenses.group_by_month(:expense_date).sum(:amount) %>
+    <div class="rounded-lg shadow dark:bg-gray-800 h-200 mb-4 md:p-6">
+      <div class="flex justify-between">
+        <div>
+          <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2"><%= number_to_currency(@year_to_date_expenses.values.sum) %></h5>
+          <p class="text-base font-normal text-gray-500 dark:text-gray-400">Year To Date Expenses</p>
+        </div>
       </div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-      <div class="border-2 border-dashed border-gray-300 rounded-lg dark:border-gray-600 h-32 md:h-64">
+      <div
+          data-controller="area-chart"
+          data-area-chart-labels-value="<%= @labels %>"
+          data-area-chart-series-value="<%= @series %>"
+        >
+        <div data-area-chart-target="chart"></div>
       </div>
-      <div
-          class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-32 md:h-64"
-        ></div>
-      <div
-          class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-32 md:h-64"
-        ></div>
-      <div
-          class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-32 md:h-64"
-        ></div>
+      <div class="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
+        <div class="flex justify-between items-center pt-5">
+          <!-- Button -->
+          <button
+          id="dropdownDefaultButton2"
+          data-dropdown-toggle="lastDaysdropdown2"
+          data-dropdown-placement="bottom"
+          class="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
+          type="button"
+          >
+            Year To Date
+            <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+            </svg>
+          </button>
+          <!-- Dropdown menu -->
+          <div id="lastDaysdropdown2" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton2">
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last Three Months</a>
+              </li>
+              <li>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Year To Date</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
     </div>
+    <div class="grid grid-cols-1 sm:grid-cols-4 lg:grid-cols-1 gap-4 mb-4">
+      <div class="w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
+        <div class="flex justify-between items-start w-full">
+          <div class="flex-col items-center">
+            <div class="flex items-center mb-1">
+              <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white me-1">Expenses</h5>
+            </div>
+          </div>
+        </div>
+        <!-- Pie Chart -->
+        <div>
+          <div
+          data-controller="pie-chart"
+          data-pie-chart-labels-value="<%= @labels %>"
+          data-pie-chart-series-value="<%= @series %>"
+          class="inline-block "
+          >
+            <div data-pie-chart-target="chart"></div>
+          </div>
+          <div class="relative overflow-x-auto sm:rounded-lg inline-block">
+            <table class="w-2/6 text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+              <thead class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <tr>
+                  <th scope="col" class="px-6 py-3">
+                    Product name
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                    Color
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                    Category
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                    Price
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                    <span class="sr-only">Edit</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                  <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Apple MacBook Pro 17"
+                  </th>
+                  <td class="px-6 py-4">
+                    Silver
+                  </td>
+                  <td class="px-6 py-4">
+                    Laptop
+                  </td>
+                  <td class="px-6 py-4">
+                    $2999
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                  </td>
+                </tr>
+                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                  <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Microsoft Surface Pro
+                  </th>
+                  <td class="px-6 py-4">
+                    White
+                  </td>
+                  <td class="px-6 py-4">
+                    Laptop PC
+                  </td>
+                  <td class="px-6 py-4">
+                    $1999
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                  </td>
+                </tr>
+                <tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
+                  <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Magic Mouse 2
+                  </th>
+                  <td class="px-6 py-4">
+                    Black
+                  </td>
+                  <td class="px-6 py-4">
+                    Accessories
+                  </td>
+                  <td class="px-6 py-4">
+                    $99
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                  </td>
+                </tr>
+                <tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
+                  <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                    Magic Mouse 2
+                  </th>
+                  <td class="px-6 py-4">
+                    Black
+                  </td>
+                  <td class="px-6 py-4">
+                    Accessories
+                  </td>
+                  <td class="px-6 py-4">
+                    $99
+                  </td>
+                  <td class="px-6 py-4 text-right">
+                    <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
+          <div class="flex justify-between items-center pt-5">
+            <!-- Button -->
+            <button
+        id="dropdownDefaultButton"
+        data-dropdown-toggle="lastDaysdropdown"
+        data-dropdown-placement="bottom"
+        class="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
+        type="button">
+              Last 7 days
+              <svg class="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+              </svg>
+            </button>
+            <div id="lastDaysdropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Yesterday</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Today</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 7 days</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 30 days</a>
+                </li>
+                <li>
+                  <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 90 days</a>
+                </li>
+              </ul>
+            </div>
+            <a
+        href="#"
+        class="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2">
+              Traffic analysis
+              <svg class="w-2.5 h-2.5 ms-1.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </main>
   </div>
-</main>
-</div>

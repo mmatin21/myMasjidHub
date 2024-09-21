@@ -4,6 +4,7 @@ class ExpensesController < ApplicationController
   # GET /expenses or /expenses.json
   def index
     @expenses = Expense.where(masjid_id: current_masjid.id)
+    @year_to_date_expenses = Expense.where(masjid_id: current_masjid.id).group_by_year_to_date
     
     # Filter by year
     if params[:year].present?
@@ -14,6 +15,14 @@ class ExpensesController < ApplicationController
     if params[:year].present? && params[:months].present?
       @expenses = @expenses.by_year_and_month(params[:year].to_i, params[:months].to_i)
     end
+    
+    
+    @year_to_date_expenses.each do |chart|
+      Rails.logger.debug "year to date Data: #{chart}"  
+    end
+
+    @labels ||= @year_to_date_expenses.keys
+    @series ||= @year_to_date_expenses.values
 
     # Fetch available years for the dropdown
     @available_years = Expense.pluck(Arel.sql("distinct extract(year from expense_date)")).map(&:to_i)

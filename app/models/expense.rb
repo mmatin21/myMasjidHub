@@ -18,11 +18,13 @@ class Expense < ApplicationRecord
   end
 
   
-  def self.grouped_year_to_date
-    current_year = Date.today.year
-    start_date = Date.new(current_year, 1, 1)
-    end_date = Date.today
-    where(expense_date: start_date..end_date).sum(:amount)
+  def self.group_by_year_to_date
+    start_date = Time.current.beginning_of_year
+    end_date = Time.current.end_of_day
+
+    # Group donations by month and sum the amount for each month within the current year
+    self.where(expense_date: start_date..end_date)
+        .group("TO_CHAR(expense_date, 'Month YYYY')")
+        .sum(:amount)
   end
-  
 end

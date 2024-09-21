@@ -1,6 +1,7 @@
 const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
+  darkMode: 'media',
   content: [
     './public/*.html',
     './app/helpers/**/*.rb',
@@ -19,6 +20,8 @@ module.exports = {
     require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
     require('@tailwindcss/container-queries'),
-    require('flowbite/plugin')
+    require('flowbite/plugin')({
+      charts: true,
+  })
   ]
 }
