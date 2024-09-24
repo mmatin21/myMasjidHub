@@ -24,6 +24,11 @@ class ExpensesController < ApplicationController
     @labels ||= @year_to_date_expenses.keys
     @series ||= @year_to_date_expenses.values
 
+    @pie_expenses = @expenses.group(:name).count
+    
+    @pie_labels ||= @pie_expenses.keys
+    @pie_series ||= @pie_expenses.values
+
     # Fetch available years for the dropdown
     @available_years = Expense.pluck(Arel.sql("distinct extract(year from expense_date)")).map(&:to_i)
   end

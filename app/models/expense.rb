@@ -24,7 +24,8 @@ class Expense < ApplicationRecord
 
     # Group donations by month and sum the amount for each month within the current year
     self.where(expense_date: start_date..end_date)
-        .group("TO_CHAR(expense_date, 'Month YYYY')")
+        .group("TO_CHAR(expense_date, 'MM/YYYY')")
         .sum(:amount)
   end
+
 end

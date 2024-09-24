@@ -12,7 +12,7 @@ export default class extends Controller {
   }
 
   connect() {
-    console.log("Chart connected")
+    console.log("Pie Chart connected")
   }
 
   initialize() {
@@ -20,11 +20,15 @@ export default class extends Controller {
     this.chart.render();
   }
 
+  update(event){
+    console.log("Pie Update")
+  }
+
    get chartOptions() {
     return {
       chart: {
         type: 'pie',
-        height: '4800px',
+        height: '480px',
         width: '480px'
       },
       series: this.seriesValue,
