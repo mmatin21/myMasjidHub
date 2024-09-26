@@ -28,4 +28,14 @@ class Expense < ApplicationRecord
         .sum(:amount)
   end
 
+  def self.group_by_last_three_months
+    start_date = 2.months.ago.beginning_of_month
+    end_date = Time.current.end_of_month
+
+    # Group donations by month and sum the amount for each month, formatting as 'MM/DD/YYYY'
+    self.where(expense_date: start_date..end_date)
+        .group("TO_CHAR(expense_date, 'MM/YYYY')")
+        .sum(:amount)
+  end
+
 end
