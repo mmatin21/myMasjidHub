@@ -19,7 +19,11 @@ class ExpensesController < ApplicationController
     
     # Filter by year and month
     if params[:year].present? && params[:months].present?
-      @expenses = @expenses.by_year_and_month(params[:year].to_i, params[:months].to_i)
+      if params[:months] == "All Months"
+        @expenses = @expenses.by_year(params[:year].to_i)
+      else
+        @expenses = @expenses.by_year_and_month(params[:year].to_i, params[:months].to_i)
+      end
     end
     
     
@@ -97,6 +101,9 @@ class ExpensesController < ApplicationController
     @months = Expense.where('extract(year from expense_date) = ?', params[:year].to_i)
                                  .select("DISTINCT extract(month from expense_date) AS month")
                                  .map { |e| e.month.to_i }
+
+    @months = @months.map { |m| [Date::MONTHNAMES[m], m] }
+    @months = @months.prepend("All Months")
 
     @months.each do |month|
       Rails.logger.debug "Month Name: #{month}" 
