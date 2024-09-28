@@ -64,6 +64,7 @@ class ExpensesController < ApplicationController
 
     respond_to do |format|
       if @expense.save
+        format.turbo_stream { render turbo_stream: turbo_stream.prepend('expenses', partial: 'expenses/expense', locals: {expense: @expense}) }
         format.html { redirect_to expense_url(@expense), notice: "Expense was successfully created." }
         format.json { render :show, status: :created, location: @expense }
       else
