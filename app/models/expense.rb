@@ -38,4 +38,12 @@ class Expense < ApplicationRecord
         .sum(:amount)
   end
 
+  def self.ransackable_attributes(auth_object = nil) 
+    ["name", "expense_date", "amount"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    []
+  end
+
 end

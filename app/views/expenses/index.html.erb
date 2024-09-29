@@ -4,11 +4,14 @@
       <%= turbo_frame_tag "area_expenses" do %>
         <div class="flex justify-between">
           <div>
-            <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2"><%= number_to_currency(@view_expenses.values.sum) %></h5>
+            <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2"><%= number_to_currency(@area_expenses.values.sum) %></h5>
             <p class="text-base font-normal text-gray-500 dark:text-gray-400">Year To Date Expenses</p>
           </div>
         </div>
-        <div data-controller="area-chart" data-area-chart-labels-value="<%= @labels %> "data-area-chart-series-value="<%= @series %>">
+        <div
+         data-controller="area-chart" 
+         data-area-chart-labels-value="<%= @labels %>"
+         data-area-chart-series-value="<%= @series %>">
           <div data-area-chart-target="chart"></div>
         </div>
         <div class="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
@@ -58,7 +61,7 @@
     </div>
     <%= turbo_frame_tag "pie_expenses" do %>
       <div class="grid grid-cols-2 gap-4 mb-4">
-        <div class="border-gray-300 dark:border-gray-600 rounded-xl h-48 lg:h-96">
+        <div class="border-gray-300 dark:border-gray-600 rounded-xl h-100">
           <div class="w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
             <div class="flex justify-between items-start w-full">
               <div class="flex-col items-center">
@@ -76,6 +79,15 @@
                   <% end %>
                 </div>
               </div>
+              <%= form_with model: Expense, method: :get, local: true, class: "max-w-sm mx-auto" do %>
+                <div data-controller = "select" data-select-url-value="<%= months_expenses_path %>" data-select-param-value="year">
+                  <div class="flex">
+                    <%= select_tag :year, options_for_select(@available_years), include_blank: 'All Expenses',  data: { action: "change->select#change" }, class: "block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer" %>
+                    <%= select_tag :months, [], data: { select_target: "select" }, class: "block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer" %>
+                    <%= submit_tag 'Filter', class: "px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" %>
+                  </div>
+                </div>
+              <% end %>
             </div>
             <!-- Pie Chart -->
             <div>
@@ -86,44 +98,86 @@
             class="inline-block "
             >
                 <div data-pie-chart-target="chart"></div>
-                <%= form_with model: Expense, method: :get, local: true, class: "max-w-sm mx-auto" do %>
-                  <div data-controller = "select" data-select-url-value="<%= months_expenses_path %>" data-select-param-value="year">
-                    <div class="flex">
-                      <%= select_tag :year, options_for_select(@available_years), include_blank: 'All Expenses',  data: { action: "change->select#change" }, class: "block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer" %>
-                      <%= select_tag :months, [], data: { select_target: "select" }, class: "block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer" %>
-                      <%= submit_tag 'Filter', class: "px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" %>
-                    </div>
-                  </div>
-                <% end %>
               </div>
             </div>
           </div>
         </div>
-        <div class="border-2 border-gray-300 dark:border-gray-900 rounded-xl h-48 lg:h-96">
+        <div class="border-gray-300 dark:border-gray-600 rounded-xl h-128">
           <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-              <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-800 dark:text-gray-400">
-                <tr>
-                  <th scope="col" class="px-6 py-3">
-                    Name
-                  </th>
-                  <th scope="col" class="px-6 py-3">
-                    Amount
-                  </th>
-                  <th scope="col" class="px-6 py-3">
-                    Date
-                  </th>
-                  <th scope="col" class="px-6 py-3">
-                    <span class="sr-only">Edit</span>
-                  </th>
-                </tr>
-              </thead>
-              <tbody id = "expense_table">
-                <% @expenses.each do |expense| %>
-                  <%= render 'expense_row', expense: expense %>
-                <% end %>
-              </tbody>
-            </table>
+            <div class="w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
+              <div class="pb-4 border-b dark:border-gray-700">
+                <label for="table-search" class="sr-only">Search</label>
+                <div class="relative mt-1">
+                  <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                    </svg>
+                  </div>
+                  <input type="text" id="table-search" class="block pt-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for items">
+                </div>
+              </div>
+              <%= search_form_for @q do |f| %>
+                # Search if the name field contains...
+                <%= f.label :name_cont %>
+                <%= f.search_field :name_cont %>
+                <%= f.label :expense_date_gteq %>
+                <%= f.date_field :expense_date_gteq %>
+                <%= f.label :expense_date_lteq %>
+                <%= f.date_field :expense_date_lteq %>
+                <%= f.submit %>
+              <% end %>
+              <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-800 dark:text-gray-400">
+                  <tr class="border-b dark:border-gray-700">
+                    <th scope="col" class="px-4 py-3">
+                      <%= sort_link(@q, :name, 'Name') %>
+                    </th>
+                    <th scope="col" class="px-4 py-3">
+                      <%= sort_link(@q, :amount, 'Amount') %>
+                    </th>
+                    <th scope="col" class="px-4 py-3">
+                      <%= sort_link(@q, :expense_date, 'Date', default_order: :desc) %>
+                    </th>
+                    <th scope="col" class="px-4 py-3">
+                      Delete
+                    </th>
+                  </tr>
+                </thead>
+                <tbody id = "expense_table">
+                  <% @table_expenses.each do |expense| %>
+                    <%= render 'expense_row', expense: expense %>
+                  <% end %>
+                </tbody>
+              </table>
+              <nav class="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4" aria-label="Table navigation">
+                <span class="text-sm font-normal text-gray-500 dark:text-gray-400 mb-4 md:mb-0 block w-full md:inline md:w-auto">Showing <span class="font-semibold text-gray-900 dark:text-white">1-10</span> of <span class="font-semibold text-gray-900 dark:text-white">1000</span></span>
+                <ul class="inline-flex -space-x-px rtl:space-x-reverse text-sm h-8">
+                  <li>
+                    <a href="#" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
+                  </li>
+                  <li>
+                    <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
+                  </li>
+                  <li>
+                    <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
+                  </li>
+                  <li>
+                    <a href="#" aria-current="page" class="flex items-center justify-center px-3 h-8 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
+                  </li>
+                  <li>
+                    <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">4</a>
+                  </li>
+                  <li>
+                    <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">5</a>
+                  </li>
+                  <li>
+                    <a href="#" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
+                  </li>
+                </ul>
+              </nav>
+              <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
+
+            </div>
           </div>
         </div>
       </div>

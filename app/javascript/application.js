@@ -3,5 +3,3 @@ import "@hotwired/turbo-rails"
 import "controllers"
 import 'flowbite'
 import '@rails/request.js'
-import "chartkick"
-import "Chart.bundle"
