@@ -15,8 +15,8 @@
         <% end %>
       </div>
     </div>
-    <%= form_with model: @resource, method: :get, local: true, class: "max-w-sm mx-auto" do %>
-      <div data-controller = "select" data-select-url-value="<%= months_expenses_path %>" data-select-param-value="year">
+    <%= form_with model: @model, method: :get, local: true, class: "max-w-sm mx-auto" do %>
+      <div data-controller = "select" data-select-url-value="<%= months_months_path(@model) %>" data-select-param-value="year">
         <div class="flex">
           <%= select_tag :year, options_for_select(available_years), include_blank: 'All Years',  data: { action: "change->select#change" }, class: "block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer" %>
           <%= select_tag :months, [], data: { select_target: "select" }, class: "block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer" %>

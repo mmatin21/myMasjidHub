@@ -7,8 +7,9 @@ Rails.application.routes.draw do
   resources :events
   resources :revenues
   devise_for :masjids
-  resources :expenses do
-    collection do
+  resources :expenses
+  resources :months do
+    collection do 
       get :months
     end
   end
