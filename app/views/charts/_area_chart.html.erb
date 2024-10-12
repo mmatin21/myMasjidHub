@@ -2,7 +2,11 @@
         <div class="flex justify-between">
           <div>
             <h5 class="leading-none text-3xl font-bold text-gray-900 dark:text-white pb-2"><%= number_to_currency(area_chart.values.sum) %></h5>
-            <p class="text-base font-normal text-gray-500 dark:text-gray-400">Year To Date Expenses</p>
+            <% if params[:view] == "last_three_months" %>
+            <p class="text-base font-normal text-gray-500 dark:text-gray-400">Last Three Months</p>
+            <% else%>
+            <p class="text-base font-normal text-gray-500 dark:text-gray-400">Year To Date</p>
+            <% end %>
           </div>
         </div>
         <div
@@ -45,10 +49,10 @@
             <div id="lastDaysdropdown2" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
               <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton2">
                 <li>
-                  <%= link_to "Year To Date", expenses_path(view: "ytd"), class: "block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" %>
+                  <%= link_to "Year To Date", polymorphic_path([model], view: "ytd"), class: "block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" %>
                 </li>
                 <li>
-                  <%= link_to "Last 3 Months", expenses_path(view: "last_three_months"), class: "block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" %>
+                  <%= link_to "Last 3 Months", polymorphic_path([model], view: "last_three_months"), class: "block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" %>
                 </li>
               </ul>
             </div>

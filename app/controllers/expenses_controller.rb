@@ -106,7 +106,8 @@ class ExpensesController < ApplicationController
 
   def months
     @target = params[:target]
-    @months = Expense.where('extract(year from date) = ?', params[:year].to_i)
+    masjid_expenses = Expense.where(masjid_id: current_masjid.id)
+    @months = masjid_expenses.where('extract(year from date) = ?', params[:year].to_i)
                                  .select("DISTINCT extract(month from date) AS month")
                                  .map { |e| e.month.to_i }
 
