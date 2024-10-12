@@ -1,0 +1,39 @@
+<%= turbo_frame_tag "pie_chart" do %>
+  <div class="flex justify-between items-start w-full">
+    <div class="flex-col items-center">
+      <div class="flex items-center mb-1">
+        <% if params[:months].present? %>
+          <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white me-1">All items for
+            <% if params[:months] == "All Months"%>
+              <%= params[:year]%>
+            <% else %>
+              <%= params[:months]%>/<%= params[:year]%>
+            <% end %>
+          </h5>
+        <% else %>
+          <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white me-1">All items</h5>
+        <% end %>
+      </div>
+    </div>
+    <%= form_with model: Expense, method: :get, local: true, class: "max-w-sm mx-auto" do %>
+      <div data-controller = "select" data-select-url-value="<%= months_expenses_path %>" data-select-param-value="year">
+        <div class="flex">
+          <%= select_tag :year, options_for_select(available_years), include_blank: 'All Expenses',  data: { action: "change->select#change" }, class: "block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer" %>
+          <%= select_tag :months, [], data: { select_target: "select" }, class: "block py-2.5 px-0 w-full text-sm text-gray-500 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-gray-400 dark:border-gray-700 focus:outline-none focus:ring-0 focus:border-gray-200 peer" %>
+          <%= submit_tag 'Filter', class: "px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <!-- Pie Chart -->
+  <div>
+    <div
+            data-controller="pie-chart"
+            data-pie-chart-labels-value="<%= labels %>"
+            data-pie-chart-series-value="<%= series %>"
+            class="inline-block "
+            >
+      <div data-pie-chart-target="chart"></div>
+    </div>
+  </div>
+<% end %>
