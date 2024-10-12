@@ -1,9 +1,53 @@
 class RevenuesController < ApplicationController
   before_action :set_revenue, only: %i[ show edit update destroy ]
+  include Pagy::Backend
+  Pagy::DEFAULT[:limit] = 7
 
   # GET /revenues or /revenues.json
   def index
     @revenues = Revenue.where(masjid_id: current_masjid.id)
+    @pie_revenues  = Revenue.where(masjid_id: current_masjid.id)
+
+    #Area chart
+    if params[:view] == "last_three_months"
+      @area_revenues =  @revenues.group_by_last_three_months
+    else
+      @area_revenues =  @revenues.group_by_year_to_date
+    end
+
+    @area_revenues.each do |month|
+      Rails.logger.debug "Month Name: #{month}" 
+    end
+
+    @labels ||= @area_revenues.keys
+    @series ||= @area_revenues.values
+
+    # Filter by year
+    if params[:year].present?
+      @pie_revenues = @pie_revenues.by_year(params[:year].to_i)
+    end
+    
+    # Filter by year and month
+    if params[:year].present? && params[:months].present?
+      if params[:months] == "All Months"
+        @pie_revenues = @pie_revenues.by_year(params[:year].to_i)
+      else
+        @pie_revenues = @pie_revenues.by_year_and_month(params[:year].to_i, params[:months].to_i)
+      end
+    end
+
+    # Pie chart
+    @pie_revenues = @pie_revenues.group(:name).sum(:amount)
+    @pie_labels ||= @pie_revenues.keys
+    @pie_series ||= @pie_revenues.values
+
+    #Pagy and table filtering
+    @q = @revenues.ransack(params[:q])
+    @revenues = @q.result
+    @pagy, @table_revenues = pagy(@revenues)
+
+    # Fetch available years for the dropdown
+    @available_years = Revenue.pluck(Arel.sql("distinct extract(year from date)")).map(&:to_i)
   end
 
   # GET /revenues/1 or /revenues/1.json
@@ -67,6 +111,6 @@ class RevenuesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def revenue_params
-      params.require(:revenue).permit(:name, :amount, :revenue_date)
+      params.require(:revenue).permit(:name, :amount, :date)
     end
 end

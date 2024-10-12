@@ -49,7 +49,7 @@ class ExpensesController < ApplicationController
     @pagy, @table_expenses = pagy(@expenses)
 
     # Fetch available years for the dropdown
-    @available_years = Expense.pluck(Arel.sql("distinct extract(year from expense_date)")).map(&:to_i)
+    @available_years = Expense.pluck(Arel.sql("distinct extract(year from date)")).map(&:to_i)
   end
 
   # GET /expenses/1 or /expenses/1.json
@@ -106,8 +106,8 @@ class ExpensesController < ApplicationController
 
   def months
     @target = params[:target]
-    @months = Expense.where('extract(year from expense_date) = ?', params[:year].to_i)
-                                 .select("DISTINCT extract(month from expense_date) AS month")
+    @months = Expense.where('extract(year from date) = ?', params[:year].to_i)
+                                 .select("DISTINCT extract(month from date) AS month")
                                  .map { |e| e.month.to_i }
 
     @months = @months.map { |m| [Date::MONTHNAMES[m], m] }
@@ -132,7 +132,7 @@ class ExpensesController < ApplicationController
       params.require(:expense).permit(
         :name,
         :amount,
-        :expense_date
+        :date
       )
     end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_09_15_200832) do
+ActiveRecord::Schema[7.0].define(version: 2024_10_12_211141) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -29,7 +29,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_15_200832) do
   end
 
   create_table "balances", force: :cascade do |t|
-    t.date "balance_date"
+    t.date "date"
     t.decimal "amount"
     t.bigint "masjid_id", null: false
     t.datetime "created_at", null: false
@@ -68,7 +68,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_15_200832) do
     t.bigint "masjid_id"
     t.string "name"
     t.decimal "amount", precision: 10, scale: 2
-    t.date "expense_date"
+    t.date "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["masjid_id"], name: "index_expenses_on_masjid_id"
@@ -138,7 +138,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_09_15_200832) do
     t.bigint "masjid_id"
     t.string "name"
     t.decimal "amount", precision: 10, scale: 2
-    t.date "revenue_date"
+    t.date "date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["masjid_id"], name: "index_revenues_on_masjid_id"

@@ -17,11 +17,11 @@
             <div class="p-3" aria-labelledby="dateRangeButton">
               <div class="flex items-center">
                 <div class="relative">
-                  <%= f.date_field :expense_date_gteq, {class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", placeholder:"Start date"} %>
+                  <%= f.date_field :date_gteq, {class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", placeholder:"Start date"} %>
                 </div>
                 <span class="mx-2 text-gray-500 dark:text-gray-400">to</span>
                 <div class="relative">
-                  <%= f.date_field :expense_date_lteq, {class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", placeholder:"End date"} %>
+                  <%= f.date_field :date_lteq, {class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", placeholder:"End date"} %>
                 </div>
               </div>
               <%= f.submit class: "px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"%>
@@ -49,7 +49,7 @@
             <%= sort_link(query, :amount, 'Amount') %>
           </th>
           <th scope="col" class="px-4 py-3">
-            <%= sort_link(query, :expense_date, 'Date') %>
+            <%= sort_link(query, :date, 'Date') %>
           </th>
           <th scope="col" class="px-4 py-3">
             Delete

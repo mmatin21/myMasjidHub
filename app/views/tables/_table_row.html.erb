@@ -6,7 +6,7 @@
     <%= number_to_currency(item.amount) %>
   </th>
   <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-    <%= item.expense_date.strftime("%b %d, %Y") %>
+    <%= item.date.strftime("%b %d, %Y") %>
   </th>
   <td class="px-4 py-3">
     <%= link_to item, id: item.id, data: { turbo_method: :delete } do %>
