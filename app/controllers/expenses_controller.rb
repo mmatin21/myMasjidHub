@@ -5,7 +5,10 @@ class ExpensesController < ApplicationController
 
   # GET /expenses or /expenses.json
   def index
-    @expenses = Expense.where(masjid_id: current_masjid.id)
+    @expenses  = Expense.where(masjid_id: current_masjid.id)
+    @pie_expenses  = Expense.where(masjid_id: current_masjid.id)
+
+    
     
     #Area chart
     if params[:view] == "last_three_months"
@@ -14,32 +17,36 @@ class ExpensesController < ApplicationController
       @area_expenses =  @expenses.group_by_year_to_date
     end
 
+    @area_expenses.each do |month|
+      Rails.logger.debug "Month Name: #{month}" 
+    end
+
     @labels ||= @area_expenses.keys
     @series ||= @area_expenses.values
 
     # Filter by year
     if params[:year].present?
-      @expenses = @expenses.by_year(params[:year].to_i)
+      @pie_expenses = @pie_expenses.by_year(params[:year].to_i)
     end
     
     # Filter by year and month
     if params[:year].present? && params[:months].present?
       if params[:months] == "All Months"
-        @expenses = @expenses.by_year(params[:year].to_i)
+        @pie_expenses = @pie_expenses.by_year(params[:year].to_i)
       else
-        @expenses = @expenses.by_year_and_month(params[:year].to_i, params[:months].to_i)
+        @pie_expenses = @pie_expenses.by_year_and_month(params[:year].to_i, params[:months].to_i)
       end
     end
+
+    # Pie chart
+    @pie_expenses = @pie_expenses.group(:name).sum(:amount)
+    @pie_labels ||= @pie_expenses.keys
+    @pie_series ||= @pie_expenses.values
 
     #Pagy and table filtering
     @q = @expenses.ransack(params[:q])
     @expenses = @q.result
     @pagy, @table_expenses = pagy(@expenses)
-
-    # Pie chart
-    @pie_expenses = @expenses.group(:name).sum(:amount)
-    @pie_labels ||= @pie_expenses.keys
-    @pie_series ||= @pie_expenses.values
 
     # Fetch available years for the dropdown
     @available_years = Expense.pluck(Arel.sql("distinct extract(year from expense_date)")).map(&:to_i)
