@@ -1,50 +1,13 @@
-<div class="mx-auto md:w-2/3 w-full flex">
-  <div class="mx-auto">
+<div class="antialiased bg-gray-50 dark:bg-gray-900">
+  <main class="p-4 md:ml-64 h-auto pt-20">
     <% if notice.present? %>
       <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
     <% end %>
-    <%= render @fundraiser %>
-    <%= link_to "Edit this fundraiser", edit_fundraiser_path(@fundraiser), class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <%= link_to "Back to fundraisers", fundraisers_path, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-    <div class="inline-block ml-2">
-      <%= button_to "Destroy this fundraiser", @fundraiser, method: :delete, class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 font-medium" %>
-    </div>
-    <% @donations.each do |donation| %>
-      <p class="my-5">
-        <strong class="block font-medium mb-1">Attendee:</strong>
-        <%= donation.attendee_id %>
-      </p>
-      <p class="my-5">
-        <strong class="block font-medium mb-1">Fund:</strong>
-        <%= donation.fundraiser_id %>
-      </p>
-      <p class="my-5">
-        <strong class="block font-medium mb-1">Masjid:</strong>
-        <%= donation.masjid_id %>
-      </p>
-      <p class="my-5">
-        <strong class="block font-medium mb-1">Amount:</strong>
-        <%= donation.amount %>
-      </p>
-    <% end %>
-    <%= form_for @donation do |form| %>
-      <div class="my-5">
-        <%= form.label :attendee_id %>
-        <%= form.text_field :attendee_id, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
+    <div class="border-gray-300 dark:border-gray-600 rounded-xl h-128">
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+
+          <%= render "tables/donation_table", fundraiser: @fundraiser, table: @table_donations, query: @q, pagy: @pagy%>
+        </div>
       </div>
-      <%= form.hidden_field :masjid_id, value: @fundraiser.masjid_id %>
-      <%= form.hidden_field :fundraiser_id, value: @fundraiser.id %>
-      <div class="my-5">
-        <%= form.label :amount %>
-        <%= form.text_field :amount, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
-      </div>
-      <div class="my-5">
-        <%= form.label :currency %>
-        <%= form.text_field :currency, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
-      </div>
-      <div class="inline">
-        <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
-      </div>
-    <% end %>
-  </div>
+  </main>
 </div>

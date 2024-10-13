@@ -1,5 +1,7 @@
 class FundraisersController < ApplicationController
   before_action :set_fundraiser, only: %i[ show edit update destroy ]
+  include Pagy::Backend
+  Pagy::DEFAULT[:limit] = 7
 
   # GET /fundraisers or /fundraisers.json
   def index
@@ -10,6 +12,11 @@ class FundraisersController < ApplicationController
   def show
     @donation = Donation.new
     @donations = Donation.where(fundraiser_id: @fundraiser.id)
+
+    @q = @donations.ransack(params[:q])
+    @donations = @q.result.includes(:attendee)
+    @pagy, @table_donations = pagy(@donations)
+
   end
 
   # GET /fundraisers/new

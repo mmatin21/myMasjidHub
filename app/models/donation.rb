@@ -5,4 +5,12 @@ class Donation < ApplicationRecord
 
   validates :amount, presence: true, numericality: { greater_than_or_equal_to: 0}
   validates :currency, presence: true
+
+  def self.ransackable_attributes(auth_object = nil) 
+    ["created_at", "amount"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["attendee"]
+  end
 end
