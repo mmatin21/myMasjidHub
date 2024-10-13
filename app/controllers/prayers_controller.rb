@@ -3,7 +3,7 @@ class PrayersController < ApplicationController
 
   # GET /prayers or /prayers.json
   def index
-    @prayers = Prayer.where(masjid_id: current_masjid.id)
+    @prayers = Prayer.where(masjid_id: current_masjid.id).order(adhaan: 'asc')
   end
 
   # GET /prayers/1 or /prayers/1.json
@@ -22,6 +22,7 @@ class PrayersController < ApplicationController
   # POST /prayers or /prayers.json
   def create
     @prayer = Prayer.new(prayer_params)
+    @prayer.masjid_id = current_masjid.id
 
     respond_to do |format|
       if @prayer.save
