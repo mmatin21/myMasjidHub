@@ -3,7 +3,7 @@ class DonationsController < ApplicationController
 
   # GET /donations or /donations.json
   def index
-    @donations = Donation.where(masjid_id: current_masjid.id)
+    @donations = Donation.where(masjid_id: current_masjid.id).order(created_at: 'desc')
   end
 
   # GET /donations/1 or /donations/1.json
