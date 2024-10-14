@@ -1,9 +1,14 @@
 class DonationsController < ApplicationController
   before_action :set_donation, only: %i[ show edit update destroy ]
+  include Pagy::Backend
+  Pagy::DEFAULT[:limit] = 7
 
   # GET /donations or /donations.json
   def index
     @donations = Donation.where(masjid_id: current_masjid.id).order(created_at: 'desc')
+    @q = @donations.ransack(params[:q])
+    @donations = @q.result.includes(:attendee)
+    @pagy, @table_donations = pagy(@donations)
   end
 
   # GET /donations/1 or /donations/1.json
