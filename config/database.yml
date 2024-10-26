@@ -81,6 +81,4 @@ test:
 #
 production:
   <<: *default
-  database: MosqueApp_production
-  username: MosqueApp
-  password: <%= ENV["MOSQUEAPP_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>
