@@ -6,7 +6,10 @@ Rails.application.routes.draw do
   devise_for :attendees
   resources :events
   resources :revenues
-  devise_for :masjids
+  devise_for :masjids, path: 'masjids', controllers: {
+    sessions: "masjids/sessions",
+    registrations: "masjids/registrations"
+  }
   resources :expenses
   resources :months do
     collection do 
