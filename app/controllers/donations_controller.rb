@@ -7,7 +7,6 @@ class DonationsController < ApplicationController
   def index
     @donations = Donation.where(masjid_id: current_masjid.id).order(created_at: 'desc')
     @q = @donations.ransack(params[:q])
-    @donations = @q.result.includes(:attendee)
     @pagy, @table_donations = pagy(@donations)
   end
 
@@ -18,6 +17,7 @@ class DonationsController < ApplicationController
   # GET /donations/new
   def new
     @donation = Donation.new
+    
   end
 
   # GET /donations/1/edit
@@ -27,9 +27,9 @@ class DonationsController < ApplicationController
   # POST /donations or /donations.json
   def create
     @donation = Donation.new(donation_params)
-    @donation.attendee_id = params[:donation][:attendee_id]
-    @donation.masjid_id = params[:donation][:masjid_id]
+    @fundraiser = Fundraiser.where(id: params[:donation][:fundraiser_id]).first
     @donation.fundraiser_id = params[:donation][:fundraiser_id]
+    @donation.masjid_id = @fundraiser.masjid_id
 
     respond_to do |format|
       if @donation.save
@@ -73,6 +73,6 @@ class DonationsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def donation_params
-      params.require(:donation).permit(:amount, :currency)
+      params.require(:donation).permit(:amount, :currency, :first_name, :last_name, :date, :fundraiser_id, :phone_number)
     end
 end

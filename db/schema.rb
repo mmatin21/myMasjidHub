@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_10_12_211141) do
+ActiveRecord::Schema[7.0].define(version: 2024_11_12_022013) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -38,14 +38,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_12_211141) do
   end
 
   create_table "donations", force: :cascade do |t|
-    t.bigint "attendee_id", null: false
     t.bigint "fundraiser_id", null: false
     t.bigint "masjid_id", null: false
     t.decimal "amount", precision: 10, scale: 2
     t.string "currency"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["attendee_id"], name: "index_donations_on_attendee_id"
+    t.string "first_name"
+    t.string "last_name"
+    t.string "email"
+    t.string "phone_number"
     t.index ["fundraiser_id"], name: "index_donations_on_fundraiser_id"
     t.index ["masjid_id"], name: "index_donations_on_masjid_id"
   end
@@ -103,14 +105,25 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_12_211141) do
     t.string "phone_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.string "email"
     t.index ["reset_password_token"], name: "index_masjids_on_reset_password_token", unique: true
   end
 
+  create_table "mosques", force: :cascade do |t|
+    t.string "name"
+    t.string "address"
+    t.string "city"
+    t.string "state"
+    t.string "zipcode"
+    t.string "email"
+    t.string "phone_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "prayers", force: :cascade do |t|
     t.bigint "masjid_id", null: false
@@ -133,7 +146,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_10_12_211141) do
   end
 
   add_foreign_key "balances", "masjids"
-  add_foreign_key "donations", "attendees"
   add_foreign_key "donations", "fundraisers"
   add_foreign_key "donations", "masjids"
   add_foreign_key "fundraisers", "masjids"

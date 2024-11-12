@@ -10,11 +10,11 @@ class FundraisersController < ApplicationController
 
   # GET /fundraisers/1 or /fundraisers/1.json
   def show
+    @fundraisers = Fundraiser.where(masjid_id: current_masjid.id)
     @donation = Donation.new
     @donations = Donation.where(fundraiser_id: @fundraiser.id)
 
     @q = @donations.ransack(params[:q])
-    @donations = @q.result.includes(:attendee)
     @pagy, @table_donations = pagy(@donations)
 
   end
