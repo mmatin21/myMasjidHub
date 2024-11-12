@@ -20,11 +20,11 @@ export default class extends Controller {
         {
           name: "Income",
           color: "#31C48D",
-          data: ["1420", "1620", "1820", "1420", "1650", "2120"],
+          data: ["1420", "1620", "1820", "1420", "1650", "2120","1420", "1620", "1820", "1420", "1650", "2120"],
         },
         {
           name: "Expense",
-          data: ["788", "810", "866", "788", "1100", "1200"],
+          data: ["788", "810", "866", "788", "1100", "1200","788", "810", "866", "788", "1100", "1200"],
           color: "#F05252",
         }
       ],
@@ -78,7 +78,7 @@ export default class extends Controller {
             return "$" + value
           }
         },
-        categories: ["Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+        categories: ["Jul 2024", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun" ],
         axisTicks: {
           show: false,
         },

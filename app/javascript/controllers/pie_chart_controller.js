@@ -28,8 +28,8 @@ export default class extends Controller {
     return {
       chart: {
         type: 'pie',
-        height: '480px',
-        width: '480px'
+        height: '100%',
+        width: '100%'
       },
       series: this.seriesValue,
       labels: this.labelsValue,
