@@ -3,7 +3,9 @@ class BalancesController < ApplicationController
 
   # GET /balances or /balances.json
   def index
-    @balances = Balance.all
+    @expenses  = Expense.where(masjid_id: current_masjid.id)
+    @revenues = Revenue.where(masjid_id: current_masjid.id)
+
   end
 
   # GET /balances/1 or /balances/1.json
