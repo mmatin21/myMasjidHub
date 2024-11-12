@@ -43,7 +43,7 @@ export default class extends Controller {
   get chartOptions() {
     return { 
       chart: {
-        height: "100%",
+        height: "480px",
         maxWidth: "100%",
         type: "area",
         fontFamily: "Inter, sans-serif",
@@ -73,13 +73,13 @@ export default class extends Controller {
         enabled: false,
       },
       stroke: {
-        width: 6,
+        width: 4,
       },
       grid: {
         show: false,
         strokeDashArray: 4,
         padding: {
-          left: 2,
+          left: 50,
           right: 2,
           top: 0
         },
@@ -94,13 +94,13 @@ export default class extends Controller {
       xaxis: {
         categories: this.labelsValue,
         labels: {
-          show: false,
+          show: true,
         },
         axisBorder: {
           show: false,
         },
         axisTicks: {
-          show: false,
+          show: true,
         },
       },
       yaxis: {

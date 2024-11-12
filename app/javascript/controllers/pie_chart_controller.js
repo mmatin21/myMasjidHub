@@ -27,9 +27,12 @@ export default class extends Controller {
    get chartOptions() {
     return {
       chart: {
-        type: 'pie',
-        height: '100%',
-        width: '100%'
+        height: '300',
+        width: '100%',
+        type: 'pie'
+      },
+      legend: { 
+        show: false 
       },
       series: this.seriesValue,
       labels: this.labelsValue,
