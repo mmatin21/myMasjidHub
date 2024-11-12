@@ -4,6 +4,11 @@ import ApexCharts from "apexcharts"
 // Connects to data-controller="bar-chart"
 export default class extends Controller {
   static targets = ["chart"]
+  static values = {
+    labels: Array,
+    revenueSeries: Array,
+    expenseSeries: Array
+  }
 
   connect() {
     console.log("Bar chart connected")
@@ -18,13 +23,13 @@ export default class extends Controller {
     return {
       series: [
         {
-          name: "Income",
+          name: "Revenue",
           color: "#31C48D",
-          data: ["1420", "1620", "1820", "1420", "1650", "2120","1420", "1620", "1820", "1420", "1650", "2120"],
+          data: this.revenueSeriesValue,
         },
         {
           name: "Expense",
-          data: ["788", "810", "866", "788", "1100", "1200","788", "810", "866", "788", "1100", "1200"],
+          data: this.expenseSeriesValue,
           color: "#F05252",
         }
       ],
@@ -78,7 +83,7 @@ export default class extends Controller {
             return "$" + value
           }
         },
-        categories: ["Jul 2024", "Aug", "Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar", "Apr", "May", "Jun" ],
+        categories: this.labelsValue,
         axisTicks: {
           show: false,
         },
@@ -99,7 +104,7 @@ export default class extends Controller {
         show: true,
         strokeDashArray: 4,
         padding: {
-          left: 2,
+          left: 10,
           right: 2,
           top: -20
         },
