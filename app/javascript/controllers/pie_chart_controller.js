@@ -27,7 +27,7 @@ export default class extends Controller {
    get chartOptions() {
     return {
       chart: {
-        height: '300',
+        height: '340',
         width: '100%',
         type: 'pie'
       },
