@@ -9,9 +9,8 @@
     </div>
     <div class="border-gray-300 dark:border-gray-600 rounded-xl h-128">
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <%= render "tables/table", table: @table_revenues, query: @q, pagy: @pagy%>
+        <%= render "tables/table", table: @table_revenues, query: @q, pagy: @pagy, model: :revenue %>
       </div>
     </div>
   </main>
 </div>
-<%= render "spinners/spinner", model: :revenue %>
