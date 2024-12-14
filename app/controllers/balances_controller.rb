@@ -19,7 +19,7 @@ class BalancesController < ApplicationController
     @expense_series ||= @bar_expenses.values
 
     @profit = @revenue_series.sum - @expense_series.sum
-    @profit_rate = @profit / @revenue_series.sum
+    @profit_rate = (@profit / @revenue_series.sum) * 100
 
   end
 
