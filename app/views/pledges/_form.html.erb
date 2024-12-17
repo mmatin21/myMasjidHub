@@ -1,4 +1,4 @@
-<%= form_with(model: pledge, class: "contents") do |form| %>
+<%= form_with(model: pledge, class: "p-4 md:p-5") do |form| %>
   <% if pledge.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
       <h2><%= pluralize(pledge.errors.count, "error") %> prohibited this pledge from being saved:</h2>
@@ -9,50 +9,35 @@
       </ul>
     </div>
   <% end %>
-  <div class="my-5">
-    <%= form.label :amount, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-    <%= form.text_field :amount, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", placeholder: "$12000"%>
-  </div>
-  <div class="my-5">
-    <%= form.label :fundraiser_id %>
-    <%= form.select :fundraiser_id, Fundraiser.where(masjid_id: current_masjid.id).map{|m| [m.name, m.id]}, {}, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"%>
-  </div>
-  <div class="my-5">
-    <%= form.label :contact_id %>
-    <%= form.select :contact_id,
+  <div class="grid gap-4 mb-4 grid-cols-2">
+    <div class="col-span-2">
+      <%= form.label :contact_id, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+      <%= form.select :contact_id,
                     @contacts.map{|m| [m.full_name, m.id]},
                     { include_blank: "Select or Add Contact" },
                     { data: { controller: "search-select", action: "change->search-select#openModal" }, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" } %>
+    </div>
+    <div class="col-span-2">
+      <%= form.label :fundraiser_id, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+      <%= form.select :fundraiser_id, Fundraiser.where(masjid_id: current_masjid.id).map{|m| [m.name, m.id]}, {}, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"%>
+    </div>
+    <div class="col-span-2">
+      <%= form.label :amount, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+      <%= form.text_field :amount, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", placeholder: "$12000"%>
+    </div>
+    <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+      <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
+      Add Pledge
+    </button>
   </div>
-  <%= form.submit %>
 <% end %>
 <!-- Modal for New Contact -->
 <div id="new-contact-modal" data-controller="modal" class="hidden">
-  <div class="modal-content">
-    <span class="close-button" data-action="click->modal#close">&times;</span>
-    <h3>Add New Contact</h3>
-    <%= form_with(model: Contact, url: contacts_path, local: true, data: { turbo: true }) do |f| %>
-      <div>
-        <%= f.label :first_name, "First Name" %>
-        <%= f.text_field :first_name, id: "modal-first-name" %>
-      </div>
-      <div>
-        <%= f.label :middle_name, "Middle Name" %>
-        <%= f.text_field :middle_name %>
-      </div>
-      <div>
-        <%= f.label :last_name, "Last Name" %>
-        <%= f.text_field :last_name, id: "modal-last-name" %>
-      </div>
-      <div>
-        <%= f.label :phone_number, "Phone Number" %>
-        <%= f.telephone_field :phone_number %>
-      </div>
-      <div>
-        <%= f.label :email, "Email" %>
-        <%= f.email_field :email %>
-      </div>
-      <%= f.submit "Save Contact" %>
-    <% end %>
+  <div class="relative p-4 w-full max-w-md max-h-full">
+    <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
+      <span class="close-button" data-action="click->modal#close">&times;</span>
+      <h3>Add New Contact</h3>
+    </div>
+    <%= render "contacts/form", contact: @contact %>
   </div>
 </div>

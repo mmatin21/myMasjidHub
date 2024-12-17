@@ -14,6 +14,7 @@ class PledgesController < ApplicationController
   def new
     @contacts = Contact.where(masjid_id: current_masjid.id)
     @pledge = Pledge.new
+    @contact = Contact.new
   end
 
   # GET /pledges/1/edit
