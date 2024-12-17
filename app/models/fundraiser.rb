@@ -1,6 +1,7 @@
 class Fundraiser < ApplicationRecord
   belongs_to :masjid
   has_many :donations
+  has_many :pledges
 
   validates :name, presence: true
   validates :description, presence: true

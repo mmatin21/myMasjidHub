@@ -1,6 +1,8 @@
 class Donation < ApplicationRecord
   belongs_to :fundraiser
   belongs_to :masjid
+  belongs_to :contact
+  belongs_to :pledge, optional: true
 
   validates :amount, presence: true, numericality: { greater_than_or_equal_to: 0}
 

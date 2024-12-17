@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_11_12_022013) do
+ActiveRecord::Schema[7.0].define(version: 2024_12_17_000837) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -37,6 +37,18 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_12_022013) do
     t.index ["masjid_id"], name: "index_balances_on_masjid_id"
   end
 
+  create_table "contacts", force: :cascade do |t|
+    t.bigint "masjid_id", null: false
+    t.string "first_name"
+    t.string "middle_name"
+    t.string "last_name"
+    t.string "email"
+    t.string "phone_number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["masjid_id"], name: "index_contacts_on_masjid_id"
+  end
+
   create_table "donations", force: :cascade do |t|
     t.bigint "fundraiser_id", null: false
     t.bigint "masjid_id", null: false
@@ -48,8 +60,12 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_12_022013) do
     t.string "last_name"
     t.string "email"
     t.string "phone_number"
+    t.bigint "contact_id"
+    t.bigint "pledge_id"
+    t.index ["contact_id"], name: "index_donations_on_contact_id"
     t.index ["fundraiser_id"], name: "index_donations_on_fundraiser_id"
     t.index ["masjid_id"], name: "index_donations_on_masjid_id"
+    t.index ["pledge_id"], name: "index_donations_on_pledge_id"
   end
 
   create_table "events", force: :cascade do |t|
@@ -125,6 +141,16 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_12_022013) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "pledges", force: :cascade do |t|
+    t.decimal "amount"
+    t.bigint "fundraiser_id", null: false
+    t.bigint "contact_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["contact_id"], name: "index_pledges_on_contact_id"
+    t.index ["fundraiser_id"], name: "index_pledges_on_fundraiser_id"
+  end
+
   create_table "prayers", force: :cascade do |t|
     t.bigint "masjid_id", null: false
     t.string "name"
@@ -146,10 +172,15 @@ ActiveRecord::Schema[7.0].define(version: 2024_11_12_022013) do
   end
 
   add_foreign_key "balances", "masjids"
+  add_foreign_key "contacts", "masjids"
+  add_foreign_key "donations", "contacts"
   add_foreign_key "donations", "fundraisers"
   add_foreign_key "donations", "masjids"
+  add_foreign_key "donations", "pledges"
   add_foreign_key "fundraisers", "masjids"
   add_foreign_key "masjid_attendees", "attendees"
   add_foreign_key "masjid_attendees", "masjids"
+  add_foreign_key "pledges", "contacts"
+  add_foreign_key "pledges", "fundraisers"
   add_foreign_key "prayers", "masjids"
 end

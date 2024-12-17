@@ -10,6 +10,7 @@ class Masjid < ApplicationRecord
   has_many :fundraisers
   has_many :donations
   has_many :prayers
+  has_many :contacts
 
   
 

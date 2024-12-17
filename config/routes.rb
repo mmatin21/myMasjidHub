@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :pledges
+  resources :contacts
   resources :balances
   resources :prayers
   resources :donations
