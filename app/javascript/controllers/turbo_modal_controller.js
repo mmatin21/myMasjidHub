@@ -7,7 +7,7 @@ export default class extends Controller {
     // Prevent default action
     e.preventDefault();
     // Remove from parent
-    const modal = document.getElementById("modal");
+    const modal = document.getElementById("turbo-modal");
     modal.innerHTML = "";
 
     // Remove the src attribute from the modal
