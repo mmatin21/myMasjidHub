@@ -83,6 +83,6 @@ class PledgesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def pledge_params
-      params.require(:pledge).permit(:amount, :fundraiser_id, :contact_id)
+      params.require(:pledge).permit(:amount, :fundraiser_id, :contact_id, new_contact_attributes: [:first_name, :last_name, :phone_number, :email])
     end
 end

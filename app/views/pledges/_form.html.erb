@@ -2,6 +2,7 @@
   <% if pledge.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
       <h2><%= pluralize(pledge.errors.count, "error") %> prohibited this pledge from being saved:</h2>
+
       <ul>
         <% pledge.errors.each do |error| %>
           <li><%= error.full_message %></li>
@@ -9,19 +10,55 @@
       </ul>
     </div>
   <% end %>
+
   <div class="my-5">
     <%= form.label :amount %>
     <%= form.text_field :amount, class: "block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full" %>
   </div>
+
   <div class="my-5">
-    <%= form.label "Fundraiser" %>
+    <%= form.label :fundraiser_id %>
     <%= form.select :fundraiser_id, Fundraiser.where(masjid_id: current_masjid.id).map{|m| [m.name, m.id]}, {}, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"%>
   </div>
+
   <div class="my-5">
     <%= form.label :contact_id %>
-    <%= form.collection_select :contact_id, @contacts, :id, :first_name, {prompt: "Please Select"}, id: "tom-select", data: {controller: "select-search"},  class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"%>
+    <%= form.select :contact_id,
+                    @contacts.map{|m| [m.full_name, m.id]},
+                    { include_blank: "Select or Add Contact" },
+                    { data: { controller: "search-select", action: "change->search-select#openModal" }, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" } %>
   </div>
-  <div class="inline">
-    <%= form.submit class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
-  </div>
+
+  <%= form.submit %>
 <% end %>
+
+<!-- Modal for New Contact -->
+<div id="new-contact-modal" data-controller="modal" class="hidden">
+  <div class="modal-content">
+    <span class="close-button" data-action="click->modal#close">&times;</span>
+    <h3>Add New Contact</h3>
+    <%= form_with(model: Contact, url: contacts_path, local: true, data: { turbo: true }) do |f| %>
+      <div>
+        <%= f.label :first_name, "First Name" %>
+        <%= f.text_field :first_name %>
+      </div>
+      <div>
+        <%= f.label :middle_name, "Middle Name" %>
+        <%= f.text_field :middle_name %>
+      </div>
+      <div>
+        <%= f.label :last_name, "Last Name" %>
+        <%= f.text_field :last_name %>
+      </div>
+      <div>
+        <%= f.label :phone_number, "Phone Number" %>
+        <%= f.telephone_field :phone_number %>
+      </div>
+      <div>
+        <%= f.label :email, "Email" %>
+        <%= f.email_field :email %>
+      </div>
+      <%= f.submit "Save Contact" %>
+    <% end %>
+  </div>
+</div>
