@@ -2,7 +2,6 @@ import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
   connect() {
-    console.log(this.element)
     this.modal = this.element;
   }
 
@@ -13,14 +12,24 @@ export default class extends Controller {
   submit(event) {
     event.preventDefault();
     const form = event.target;
-    
+
     fetch(form.action, {
       method: form.method,
       body: new FormData(form),
-    }).then(() => {
-      alert("Contact Added Successfully!");
-      this.modal.classList.add("hidden");
-      window.location.reload(); // Reload to update the contact list
-    });
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.status === "success") {
+          // Add the new contact to the Tom Select dropdown
+          const searchSelectInstance = document.querySelector("[data-controller='search-select']").tomselect;
+          searchSelectInstance.addOption({ value: data.id, text: data.full_name });
+          searchSelectInstance.setValue(data.id);
+
+          // Close the modal
+          this.close();
+        } else {
+          alert("Error: " + data.errors.join(", "));
+        }
+      });
   }
 }

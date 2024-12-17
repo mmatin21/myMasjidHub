@@ -22,24 +22,7 @@ class PledgesController < ApplicationController
 
   # POST /pledges or /pledges.json
   def create
-    if params[:contact_id].to_s.start_with?("new-")
-      # Extract the name from "new-{input}" and create a new contact
-      name = params[:contact_id].sub("new-", "")
-      @contact = Contact.new(name: name)
-      
-      if @contact.save
-        # Use the newly created contact for the pledge
-        @pledge = Pledge.new(pledge_params.merge(contact_id: @contact.id))
-      else
-        flash.now[:alert] = @contact.errors.full_messages.to_sentence
-        render :new, status: :unprocessable_entity
-        return
-      end
-    else
-      # Use the selected existing contact
-      @contact = Contact.find(params[:contact_id])
-      @pledge = Pledge.new(pledge_params.merge(contact_id: @contact.id))
-    end
+    @pledge = Pledge.new(pledge_params)
 
     respond_to do |format|
       if @pledge.save
@@ -83,6 +66,6 @@ class PledgesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def pledge_params
-      params.require(:pledge).permit(:amount, :fundraiser_id, :contact_id, new_contact_attributes: [:first_name, :last_name, :phone_number, :email])
+      params.require(:pledge).permit(:amount, :fundraiser_id, :contact_id)
     end
 end

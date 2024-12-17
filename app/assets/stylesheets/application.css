@@ -13,7 +13,7 @@
  *= require_tree .
  *= require_self
  */
- .modal {
+ .turbo-modal {
   position: fixed;
   z-index: 1;
   padding: 1em;
