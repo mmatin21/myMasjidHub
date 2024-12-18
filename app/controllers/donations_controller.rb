@@ -17,7 +17,8 @@ class DonationsController < ApplicationController
   # GET /donations/new
   def new
     @donation = Donation.new
-    
+    @contacts = Contact.where(masjid_id: current_masjid.id)
+    @contact = Contact.new
   end
 
   # GET /donations/1/edit
@@ -73,6 +74,6 @@ class DonationsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def donation_params
-      params.require(:donation).permit(:amount, :currency, :first_name, :last_name, :date, :fundraiser_id, :phone_number)
+      params.require(:donation).permit(:amount, :contact_id, :fundraiser_id)
     end
 end
