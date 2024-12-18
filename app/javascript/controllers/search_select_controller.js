@@ -19,6 +19,7 @@ export default class extends Controller {
 
   openModal(value) {
     const modal = document.getElementById("new-contact-modal");
+    const pledgeForm = document.getElementById("pledge-form");
     const firstNameInput = document.getElementById("modal-first-name");
     const lastNameInput = document.getElementById("modal-last-name");
 
@@ -33,6 +34,7 @@ export default class extends Controller {
     // Show the modal
     if (modal) {
       modal.classList.remove("hidden");
+      pledgeForm.classList.add("hidden")
     }
   }
 }
