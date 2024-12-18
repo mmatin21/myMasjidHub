@@ -12,7 +12,7 @@
           <div class="relative">
             <%= f.date_field :date_lteq, {class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", placeholder:"End date",  oninput: 'this.form.requestSubmit()'} %>
           </div>
-          <%= link_to new_polymorphic_path(model),  data: { turbo_frame: "modal"} do %>
+          <%= link_to new_polymorphic_path(model),  data: { turbo_frame: "turbo-modal"} do %>
           <button type="button" class="flex items-center justify-center text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 font-medium rounded-lg text-sm px-2 py-2 dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800">
             <svg class="w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
@@ -82,9 +82,12 @@
           <th scope="col" class="px-4 py-3">
             <%= sort_link(query, :date, 'Date') %>
           </th>
+            <th scope="col" class="px-4 py-3">
+              Actions
+          </th>
         </tr>
       </thead>
-      <tbody id = "expense_table">
+      <tbody id = "<%= model.to_s %>_table">
         <% table.each do |item| %>
           <%= render 'tables/table_row', item: item %>
         <% end %>

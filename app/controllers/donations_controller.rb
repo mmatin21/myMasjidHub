@@ -36,6 +36,9 @@ class DonationsController < ApplicationController
     respond_to do |format|
       if @donation.save
         format.html { redirect_to donation_url(@donation), notice: "Donation was successfully created." }
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.append("donation_table", partial: "tables/donation_row", locals: { item: @donation }) 
+        end 
         format.json { render :show, status: :created, location: @donation }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -49,6 +52,9 @@ class DonationsController < ApplicationController
     respond_to do |format|
       if @donation.update(donation_params)
         format.html { redirect_to donation_url(@donation), notice: "Donation was successfully updated." }
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace("donation_#{@donation.id}", partial: "tables/donation_row", locals: { item: @donation }) 
+        end 
         format.json { render :show, status: :ok, location: @donation }
       else
         format.html { render :edit, status: :unprocessable_entity }
