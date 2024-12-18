@@ -6,4 +6,8 @@ class Contact < ApplicationRecord
   def full_name
     "#{first_name} #{last_name} #{middle_name} (#{email})"
   end
+
+  def self.ransackable_attributes(auth_object = nil) 
+    ["first_name", "email", "phone_number"]
+  end
 end
