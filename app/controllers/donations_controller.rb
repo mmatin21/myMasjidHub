@@ -34,6 +34,10 @@ class DonationsController < ApplicationController
     @donation.fundraiser_id = params[:donation][:fundraiser_id]
     @donation.masjid_id = @fundraiser.masjid_id
 
+    unless params[:pledge_id].nil?
+      @donation.pledge_id = params[:pledge_id]
+    end
+    
     respond_to do |format|
       if @donation.save
         format.html { redirect_to donation_url(@donation), notice: "Donation was successfully created." }
