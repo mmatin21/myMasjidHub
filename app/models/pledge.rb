@@ -9,6 +9,10 @@ class Pledge < ApplicationRecord
 
   before_validation :build_new_contact_if_needed
 
+  def name
+    "#{self.contact.full_name} #{self.fundraiser.name} - #{amount}"
+  end
+
   private
 
   def build_new_contact_if_needed

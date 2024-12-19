@@ -14,13 +14,16 @@
       <%= form.select :fundraiser_id, Fundraiser.where(masjid_id: current_masjid.id).map{|m| [m.name, m.id]}, {}, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"%>
     </div>
     <div class="col-span-2">
-        <%= form.label :contact_id, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-        <%= form.select :contact_id,
+      <%= form.label :contact_id, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+      <%= form.select :contact_id,
                     @contacts.map{|m| [m.full_name, m.id]},
                     { include_blank: "Select or Add Contact" },
                     { data: { controller: "search-select", action: "change->search-select#openModal" }, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" } %>
-      </div>
-    <div class="col-span-4 sm:col-span-1">
+      <%= form.label :pledge_id, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+      <%= form.select :pledge_id,
+                    @pledges.map{|m| [m.name, m.id]},
+                    { include_blank: "Select or Add Contact" },
+                    { data: { controller: "search-select", action: "change->search-select#openModal" }, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" } %>
       <%= form.label :amount , class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white"%>
       <%= form.text_field :amount, class:"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", placeholder: "$2999" %>
     </div>
