@@ -3,7 +3,11 @@ Rails.application.routes.draw do
   resources :contacts
   resources :balances
   resources :prayers
-  resources :donations
+  resources :donations do
+    collection do 
+      get :options
+    end
+  end
   resources :fundraisers
   devise_for :attendees
   resources :events
