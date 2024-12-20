@@ -30,7 +30,13 @@ class ContactsController < ApplicationController
         if params[:step].to_i == 2 
           format.turbo_stream do
             render turbo_stream: turbo_stream.replace("turbo-modal", 
-              partial: "contacts/success", locals: { pledge: Pledge.new, contact: Contact.new, contact_id: @contact.id}
+              partial: "contacts/success_pledge", locals: { pledge: Pledge.new, contact: Contact.new, contact_id: @contact.id}
+            )
+          end
+        elsif params[:step].to_i == 3
+          format.turbo_stream do
+            render turbo_stream: turbo_stream.replace("turbo-modal", 
+              partial: "contacts/success_donation", locals: { donation: Donation.new, contact: Contact.new, contact_id: @contact.id}
             )
           end
         end

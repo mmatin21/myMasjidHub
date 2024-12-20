@@ -19,7 +19,7 @@ export default class extends Controller {
 
   openModal(value) {
     const modal = document.getElementById("new-contact-modal");
-    const pledgeForm = document.getElementById("pledge-form");
+    const pledgeForm = document.getElementById("parent-form");
     const firstNameInput = document.getElementById("modal-first-name");
     const lastNameInput = document.getElementById("modal-last-name");
 

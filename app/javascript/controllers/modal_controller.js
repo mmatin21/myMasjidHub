@@ -7,7 +7,7 @@ export default class extends Controller {
 
   close() {
     this.modal.classList.add("hidden");
-    const pledgeForm = document.getElementById("pledge-form");
+    const pledgeForm = document.getElementById("parent-form");
     pledgeForm.classList.remove("hidden");
   }
 

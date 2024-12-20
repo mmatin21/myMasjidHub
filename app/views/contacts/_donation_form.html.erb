@@ -1,5 +1,6 @@
 <div id="parent-form">
 <%= form_with(model: donation, class: "p-4 md:p-5") do |form| %>
+<% donation.contact_id = contact_id%>
   <% if donation.errors.any? %>
     <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
       <h2><%= pluralize(donation.errors.count, "error") %> prohibited this donation from being saved:</h2>
@@ -24,7 +25,7 @@
     <div class="col-span-2">
       <%= form.label :contact_id, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
       <%= form.select :contact_id,
-                    @contacts.map{|m| [m.full_name, m.id]},
+                    Contact.where(masjid_id: current_masjid.id).map{|m| [m.full_name, m.id]},
                     { include_blank: "Select or Add Contact" },
                     { data: { controller: "search-select select", 
                     action: "change->search-select#openModal change->select#change",
@@ -64,12 +65,12 @@
         </button>
       </div>
     </div>
-    <%= form_with(model: @contact, class: "p-4 md:p-5") do |form| %>
-      <% if @contact.errors.any? %>
+    <%= form_with(model: contact, class: "p-4 md:p-5") do |form| %>
+      <% if contact.errors.any? %>
         <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-          <h2><%= pluralize(@contact.errors.count, "error") %> prohibited this contact from being saved:</h2>
+          <h2><%= pluralize(contact.errors.count, "error") %> prohibited this contact from being saved:</h2>
           <ul>
-            <% @contact.errors.each do |error| %>
+            <% contact.errors.each do |error| %>
               <li><%= error.full_message %></li>
             <% end %>
           </ul>
