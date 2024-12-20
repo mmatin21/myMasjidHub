@@ -3,7 +3,7 @@ class ContactsController < ApplicationController
 
   # GET /contacts or /contacts.json
   def index
-    @contacts = Contact.all
+    @contacts = Contact.where(masjid_id: current_masjid.id)
   end
 
   # GET /contacts/1 or /contacts/1.json
@@ -27,6 +27,13 @@ class ContactsController < ApplicationController
 
     respond_to do |format|
       if @contact.save
+        if params[:step].to_i == 2 
+          format.turbo_stream do
+            render turbo_stream: turbo_stream.replace("turbo-modal", 
+              partial: "contacts/success", locals: { pledge: Pledge.new, contact: Contact.new, contact_id: @contact.id}
+            )
+          end
+        end
         format.json { render :show, status: :created, location: @contact }
       else
         format.html { render :new, status: :unprocessable_entity }
