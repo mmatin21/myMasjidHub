@@ -138,11 +138,11 @@
         <%= form.select :contact_id,
                     Contact.where(masjid_id: current_masjid.id).map{|m| [m.full_name, m.id]},
                     { include_blank: "Select or Add Contact" },
-                    { disabled: true, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" } %>
+                    { class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" } %>
       </div>
       <div class="col-span-2">
         <%= form.label :fundraiser_id, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-        <%= form.select :fundraiser_id, Fundraiser.where(masjid_id: current_masjid.id).map{|m| [m.name, m.id]}, {}, {disabled: true, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"}%>
+        <%= form.select :fundraiser_id, Fundraiser.where(masjid_id: current_masjid.id).map{|m| [m.name, m.id]}, {}, {class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"}%>
       </div>
       <div class="col-span-2">
         <%= form.label :amount, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
