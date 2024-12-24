@@ -11,6 +11,7 @@ class Masjid < ApplicationRecord
   has_many :donations
   has_many :prayers
   has_many :contacts
+  has_many :pledges
 
   
 

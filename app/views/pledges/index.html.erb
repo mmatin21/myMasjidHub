@@ -1,21 +1,15 @@
 <div class="antialiased bg-gray-50 dark:bg-gray-900">
   <main class="p-4 md:ml-64 h-auto pt-20">
-    <div class="w-full">
-      <% if notice.present? %>
-        <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
-      <% end %>
-      <% content_for :title, "Pledges" %>
-      <div class="flex justify-between items-center">
-        <h1 class="font-bold text-4xl">Pledges</h1>
-        <%= link_to "New pledge", new_pledge_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
-      </div>
-      <div id="pledges" class="min-w-full">
-        <% @pledges.each do |pledge| %>
-          <%= render pledge %>
-          <p>
-            <%= link_to "Show this pledge", pledge, class: "ml-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium" %>
-          </p>
-        <% end %>
+    <% if notice.present? %>
+      <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+    <% end %>
+    <% content_for :title, "Expenses" %>
+    <div class="flex justify-between items-center">
+      <h1 class="font-bold text-4xl">Pledges</h1>
+    </div>
+    <div class="border-gray-300 dark:border-gray-600 rounded-xl h-128">
+      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <%= render "tables/pledge_table", table: @table_pledges, query: @q, pagy: @pagy %>
       </div>
     </div>
   </main>

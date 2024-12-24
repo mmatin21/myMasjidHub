@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_12_17_000837) do
+ActiveRecord::Schema[7.0].define(version: 2024_12_24_222150) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -147,8 +147,10 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_17_000837) do
     t.bigint "contact_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "masjid_id", null: false
     t.index ["contact_id"], name: "index_pledges_on_contact_id"
     t.index ["fundraiser_id"], name: "index_pledges_on_fundraiser_id"
+    t.index ["masjid_id"], name: "index_pledges_on_masjid_id"
   end
 
   create_table "prayers", force: :cascade do |t|
@@ -182,5 +184,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_17_000837) do
   add_foreign_key "masjid_attendees", "masjids"
   add_foreign_key "pledges", "contacts"
   add_foreign_key "pledges", "fundraisers"
+  add_foreign_key "pledges", "masjids"
   add_foreign_key "prayers", "masjids"
 end

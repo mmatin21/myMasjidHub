@@ -2,6 +2,7 @@ class Pledge < ApplicationRecord
   belongs_to :fundraiser
   belongs_to :contact, optional: true
   has_many :donations
+  belongs_to :masjid
 
   accepts_nested_attributes_for :contact, reject_if: :all_blank
 
@@ -19,5 +20,13 @@ class Pledge < ApplicationRecord
     if new_contact_attributes.present?
       self.contact = Contact.new(new_contact_attributes)
     end
+  end
+
+  def self.ransackable_attributes(auth_object = nil) 
+    ["created_at", "amount"]
+  end
+
+  def self.ransackable_associations(auth_object = nil)
+    ["contact", "donation"]
   end
 end

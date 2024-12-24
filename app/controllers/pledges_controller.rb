@@ -1,9 +1,14 @@
 class PledgesController < ApplicationController
   before_action :set_pledge, only: %i[ show edit update destroy ]
+  include Pagy::Backend
+  Pagy::DEFAULT[:limit] = 30
 
   # GET /pledges or /pledges.json
   def index
-    @pledges = Pledge.all
+    @pledges = Pledge.where(masjid_id: current_masjid.id).order(created_at: 'desc')
+    @q = @pledges.ransack(params[:q])
+    @pledges = @q.result.includes(:contact, :donations)
+    @pagy, @table_pledges = pagy(@pledges)
   end
 
   # GET /pledges/1 or /pledges/1.json
@@ -24,6 +29,8 @@ class PledgesController < ApplicationController
   # POST /pledges or /pledges.json
   def create
     @pledge = Pledge.new(pledge_params)
+    @pledge.masjid_id = current_masjid.id
+
     Rails.logger.debug "Month Name: #{params[:step]}" 
     respond_to do |format|
       if @pledge.save
@@ -37,6 +44,9 @@ class PledgesController < ApplicationController
           end
         end
         format.html { redirect_to pledge_url(@pledge), notice: "Pledge was successfully created." }
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.prepend("pledge_table", partial: "tables/pledge_row", locals: { item: @pledge }) 
+        end 
         format.json { render :show, status: :created, location: @pledge }
       else
         format.html { render :new, status: :unprocessable_entity }

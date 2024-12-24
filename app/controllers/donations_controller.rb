@@ -1,7 +1,7 @@
 class DonationsController < ApplicationController
   before_action :set_donation, only: %i[ show edit update destroy ]
   include Pagy::Backend
-  Pagy::DEFAULT[:limit] = 7
+  Pagy::DEFAULT[:limit] = 30
 
   # GET /donations or /donations.json
   def index
@@ -42,7 +42,7 @@ class DonationsController < ApplicationController
       if @donation.save
         format.html { redirect_to donation_url(@donation), notice: "Donation was successfully created." }
         format.turbo_stream do
-          render turbo_stream: turbo_stream.append("donation_table", partial: "tables/donation_row", locals: { item: @donation }) 
+          render turbo_stream: turbo_stream.prepend("donation_table", partial: "tables/donation_row", locals: { item: @donation }) 
         end 
         format.json { render :show, status: :created, location: @donation }
       else
