@@ -1,5 +1,5 @@
 class OptionsController < ApplicationController
-  def options
+  def pledges
     contact_id = params[:contact_id]
     fundraiser_id = params[:fundraiser_id]
     
@@ -7,9 +7,8 @@ class OptionsController < ApplicationController
     @pledges = Pledge.where(contact_id: contact_id, fundraiser_id: fundraiser_id)
 
     @pledges.each do |pledge|
-      Rails.logger.debug "Month Name: #{pledge.name}" 
+      Rails.logger.debug "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Pledges Name: #{pledge.name}!!!!!!!!!!!!!!!!!!!!!!!!" 
     end
-
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: turbo_stream.replace(

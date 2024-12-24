@@ -3,11 +3,7 @@ Rails.application.routes.draw do
   resources :contacts
   resources :balances
   resources :prayers
-  resources :donations do
-    collection do 
-      get :options
-    end
-  end
+  resources :donations
   resources :fundraisers
   devise_for :attendees
   resources :events
@@ -20,6 +16,11 @@ Rails.application.routes.draw do
   resources :months do
     collection do 
       get :months
+    end
+  end
+  resources :options do
+    collection do 
+      get :pledges
     end
   end
   resources :masjids
