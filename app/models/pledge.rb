@@ -22,11 +22,11 @@ class Pledge < ApplicationRecord
     end
   end
 
-  def self.ransackable_attributes(auth_object = nil) 
-    ["created_at", "amount"]
+  def self.ransackable_attributes(auth_object = nil)
+    super + ['created_at', 'amount']
   end
 
   def self.ransackable_associations(auth_object = nil)
-    ["contact", "donation"]
+    super + ['contact', 'fundraiser']
   end
 end

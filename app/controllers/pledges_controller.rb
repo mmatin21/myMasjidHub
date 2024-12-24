@@ -7,7 +7,7 @@ class PledgesController < ApplicationController
   def index
     @pledges = Pledge.where(masjid_id: current_masjid.id).order(created_at: 'desc')
     @q = @pledges.ransack(params[:q])
-    @pledges = @q.result.includes(:contact, :donations)
+    @pledges = @q.result.includes(:contact)
     @pagy, @table_pledges = pagy(@pledges)
   end
 
