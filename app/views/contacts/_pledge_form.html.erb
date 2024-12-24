@@ -1,4 +1,4 @@
-<div id="pledge-form">
+<div id="parent-form">
   <%= form_with(model: pledge, class: "p-4 md:p-5") do |form| %>
   <% pledge.contact_id = contact_id%>
     <% if pledge.errors.any? %>
@@ -38,7 +38,7 @@
 <div id="new-contact-modal" data-controller="modal" class="hidden">
   <div class="relative p-4 w-full max-w-md max-h-full">
     <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-      <<h3 class="text-lg font-semibold text-gray-900 dark:text-white">
+      <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
         Add New Pledge
       </h3>
       <div data-action="click->modal#close">

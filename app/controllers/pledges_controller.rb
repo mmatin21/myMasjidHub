@@ -24,9 +24,18 @@ class PledgesController < ApplicationController
   # POST /pledges or /pledges.json
   def create
     @pledge = Pledge.new(pledge_params)
-
+    Rails.logger.debug "Month Name: #{params[:step]}" 
     respond_to do |format|
       if @pledge.save
+        if params[:step].to_i == 2
+          format.turbo_stream do
+            render turbo_stream: turbo_stream.replace("turbo-modal", 
+              partial: "pledges/success_donation", locals: { 
+                donation: Donation.new, contact: Contact.new, pledge: Pledge.new, contact_id: @pledge.contact_id, pledge_id: @pledge.id, fundraiser_id: @pledge.fundraiser_id
+              }
+            )
+          end
+        end
         format.html { redirect_to pledge_url(@pledge), notice: "Pledge was successfully created." }
         format.json { render :show, status: :created, location: @pledge }
       else

@@ -1,18 +1,21 @@
 <div id="parent-form">
-<%= form_with(model: donation, class: "p-4 md:p-5") do |form| %>
-  <% if donation.errors.any? %>
-    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-      <h2><%= pluralize(donation.errors.count, "error") %> prohibited this donation from being saved:</h2>
-      <ul>
-        <% donation.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-  <div class="grid gap-4 mb-4 grid-cols-2">
-    <div class="col-span-2">
-      <%= form.select :fundraiser_id, Fundraiser.where(masjid_id: current_masjid.id).map{|m| [m.name, m.id]}, {}, 
+  <%= form_with(model: donation, class: "p-4 md:p-5") do |form| %>
+    <% donation.contact_id = contact_id%>
+    <% donation.fundraiser_id = fundraiser_id%>
+    <% donation.pledge_id = pledge_id%>
+    <% if donation.errors.any? %>
+      <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+        <h2><%= pluralize(donation.errors.count, "error") %> prohibited this donation from being saved:</h2>
+        <ul>
+          <% donation.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    <div class="grid gap-4 mb-4 grid-cols-2">
+      <div class="col-span-2">
+        <%= form.select :fundraiser_id, Fundraiser.where(masjid_id: current_masjid.id).map{|m| [m.name, m.id]}, {}, 
       { data: {
           controller: "select",
           action: "change->select#change",
@@ -20,11 +23,11 @@
           select_url_value: "/donations/options"
               },
       class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" }%>
-    </div>
-    <div class="col-span-2">
-      <%= form.label :contact_id, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-      <%= form.select :contact_id,
-                    @contacts.map{|m| [m.full_name, m.id]},
+      </div>
+      <div class="col-span-2">
+        <%= form.label :contact_id, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+        <%= form.select :contact_id,
+                    Contact.where(masjid_id: current_masjid.id).map{|m| [m.full_name, m.id]},
                     { include_blank: "Select or Add Contact" },
                     { data: { controller: "search-select select", 
                     action: "change->search-select#openModal change->select#change",
@@ -32,22 +35,22 @@
                     select_url_value: "/donations/options"
                     },
                     class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" } %>
-      <%= form.label :pledge_id,  id: "pledge-select", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-      <%= form.select :pledge_id,
+        <%= form.label :pledge_id,  id: "pledge-select", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+        <%= form.select :pledge_id,
                     [],
                     { include_blank: "Select or Add Contact" },
                     { data: { controller: "select",
                      select_target: "select" }, 
                      class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" } %>
-      <%= form.label :amount , class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white"%>
-      <%= form.text_field :amount, class:"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", placeholder: "$2999" %>
+        <%= form.label :amount , class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white"%>
+        <%= form.text_field :amount, class:"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", placeholder: "$2999" %>
+      </div>
+      <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+        <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
+        Add donation
+      </button>
     </div>
-    <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-      <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
-      Add donation
-    </button>
-  </div>
-<% end %>
+  <% end %>
 </div>
 <div id="new-contact-modal" data-controller="modal" class="hidden">
   <div class="relative p-4 w-full max-w-md max-h-full">
@@ -64,12 +67,12 @@
         </button>
       </div>
     </div>
-    <%= form_with(model: @contact, class: "p-4 md:p-5") do |form| %>
-      <% if @contact.errors.any? %>
+    <%= form_with(model: contact, class: "p-4 md:p-5") do |form| %>
+      <% if contact.errors.any? %>
         <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-          <h2><%= pluralize(@contact.errors.count, "error") %> prohibited this contact from being saved:</h2>
+          <h2><%= pluralize(contact.errors.count, "error") %> prohibited this contact from being saved:</h2>
           <ul>
-            <% @contact.errors.each do |error| %>
+            <% contact.errors.each do |error| %>
               <li><%= error.full_message %></li>
             <% end %>
           </ul>
@@ -120,12 +123,12 @@
         </button>
       </div>
     </div>
-    <%= form_with(model: @pledge, class: "p-4 md:p-5") do |form| %>
-      <% if @pledge.errors.any? %>
+    <%= form_with(model: pledge, class: "p-4 md:p-5") do |form| %>
+      <% if pledge.errors.any? %>
         <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
-          <h2><%= pluralize(@pledge.errors.count, "error") %> prohibited this contact from being saved:</h2>
+          <h2><%= pluralize(pledge.errors.count, "error") %> prohibited this contact from being saved:</h2>
           <ul>
-            <% @pledge.errors.each do |error| %>
+            <% pledge.errors.each do |error| %>
               <li><%= error.full_message %></li>
             <% end %>
           </ul>
@@ -137,11 +140,11 @@
         <%= form.select :contact_id,
                     Contact.where(masjid_id: current_masjid.id).map{|m| [m.full_name, m.id]},
                     { include_blank: "Select or Add Contact" },
-                    { class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" } %>
+                    { disabled: true, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" } %>
       </div>
       <div class="col-span-2">
         <%= form.label :fundraiser_id, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-        <%= form.select :fundraiser_id, Fundraiser.where(masjid_id: current_masjid.id).map{|m| [m.name, m.id]}, {}, {class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"}%>
+        <%= form.select :fundraiser_id, Fundraiser.where(masjid_id: current_masjid.id).map{|m| [m.name, m.id]}, {}, {disabled: true, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"}%>
       </div>
       <div class="col-span-2">
         <%= form.label :amount, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>

@@ -20,7 +20,7 @@ class DonationsController < ApplicationController
     @donation = Donation.new
     @contacts = Contact.where(masjid_id: current_masjid.id)
     @contact = Contact.new
-    @pledges = Pledge.all
+    @pledge = Pledge.new
   end
 
   # GET /donations/1/edit
@@ -81,7 +81,7 @@ class DonationsController < ApplicationController
   def options
     contact_id = params[:contact_id]
     fundraiser_id = params[:fundraiser_id]
-
+    
     # Filter pledges based on the selected contact and fundraiser
     @pledges = Pledge.where(contact_id: contact_id, fundraiser_id: fundraiser_id)
 

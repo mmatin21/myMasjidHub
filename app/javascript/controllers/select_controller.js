@@ -12,9 +12,14 @@ export default class extends Controller {
     if (this.selectTarget.id === "") {
       this.selectTarget.id = Math.random().toString(36); // Ensure each select has a unique ID
     }
+    this.getPledges();
   }
 
   change(event) {
+    this.getPledges();
+  }
+
+  getPledges(){
      // Find values from the select boxes in the form
      const contactId = document.getElementById("donation_contact_id")?.value;
      const fundraiserId = document.getElementById("donation_fundraiser_id")?.value;

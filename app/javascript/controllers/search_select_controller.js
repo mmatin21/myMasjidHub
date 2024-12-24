@@ -18,10 +18,18 @@ export default class extends Controller {
   }
 
   openModal(value) {
-    const modal = document.getElementById("new-contact-modal");
-    const pledgeForm = document.getElementById("parent-form");
+    const contactModal = document.getElementById("new-contact-modal");
+    const pledgeModal = document.getElementById("new-pledge-modal");
+    const form = document.getElementById("parent-form");
+
+    const contactId = document.getElementById("donation_contact_id")?.value;
+    const fundraiserId = document.getElementById("donation_fundraiser_id")?.value;
+
     const firstNameInput = document.getElementById("modal-first-name");
     const lastNameInput = document.getElementById("modal-last-name");
+
+    const pledgeContact = document.getElementById("pledge_contact_id");
+    const pledgeFundraiser = document.getElementById("pledge_fundraiser_id");
 
     // Split the value into first and last name
     const [firstName, ...lastNameParts] = value.split(" ");
@@ -31,10 +39,17 @@ export default class extends Controller {
     if (firstNameInput) firstNameInput.value = firstName || "";
     if (lastNameInput) lastNameInput.value = lastName || "";
 
+    if (pledgeContact) pledgeContact.value = contactId || "";
+    if (pledgeFundraiser) pledgeFundraiser.value = fundraiserId || "";
+
     // Show the modal
-    if (modal) {
-      modal.classList.remove("hidden");
-      pledgeForm.classList.add("hidden")
+    if (contactModal && contactId == "") {
+      contactModal.classList.remove("hidden");
+      form.classList.add("hidden")
+    }
+    else {
+      pledgeModal.classList.remove("hidden");
+      form.classList.add("hidden")
     }
   }
 }

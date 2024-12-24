@@ -24,7 +24,7 @@ class ContactsController < ApplicationController
     @contact = Contact.new(contact_params)
     @contact.masjid_id = current_masjid.id
 
-
+    
     respond_to do |format|
       if @contact.save
         if params[:step].to_i == 2 
@@ -36,7 +36,7 @@ class ContactsController < ApplicationController
         elsif params[:step].to_i == 3
           format.turbo_stream do
             render turbo_stream: turbo_stream.replace("turbo-modal", 
-              partial: "contacts/success_donation", locals: { donation: Donation.new, contact: Contact.new, contact_id: @contact.id}
+              partial: "contacts/success_donation", locals: { donation: Donation.new, contact: Contact.new, pledge: Pledge.new, contact_id: @contact.id}
             )
           end
         end
