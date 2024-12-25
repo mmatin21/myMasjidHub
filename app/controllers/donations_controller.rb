@@ -17,6 +17,7 @@ class DonationsController < ApplicationController
 
   # GET /donations/new
   def new
+    @fundraiser = Fundraiser.find(params[:fundraiser_id]) if params[:fundraiser_id]
     @donation = Donation.new
     @contacts = Contact.where(masjid_id: current_masjid.id)
     @contact = Contact.new

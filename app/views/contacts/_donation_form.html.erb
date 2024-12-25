@@ -1,6 +1,6 @@
 <div id="parent-form">
   <%= form_with(model: donation, class: "p-4 md:p-5") do |form| %>
-    <% donation.contact_id = contact_id%>
+    <% donation.contact_id = contact_id %>
     <% if donation.errors.any? %>
       <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
         <h2><%= pluralize(donation.errors.count, "error") %> prohibited this donation from being saved:</h2>
