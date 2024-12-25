@@ -8,6 +8,6 @@ class Contact < ApplicationRecord
   end
 
   def self.ransackable_attributes(auth_object = nil) 
-    ["first_name", "email", "phone_number"]
+    ["first_name", "last_name", "email", "phone_number"]
   end
 end

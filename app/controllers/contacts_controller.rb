@@ -1,9 +1,14 @@
 class ContactsController < ApplicationController
   before_action :set_contact, only: %i[ show edit update destroy ]
-
+  include Pagy::Backend
+  Pagy::DEFAULT[:limit] = 30
+  
   # GET /contacts or /contacts.json
   def index
     @contacts = Contact.where(masjid_id: current_masjid.id)
+    @q = @contacts.ransack(params[:q])
+    @contacts = @q.result
+    @pagy, @table_contacts = pagy(@contacts)
   end
 
   # GET /contacts/1 or /contacts/1.json
@@ -40,6 +45,9 @@ class ContactsController < ApplicationController
             )
           end
         end
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.append("contact_table", partial: "tables/contact_row", locals: { item: @contact }) 
+        end 
         format.json { render :show, status: :created, location: @contact }
       else
         format.html { render :new, status: :unprocessable_entity }
