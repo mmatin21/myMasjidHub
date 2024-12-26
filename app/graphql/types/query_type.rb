@@ -6,7 +6,7 @@ module Types
       argument :id, ID, required: true, description: "ID of the object."
     end
 
-    field :masjids, [Tyoes::MasjidType], null: false
+    field :masjids, [Types::MasjidType], null: false
 
     def node(id:)
       context.schema.object_from_id(id, context)
