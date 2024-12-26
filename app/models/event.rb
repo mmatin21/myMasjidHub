@@ -9,6 +9,6 @@ class Event < ApplicationRecord
   validates :zipcode, presence: true
 
   def full_address
-  address + " " + city + " " +  state + " " +  zipcode
+  address + " " + city + " " +  state
   end
 end
