@@ -28,7 +28,9 @@
               <dt class="mb-2 leading-none text-gray-500 dark:text-gray-400">Amount</dt>
               <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white"><%= number_to_currency(@donation.amount) %></dd>
               <dt class="mb-2 leading-none text-gray-500 dark:text-gray-400">Pledge</dt>
+              <% unless @donation.pledge.nil? %>
               <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white"><%= link_to number_to_currency(@donation.pledge.amount), @donation.pledge %></dd>
+              <% end %>
             </dl>
           </div>
           <!-- Column -->

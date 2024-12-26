@@ -13,7 +13,7 @@ module Types
     field :last_name, String
     field :email, String
     field :phone_number, String
-    field :contact_id, Integer
+    field :contact, Types::ContactType, null: true
     field :pledge_id, Integer
   end
 end
