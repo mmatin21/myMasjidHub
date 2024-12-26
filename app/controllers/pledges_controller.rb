@@ -24,6 +24,8 @@ class PledgesController < ApplicationController
 
   # GET /pledges/1/edit
   def edit
+    @contacts = Contact.where(masjid_id: current_masjid.id)
+    @contact = Contact.new
   end
 
   # POST /pledges or /pledges.json
