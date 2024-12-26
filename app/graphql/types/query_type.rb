@@ -7,6 +7,15 @@ module Types
     end
 
     field :masjids, [Types::MasjidType], null: false
+    field :fundraisers, [Types::FundraiserType], null: true do
+      argument :masjid_id, ID, required: true
+    end
+    field :donations, [Types::DonationType], null: true do
+      argument :fundraiser_id, ID, required: true
+    end
+    field :contacts, [Types::ContactType], null: true do
+      argument :email, String, required: true
+    end
 
     def node(id:)
       context.schema.object_from_id(id, context)
@@ -33,5 +42,18 @@ module Types
     def masjids
       Masjid.all
     end
+
+    def fundraisers(masjid_id:)
+      Fundraiser.where(masjid_id: masjid_id)
+    end
+
+    def donations(fundraiser_id:)
+      Donation.where(fundraiser_id: fundraiser_id)
+    end
+
+    def contacts(email:)
+      Contact.where(email: email)
+    end
+
   end
 end
