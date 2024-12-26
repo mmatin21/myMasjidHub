@@ -6,6 +6,8 @@ module Types
       argument :id, ID, required: true, description: "ID of the object."
     end
 
+    field :masjids, [Tyoes::MasjidType], null: false
+
     def node(id:)
       context.schema.object_from_id(id, context)
     end
@@ -26,6 +28,10 @@ module Types
       description: "An example field added by the generator"
     def test_field
       "Hello World!"
+    end
+
+    def masjids
+      Masjid.all
     end
   end
 end
