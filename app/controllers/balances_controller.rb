@@ -3,7 +3,24 @@ class BalancesController < ApplicationController
 
   # GET /balances or /balances.json
   def index
-    @balances = Balance.all
+    @expenses  = Expense.where(masjid_id: current_masjid.id)
+    @revenues = Revenue.where(masjid_id: current_masjid.id)
+
+    if params[:view] == "last_three_months"
+      @bar_revenues =  @revenues.group_by_last_three_months
+      @bar_expenses =  @expenses.group_by_last_three_months
+    else
+      @bar_expenses =  @expenses.group_by_year_to_date
+      @bar_revenues =  @revenues.group_by_year_to_date
+    end
+
+    @labels ||= @bar_revenues.keys
+    @revenue_series ||= @bar_revenues.values
+    @expense_series ||= @bar_expenses.values
+
+    @profit = @revenue_series.sum - @expense_series.sum
+    @profit_rate = (@profit / @revenue_series.sum) * 100
+
   end
 
   # GET /balances/1 or /balances/1.json

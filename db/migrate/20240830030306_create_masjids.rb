@@ -6,7 +6,6 @@ class CreateMasjids < ActiveRecord::Migration[7.0]
       t.string :city
       t.string :state
       t.string :zipcode
-      t.string :email
       t.string :phone_number
       
       t.timestamps

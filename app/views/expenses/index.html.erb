@@ -1,20 +1,16 @@
 <div class="antialiased bg-gray-50 dark:bg-gray-900">
   <main class="p-4 md:ml-64 h-auto pt-20">
-    <div class="rounded-lg shadow dark:bg-gray-800 h-200 mb-4 md:p-6">
-      <%= render "charts/area_chart", area_chart: @area_expenses, labels: @labels, series: @series, model: Expense%>
+    <% if notice.present? %>
+      <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+    <% end %>
+    <% content_for :title, "Expenses" %>
+    <div class="flex justify-between items-center">
+      <h1 class="font-bold text-4xl">Expenses</h1>
     </div>
-    <div class="grid grid-cols-2 gap-4 mb-4">
-      <div class="border-gray-300 dark:border-gray-600 rounded-xl h-100">
-        <div class="w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
-          <%= render "charts/pie_chart", available_years: @available_years, labels: @pie_labels, series: @pie_series%>
-        </div>
-      </div>
-      <div class="border-gray-300 dark:border-gray-600 rounded-xl h-128">
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-          <%= render "tables/table", table: @table_expenses, query: @q, pagy: @pagy%>
-        </div>
+    <div class="border-gray-300 dark:border-gray-600 rounded-xl h-128">
+      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <%= render "tables/table", table: @table_expenses, query: @q, pagy: @pagy, model: :expense %>
       </div>
     </div>
   </main>
 </div>
-<%= render "spinners/spinner", model: :expense %>

@@ -72,6 +72,9 @@ class RevenuesController < ApplicationController
     respond_to do |format|
       if @revenue.save
         format.html { redirect_to revenue_url(@revenue), notice: "Revenue was successfully created." }
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.append("revenue_table", partial: "tables/table_row", locals: { item: @revenue }) 
+        end 
         format.json { render :show, status: :created, location: @revenue }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -85,6 +88,9 @@ class RevenuesController < ApplicationController
     respond_to do |format|
       if @revenue.update(revenue_params)
         format.html { redirect_to revenue_url(@revenue), notice: "Revenue was successfully updated." }
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace("item_#{@revenue.id}", partial: "tables/table_row", locals: { item: @revenue }) 
+        end 
         format.json { render :show, status: :ok, location: @revenue }
       else
         format.html { render :edit, status: :unprocessable_entity }

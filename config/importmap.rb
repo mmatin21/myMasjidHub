@@ -9,3 +9,5 @@ pin "flowbite", to: "https://cdn.jsdelivr.net/npm/flowbite@2.5.1/dist/flowbite.t
 pin "@rails/request.js", to: "https://ga.jspm.io/npm:@rails/request.js@0.0.6/src/index.js"
 pin "apexcharts" # @3.48.0
 pin "apexcharts", to: "https://cdn.skypack.dev/apexcharts@3.33.1"
+pin "tom-select" # @2.3.1
+pin "@rails/ujs", to: "https://ga.jspm.io/npm:@rails/ujs@7.0.3-1/lib/assets/compiled/rails-ujs.js"

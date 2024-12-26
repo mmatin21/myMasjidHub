@@ -12,20 +12,18 @@ export default class extends Controller {
   }
 
   connect() {
-    console.log("Chart connected")
+    console.log("Area chart connected")
   }
 
   initialize() {
     this.chart = new ApexCharts(this.chartTarget, this.chartOptions);
     this.chart.render();
   }
-
-  get chartOptions() {
-    return {
-      chart: {
+  /*
+  chart: {
         type: 'area',
         height: '375px',
-        width: '1150px',
+        width: '100%',
         toolbar: {
           show: false,
         }
@@ -41,7 +39,76 @@ export default class extends Controller {
         }],
       labels: this.labelsValue,
     }
+  */
+  get chartOptions() {
+    return { 
+      chart: {
+        height: "480px",
+        maxWidth: "100%",
+        type: "area",
+        fontFamily: "Inter, sans-serif",
+        dropShadow: {
+          enabled: false,
+        },
+        toolbar: {
+          show: false,
+        },
+      },
+      tooltip: {
+        enabled: true,
+        x: {
+          show: false,
+        },
+      },
+      fill: {
+        type: "gradient",
+        gradient: {
+          opacityFrom: 0.55,
+          opacityTo: 0,
+          shade: "#1C64F2",
+          gradientToColors: ["#1C64F2"],
+        },
+      },
+      dataLabels: {
+        enabled: false,
+      },
+      stroke: {
+        width: 4,
+      },
+      grid: {
+        show: false,
+        strokeDashArray: 4,
+        padding: {
+          left: 50,
+          right: 2,
+          top: 0
+        },
+      },
+      series: [
+        {
+          name: "Amount",
+          data: this.seriesValue,
+          color: "#1A56DB",
+        },
+      ],
+      xaxis: {
+        categories: this.labelsValue,
+        labels: {
+          show: true,
+        },
+        axisBorder: {
+          show: false,
+        },
+        axisTicks: {
+          show: true,
+        },
+      },
+      yaxis: {
+        show: false,
+      },
+    }
   }
+
   disconnect() {
     this.chart.destroy();
   }

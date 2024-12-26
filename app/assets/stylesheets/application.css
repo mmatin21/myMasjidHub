@@ -12,8 +12,11 @@
  *
  *= require_tree .
  *= require_self
+ *= require tom-select
+
  */
- .modal {
+ 
+ .turbo-modal {
   position: fixed;
   z-index: 1;
   padding: 1em;
