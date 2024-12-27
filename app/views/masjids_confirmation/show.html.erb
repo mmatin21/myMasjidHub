@@ -1,0 +1,11 @@
+<div class="antialiased bg-gray-50 dark:bg-gray-900">
+  <main class="p-4 md:ml-64 h-auto pt-20">
+    <h2>Confirm Your Masjid Account</h2>
+    <p>A 6-digit code has been sent to your Masjid's email. Please enter it below to confirm your account.</p>
+    <%= form_with url: masjids_confirmation_path, method: :post, local: true do |f| %>
+      <%= f.label :confirmation_code, 'Confirmation Code' %>
+      <%= f.text_field :confirmation_code, autofocus: true, maxlength: 6 %>
+      <%= f.submit 'Confirm' %>
+    <% end %>
+  </main>
+</div>

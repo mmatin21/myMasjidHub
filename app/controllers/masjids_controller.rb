@@ -1,11 +1,6 @@
 class MasjidsController < ApplicationController
   before_action :set_masjid, only: %i[ show edit update destroy ]
 
-  # GET /masjids or /masjids.json
-  def index
-    @masjids = Masjid.where(id: current_masjid.id)
-  end
-
   # GET /masjids/1 or /masjids/1.json
   def show
   end
@@ -60,11 +55,11 @@ class MasjidsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_masjid
-      @masjid = Masjid.find(params[:id])
+      @masjid = Masjid.find_by(id: current_masjid.id)
     end
 
     # Only allow a list of trusted parameters through.
     def masjid_params
-      params.require(:masjid)
+      params.require(:masjid).permit(:name, :address, :city, :state, :zipcode)
     end
 end
