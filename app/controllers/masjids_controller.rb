@@ -60,6 +60,6 @@ class MasjidsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def masjid_params
-      params.require(:masjid).permit(:name, :address, :city, :state, :zipcode)
+      params.require(:masjid).permit(:name, :address, :city, :state, :zipcode, :phone_number)
     end
 end
