@@ -6,15 +6,15 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
-
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
-
   <body class="bg-white dark:bg-gray-900">
     <main>
       <%= turbo_frame_tag "turbo-modal" %>
-      <%= render "sidebar/index" %>
+      <% unless masjid_signed_in? and current_masjid.address.nil? %>
+        <%= render "sidebar/index" %>
+      <% end %>
       <%= yield %>
     </main>
   </body>

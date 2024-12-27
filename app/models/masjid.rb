@@ -13,6 +13,10 @@ class Masjid < ApplicationRecord
   has_many :contacts
   has_many :pledges
 
+
+  def full_address
+    address + " " + city + " " +  state
+  end
   
 
 end
