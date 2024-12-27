@@ -7,9 +7,17 @@ module Types
     end
 
     field :masjids, [Types::MasjidType], null: false
+    field :masjid_by_id, [Types::MasjidType], null: false do
+      argument :id, ID, required: false
+    end
+
     field :fundraisers, [Types::FundraiserType], null: true do
       argument :masjid_id, ID, required: true
     end
+    field :fundraiser_by_id, [Types::FundraiserType], null: true do
+      argument :id, ID, required: true
+    end
+
     field :donations, [Types::DonationType], null: true do
       argument :fundraiser_id, ID, required: true
     end
@@ -43,8 +51,15 @@ module Types
       Masjid.all
     end
 
+    def masjid_by_id(id:)
+      Masjid.where(id: id)
+    end
+
     def fundraisers(masjid_id:)
       Fundraiser.where(masjid_id: masjid_id)
+    end
+    def fundraiser_by_id(id:)
+      Fundraiser.where(id: id)
     end
 
     def donations(fundraiser_id:)
