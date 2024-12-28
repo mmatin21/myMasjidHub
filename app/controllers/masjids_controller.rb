@@ -3,6 +3,30 @@ class MasjidsController < ApplicationController
 
   # GET /masjids/1 or /masjids/1.json
   def show
+        # Retrieve balance from Stripe
+        begin
+          balance = Stripe::Balance.retrieve(stripe_account: @masjid.stripe_account_id)
+          if balance['available'].any?
+            @available_balance = balance['available'].first['amount'] / 100.0 # Convert cents to dollars
+          else
+            @available_balance = 0.0
+            flash[:alert] = "No available balance yet. Funds might still be pending."
+          end
+
+          if balance['pending'].any?
+            @pending_balance = balance['pending'].first['amount'] / 100.0 # Convert cents to dollars
+          else
+            @pending_balance = 0.0
+            flash[:alert] = "No pending balance yet. Funds might still be pending."
+          end
+        rescue Stripe::StripeError => e
+          flash[:alert] = "Error retrieving balance: #{e.message}"
+          @available_balance = 0.0
+          @pending_balance = 0.0
+        end
+      
+
+    
   end
 
   # GET /masjids/new
@@ -51,8 +75,49 @@ class MasjidsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+
+  def connect_stripe
+    masjid = Masjid.find(current_masjid.id)
+
+    if Rails.env.test? || Rails.env.development?
+      # Create a test Stripe account programmatically
+      account = Stripe::Account.create({
+        type: 'express',
+        country: 'US',
+        email: masjid.email,
+        capabilities: {
+          transfers: 'active',
+        },
+      })
+      masjid.update!(stripe_account_id: account.id)
+      flash[:notice] = "Test Stripe account connected successfully!"
+      redirect_to masjid_path(masjid)
+    else
+      # Production flow: Redirect to onboarding
+      account_link = Stripe::AccountLink.create({
+        account: masjid.stripe_account_id || create_stripe_account(masjid),
+        refresh_url: connect_stripe_masjid_url(masjid),
+        return_url: masjid_dashboard_url(masjid),
+        type: 'account_onboarding'
+      })
+      redirect_to account_link.url, allow_other_host: true
+    end
+  end 
 
   private
+
+    def create_stripe_account(masjid)
+      account = Stripe::Account.create({
+        type: 'express',
+        country: 'US',
+        email: masjid.email,
+        business_type: 'non_profit',
+      })
+      masjid.update!(stripe_account_id: account.id)
+      account.id
+    end
+
     # Use callbacks to share common setup or constraints between actions.
     def set_masjid
       @masjid = Masjid.find_by(id: current_masjid.id)

@@ -48,5 +48,19 @@
         </div>
       </div>
     </section>
+    <%= link_to "Connect with Stripe", connect_stripe_masjid_path(@masjid) %>
+    <!-- app/views/masjids/show.html.erb -->
+    <h1><%= @masjid.name %> Dashboard</h1>
+    <% if @available_balance > 0 %>
+      <p>Your available balance: <%= @available_balance %> USD</p>
+      <%= button_to "Create Payout", create_payout_masjid_path(@masjid), method: :post, data: { confirm: "Are you sure you want to create a payout?" } %>
+    <% else %>
+      <p>No available balance for payout.</p>
+    <% end %>
+    <% if @pending_balance > 0 %>
+      <p>Your pending balances: <%= @pending_balance %> USD</p>
+    <% else %>
+      <p>No pending balance</p>
+    <% end %>
   </main>
 </div>

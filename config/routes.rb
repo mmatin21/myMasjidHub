@@ -27,7 +27,12 @@ Rails.application.routes.draw do
       get :pledges
     end
   end
-  resources :masjids
+  resources :masjids do
+    member do
+      get :connect_stripe
+      post :create_payout
+    end
+  end
   resources :landing
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
