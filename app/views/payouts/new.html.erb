@@ -1,0 +1,13 @@
+<div class="antialiased bg-gray-50 dark:bg-gray-900">
+  <main class="p-4 md:ml-64 h-auto pt-20">
+    <h1>Request a Payout</h1>
+    <p>Available Balance: <%= number_to_currency(@available_balance) %></p>
+    <%= form_with url: masjid_payouts_path(@masjid), method: :post, local: true do |form| %>
+      <div class="form-group">
+        <%= form.label :amount, "Payout Amount (USD)" %>
+        <%= form.number_field :amount, step: 0.01, min: 1, max: @available_balance, class: "form-control", required: true %>
+      </div>
+      <%= form.submit "Request Payout", class: "btn btn-primary" %>
+    <% end %>
+  </main>
+</div>

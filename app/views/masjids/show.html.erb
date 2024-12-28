@@ -34,6 +34,18 @@
               <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white"><%= @masjid.email %></dd>
               <dt class="mb-2 leading-none text-gray-500 dark:text-gray-400">Phone Number</dt>
               <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white"><%= @masjid.phone_number %></dd>
+              <dt class="mb-2 leading-none text-gray-500 dark:text-gray-400">Available Balance </dt>
+              <% if @available_balance > 0 %>
+                <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white"><%= number_to_currency(@available_balance) %></dd>
+              <% else %>
+                <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white">No available balance for payout.</dd>
+              <% end %>
+              <dt class="mb-2 leading-none text-gray-500 dark:text-gray-400">Pending Balance </dt>
+              <% if @pending_balance > 0 %>
+                <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white"><%= number_to_currency(@pending_balance) %></dd>
+              <% else %>
+                <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white">No pending balance.</dd>
+              <% end %>
             </dl>
           </div>
           <!-- Column -->
@@ -45,22 +57,18 @@
               Edit
             </button>
           <%  end %>
-        </div>
-      </div>
-    </section>
-    <%= link_to "Connect with Stripe", connect_stripe_masjid_path(@masjid) %>
-    <!-- app/views/masjids/show.html.erb -->
-    <h1><%= @masjid.name %> Dashboard</h1>
-    <% if @available_balance > 0 %>
-      <p>Your available balance: <%= @available_balance %> USD</p>
-      <%= button_to "Create Payout", create_payout_masjid_path(@masjid), method: :post, data: { confirm: "Are you sure you want to create a payout?" } %>
-    <% else %>
-      <p>No available balance for payout.</p>
-    <% end %>
-    <% if @pending_balance > 0 %>
-      <p>Your pending balances: <%= @pending_balance %> USD</p>
-    <% else %>
-      <p>No pending balance</p>
-    <% end %>
-  </main>
-</div>
+          <% if current_masjid.stripe_account_id.nil?%>
+            <%= link_to "Connect to Stripe", connect_stripe_masjid_path(@masjid), class: "py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" %>
+          <% elsif @stripe_onboarding_link %>
+            <%= link_to "Finish Onboarding", @stripe_onboarding_link, target: "_blank", rel: "noopener noreferrer", class: "py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" %>
+            <% else @stripe_onboarding_link %>
+              <%= link_to "Open Stripe Dashboard", open_stripe_dashboard_masjid_path(@masjid), class: "py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" %>
+            <% end %>
+            <% unless current_masjid.stripe_account_id.nil? %>
+              <%= link_to "Go to Payouts", new_masjid_payout_path(@masjid), class: "py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" %>
+            </div>
+          <% end %>
+        </section>
+        <%=  %>
+      </main>
+    </div>

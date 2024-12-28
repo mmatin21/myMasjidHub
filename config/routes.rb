@@ -28,9 +28,10 @@ Rails.application.routes.draw do
     end
   end
   resources :masjids do
+    resources :payouts, only: [:new, :create]
     member do
       get :connect_stripe
-      post :create_payout
+      get :open_stripe_dashboard
     end
   end
   resources :landing
