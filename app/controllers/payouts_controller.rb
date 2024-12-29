@@ -4,8 +4,12 @@ class PayoutsController < ApplicationController
   def new
     # Fetch available balance for the connected account
     begin
-      balance = Stripe::Balance.retrieve(stripe_account: @masjid.stripe_account_id)
+      balance = Stripe::Balance.retrieve({},{stripe_account: @masjid.stripe_account_id})
+      withdrawal_balance = balance['pending'].first['amount'] / 100
       @available_balance = balance['available'].first['amount'] / 100.0 # Convert cents to dollars
+        if withdrawal_balance < 0
+          @available_balance = @available_balance + withdrawal_balance
+        end
     rescue Stripe::StripeError => e
       flash[:alert] = "Error retrieving balance: #{e.message}"
       @available_balance = 0.0
@@ -28,7 +32,8 @@ class PayoutsController < ApplicationController
       flash[:notice] = "Payout of $#{params[:amount]} created successfully!"
       redirect_to masjid_path(@masjid)
     rescue Stripe::StripeError => e
-      flash[:alert] = "Payout failed: #{e.message}"
+      Rails.logger.debug "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Payout Failed #{e.message}!!!!!!!!!!!!!!!!!!!!!!!!" 
+      flash[:notice] = "Payout failed: #{e.message}"
       redirect_to new_masjid_payout_path(@masjid)
     end
   end

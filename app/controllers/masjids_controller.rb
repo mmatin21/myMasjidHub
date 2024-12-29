@@ -4,13 +4,16 @@ class MasjidsController < ApplicationController
   # GET /masjids/1 or /masjids/1.json
   def show
     # Retrieve balance from Stripe
-    @masjid = Masjid.find(current_masjid.id)
     begin
-      balance = Stripe::Balance.retrieve(stripe_account: @masjid.stripe_account_id)
-      Rails.logger.debug "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Stripe Balance: #{balance}!!!!!!!!!!!!!!!!!!!!!!!!" 
+      balance = Stripe::Balance.retrieve({},{stripe_account: @masjid.stripe_account_id})
+      Rails.logger.debug "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Stripe Balance Inspection #{balance.inspect}!!!!!!!!!!!!!!!!!!!!!!!!" 
 
       if balance['available'].any?
+        withdrawal_balance = balance['pending'].first['amount'] / 100
         @available_balance = balance['available'].first['amount'] / 100.0 # Convert cents to dollars
+        if withdrawal_balance < 0
+          @available_balance = @available_balance + withdrawal_balance
+        end
       else
         @available_balance = 0.0
         flash[:alert] = "No available balance yet. Funds might still be pending."
@@ -23,14 +26,20 @@ class MasjidsController < ApplicationController
         flash[:alert] = "No pending balance yet. Funds might still be pending."
       end
     rescue Stripe::StripeError => e
+      Rails.logger.debug "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Error #{e.message}!!!!!!!!!!!!!!!!!!!!!!!!" 
       flash[:alert] = "Error retrieving balance: #{e.message}"
       @available_balance = 0.0
       @pending_balance = 0.0
     end
-
-    if onboarding_incomplete?(@masjid)
-      @stripe_onboarding_link = generate_stripe_onboarding_link(@masjid)
+    
+    unless @masjid.stripe_account_id.nil?
+      if onboarding_incomplete?(@masjid)
+        @stripe_onboarding_link = generate_stripe_onboarding_link(@masjid)
+      end
     end
+
+    Rails.logger.debug "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Available balance #{@available_balance}!!!!!!!!!!!!!!!!!!!!!!!!" 
+
   end
 
   # GET /masjids/new
@@ -127,7 +136,7 @@ class MasjidsController < ApplicationController
 
   def onboarding_incomplete?(masjid)
     stripe_account = Stripe::Account.retrieve(masjid.stripe_account_id)
-    Rails.logger.debug "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Onboarding: #{stripe_account.requirements.currently_due}!!!!!!!!!!!!!!!!!!!!!!!!" 
+    Rails.logger.debug "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Onboarding: #{stripe_account.inspect}!!!!!!!!!!!!!!!!!!!!!!!!" 
     stripe_account.requirements.currently_due.any?
   rescue Stripe::StripeError => e
     flash[:alert] = "Error checking onboarding status: #{e.message}"
