@@ -4,6 +4,7 @@ class GraphqlController < ApplicationController
   # If accessing from outside this domain, nullify the session
   # This allows for outside API access while preventing CSRF attacks,
   # but you'll have to authenticate your user separately
+  before_action :authenticate_api_key!
   protect_from_forgery with: :null_session
 
   def execute
@@ -48,5 +49,14 @@ class GraphqlController < ApplicationController
     logger.error e.backtrace.join("\n")
 
     render json: { errors: [{ message: e.message, backtrace: e.backtrace }], data: {} }, status: 500
+  end
+
+  def authenticate_api_key!
+    api_key = request.headers["X-Api-Key"]
+    valid_api_key = Rails.application.credentials.dig(:masjidmanager, :api_key)
+
+    unless api_key == valid_api_key
+      render json: { errors: [{ message: "Unauthorized: Invalid API key" }] }, status: :unauthorized
+    end
   end
 end
