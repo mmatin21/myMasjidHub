@@ -32,7 +32,7 @@ class ContactsController < ApplicationController
     
     respond_to do |format|
       if @contact.save
-        if params[:step].to_i == 2 
+        if params[:step].to_i == 2
           format.turbo_stream do
             render turbo_stream: turbo_stream.replace("turbo-modal", 
               partial: "contacts/success_pledge", locals: { pledge: Pledge.new, contact: Contact.new, contact_id: @contact.id}
@@ -61,6 +61,9 @@ class ContactsController < ApplicationController
     respond_to do |format|
       if @contact.update(contact_params)
         format.html { redirect_to contact_url(@contact), notice: "Contact was successfully updated." }
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace("contact_#{@contact.id}", partial: "tables/contact_row", locals: { item: @contact }) 
+        end 
         format.json { render :show, status: :ok, location: @contact }
       else
         format.html { render :edit, status: :unprocessable_entity }
