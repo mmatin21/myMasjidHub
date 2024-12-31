@@ -62,6 +62,9 @@ class PledgesController < ApplicationController
     respond_to do |format|
       if @pledge.update(pledge_params)
         format.html { redirect_to pledge_url(@pledge), notice: "Pledge was successfully updated." }
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace("pledge_#{@pledge.id}", partial: "tables/pledge_row", locals: { item: @pledge }) 
+        end 
         format.json { render :show, status: :ok, location: @pledge }
       else
         format.html { render :edit, status: :unprocessable_entity }
