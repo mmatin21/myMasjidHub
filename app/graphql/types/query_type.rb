@@ -14,8 +14,17 @@ module Types
     field :fundraisers, [Types::FundraiserType], null: true do
       argument :masjid_id, ID, required: true
     end
+
     field :fundraiser_by_id, [Types::FundraiserType], null: true do
       argument :id, ID, required: true
+    end
+
+    field :events, [Types::EventType], null: true do
+      argument :masjid_id, ID, required: true
+    end
+
+    field :prayers, [Types::PrayerType], null: true do
+      argument :masjid_id, ID, required: true
     end
 
     field :donations, [Types::DonationType], null: true do
@@ -39,14 +48,6 @@ module Types
 
     # Add root-level fields here.
     # They will be entry points for queries on your schema.
-
-    # TODO: remove me
-    field :test_field, String, null: false,
-      description: "An example field added by the generator"
-    def test_field
-      "Hello World!"
-    end
-
     def masjids
       Masjid.all
     end
@@ -58,6 +59,7 @@ module Types
     def fundraisers(masjid_id:)
       Fundraiser.where(masjid_id: masjid_id)
     end
+
     def fundraiser_by_id(id:)
       Fundraiser.where(id: id)
     end
@@ -70,5 +72,12 @@ module Types
       Contact.where(email: email)
     end
 
+    def events(masjid_id:)
+      Event.where(masjid_id: masjid_id)
+    end
+
+    def prayers(masjid_id:)
+      Prayer.where(masjid_id: masjid_id)
+    end
   end
 end
