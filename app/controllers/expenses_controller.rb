@@ -73,6 +73,9 @@ class ExpensesController < ApplicationController
     respond_to do |format|
       if @expense.save
         format.html { redirect_to expense_url(@expense), notice: "Expense was successfully created." }
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.append("expense_table", partial: "tables/table_row", locals: { item: @expense }) 
+        end 
         format.json { render :show, status: :created, location: @expense }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -86,6 +89,9 @@ class ExpensesController < ApplicationController
     respond_to do |format|
       if @expense.update(expense_params)
         format.html { redirect_to expense_url(@expense), notice: "Expense was successfully updated." }
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace("item_#{@expense.id}", partial: "tables/table_row", locals: { item: @expense }) 
+        end 
         format.json { render :show, status: :ok, location: @expense }
       else
         format.html { render :edit, status: :unprocessable_entity }
