@@ -48,8 +48,15 @@ export default class extends Controller {
       form.classList.add("hidden")
     }
     else {
-      pledgeModal.classList.remove("hidden");
-      form.classList.add("hidden")
+      if(pledgeModal != null) {
+        pledgeModal.classList.remove("hidden");
+        form.classList.add("hidden");
+      }
+      else {
+        contactModal.classList.remove("hidden");
+        form.classList.add("hidden")
+      }
+      
     }
   }
 }
