@@ -4,6 +4,9 @@
       <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
     <% end %>
     <% content_for :title, "Fundraisers" %>
+    <div class="flex justify-between items-center">
+      <h1 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Fundraisers</h1>
+    </div>
     <div id="fundraisers" class="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
       <% @fundraisers.each do |fundraiser| %>
         <%= render fundraiser %>
