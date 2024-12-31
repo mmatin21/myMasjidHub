@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   }
   resources :expenses
   resources :months do
-    collection do 
+    collection do
       get :months
     end
   end

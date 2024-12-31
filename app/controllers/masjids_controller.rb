@@ -4,42 +4,44 @@ class MasjidsController < ApplicationController
   # GET /masjids/1 or /masjids/1.json
   def show
     # Retrieve balance from Stripe
-    begin
-      balance = Stripe::Balance.retrieve({},{stripe_account: @masjid.stripe_account_id})
-      Rails.logger.debug "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Stripe Balance Inspection #{balance.inspect}!!!!!!!!!!!!!!!!!!!!!!!!" 
-
-      if balance['available'].any?
-        withdrawal_balance = balance['pending'].first['amount'] / 100
-        @available_balance = balance['available'].first['amount'] / 100.0 # Convert cents to dollars
-        if withdrawal_balance < 0
-          @available_balance = @available_balance + withdrawal_balance
-        end
-      else
-        @available_balance = 0.0
-        flash[:alert] = "No available balance yet. Funds might still be pending."
-      end
-
-      if balance['pending'].any?
-        @pending_balance = balance['pending'].first['amount'] / 100.0 # Convert cents to dollars
-      else
-        @pending_balance = 0.0
-        flash[:alert] = "No pending balance yet. Funds might still be pending."
-      end
-    rescue Stripe::StripeError => e
-      Rails.logger.debug "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Error #{e.message}!!!!!!!!!!!!!!!!!!!!!!!!" 
-      flash[:alert] = "Error retrieving balance: #{e.message}"
-      @available_balance = 0.0
-      @pending_balance = 0.0
-    end
-    
     unless @masjid.stripe_account_id.nil?
+      begin
+        Rails.logger.debug "!!!!!!!!!!!!!!!!Stripe Masjid Inspection #{@masjid.stripe_account_id}!!!!!!!!!!!" 
+
+        balance = Stripe::Balance.retrieve({}, {stripe_account: @masjid.stripe_account_id})
+        Rails.logger.debug "!!!!!!!!!!!!!!!!Stripe Balance Inspection #{balance.inspect}!!!!!!!!!!!!!!!!!!!!!"
+
+        if balance['available'].any?
+          withdrawal_balance = balance['pending'].first['amount'] / 100
+          @available_balance = balance['available'].first['amount'] / 100.0 # Convert cents to dollars
+          if withdrawal_balance < 0
+            @available_balance = @available_balance + withdrawal_balance
+          end
+        else
+          @available_balance = 0.0
+          flash[:alert] = "No available balance yet. Funds might still be pending."
+        end
+
+        if balance['pending'].any?
+          @pending_balance = balance['pending'].first['amount'] / 100.0 # Convert cents to dollars
+        else
+          @pending_balance = 0.0
+          flash[:alert] = "No pending balance yet. Funds might still be pending."
+        end
+      rescue Stripe::StripeError => e
+        Rails.logger.debug "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Error #{e.message}!!!!!!!!!!!!!!!!!!!!!!!!" 
+        flash[:alert] = "Error retrieving balance: #{e.message}"
+        @available_balance = 0.0
+        @pending_balance = 0.0
+      end
       if onboarding_incomplete?(@masjid)
         @stripe_onboarding_link = generate_stripe_onboarding_link(@masjid)
       end
+    else
+      @available_balance = 0.0
+      @pending_balance = 0.0
     end
-
     Rails.logger.debug "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Available balance #{@available_balance}!!!!!!!!!!!!!!!!!!!!!!!!" 
-
   end
 
   # GET /masjids/new
