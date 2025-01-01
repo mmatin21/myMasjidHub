@@ -194,30 +194,27 @@
 
 .ts-wrapper {
   position: relative;
-  color: white;
-  background: #374151;
+  background: #f9fafb;
 }
 
 .ts-dropdown,
 .ts-control,
 .ts-control input {
-  color: white;
+  color: #303030;
   font-family: inherit;
   font-size: 13px;
   line-height: 18px;
   font-smoothing: inherit;
-  
 }
 
 .ts-control,
 .ts-wrapper.single.input-active .ts-control {
-  background: #374151;
+  background: #f9fafb;
   cursor: text;
-  color: white;
 }
 
 .ts-control {
-  padding: 6px 6px;
+  padding: 8px 8px;
   width: 100%;
   overflow: hidden;
   position: relative;
@@ -227,13 +224,13 @@
   border-radius: 3px;
   display: flex;
   flex-wrap: wrap;
-  background: #374151;
+  color: black;
 }
 .ts-wrapper.multi.has-items .ts-control {
   padding: calc( 8px - 2px - 0px) 8px calc( 8px - 2px - 3px - 0px);
 }
 .full .ts-control {
-  background: #374151;
+  background-color: #f9fafb;
 }
 .disabled .ts-control, .disabled .ts-control * {
   cursor: default !important;
@@ -317,24 +314,21 @@
   left: 0;
   width: 100%;
   z-index: 10;
-  
-  background: #374151;
+  border: 1px solid #d0d0d0;
+  background: #fff;
   margin: 0.25rem 0 0 0;
   border-top: 0 none;
   box-sizing: border-box;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  border-radius: 3px 3x 5px 5px;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 0 0 3px 3px;
 }
 .ts-dropdown [data-selectable] {
   cursor: pointer;
-  background: #374151;
   overflow: hidden;
-  color: #fff;
-  border-radius: 0.5rem;
-  width: 100%;
 }
 .ts-dropdown [data-selectable] .highlight {
-  background: rgba(5, 21, 36, 0.2);
+  background: rgba(125, 168, 208, 0.2);
+  border-radius: 1px;
 }
 .ts-dropdown .option,
 .ts-dropdown .optgroup-header,
@@ -359,11 +353,11 @@
   cursor: default;
 }
 .ts-dropdown .active {
-  background-color: #3b82f6;
-  color: white;
+  background-color: #f5fafd;
+  color: #495c68;
 }
 .ts-dropdown .active.create {
-  color: white;
+  color: #495c68;
 }
 .ts-dropdown .create {
   color: rgba(48, 48, 48, 0.5);
@@ -413,4 +407,82 @@
   width: 1px !important;
   white-space: nowrap !important;
 }
+
+/* Dark mode styles */
+ @media (prefers-color-scheme: dark) {
+  .ts-wrapper {
+    background: #1a1a1a;
+  }
+  .ts-dropdown,
+  .ts-control,
+  .ts-control input {
+    color: white;
+    font-family: inherit;
+    font-size: 13px;
+    line-height: 18px;
+    font-smoothing: inherit;
+  }
+
+  .ts-wrapper {
+    position: relative;
+    color: white;
+    background: #374151;
+  }
+
+  .ts-control,
+  .ts-wrapper.single.input-active .ts-control {
+    background: #374151;
+    cursor: text;
+    color: white;
+  }
+
+  .ts-control {
+    padding: 6px 6px;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    background: #374151;
+  }
+  .full .ts-control {
+    background: #374151;
+  }
+
+  .ts-dropdown [data-selectable] {
+    cursor: pointer;
+    background: #374151;
+    overflow: hidden;
+    color: #fff;
+    border-radius: 0.5rem;
+    width: 100%;
+  }
+
+  .ts-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    border: 5px solid #374151;
+    background: #374151;
+    margin: 0.25rem 0 0 0;
+    border-top: 0 none;
+    box-sizing: border-box;
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 3px 3px 3px 3px;
+  }
+
+
+  .ts-dropdown [data-selectable] .highlight {
+    background: rgba(5, 21, 36, 0.2);
+  }
+  .ts-dropdown .active {
+    background-color: #3b82f6;
+    color: white;
+  }
+  .ts-dropdown .active.create {
+    color: white;
+  }
+} 
 /*# sourceMappingURL=tom-select.css.map */
