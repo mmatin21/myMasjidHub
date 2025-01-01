@@ -194,27 +194,30 @@
 
 .ts-wrapper {
   position: relative;
+  color: white;
+  background: #374151;
 }
 
 .ts-dropdown,
 .ts-control,
 .ts-control input {
-  color: #303030;
+  color: white;
   font-family: inherit;
   font-size: 13px;
   line-height: 18px;
   font-smoothing: inherit;
+  
 }
 
 .ts-control,
 .ts-wrapper.single.input-active .ts-control {
-  background: #fff;
+  background: #374151;
   cursor: text;
+  color: white;
 }
 
 .ts-control {
-  border: 1px solid #d0d0d0;
-  padding: 8px 8px;
+  padding: 6px 6px;
   width: 100%;
   overflow: hidden;
   position: relative;
@@ -224,12 +227,13 @@
   border-radius: 3px;
   display: flex;
   flex-wrap: wrap;
+  background: #374151;
 }
 .ts-wrapper.multi.has-items .ts-control {
   padding: calc( 8px - 2px - 0px) 8px calc( 8px - 2px - 3px - 0px);
 }
 .full .ts-control {
-  background-color: #fff;
+  background: #374151;
 }
 .disabled .ts-control, .disabled .ts-control * {
   cursor: default !important;
@@ -313,21 +317,24 @@
   left: 0;
   width: 100%;
   z-index: 10;
-  border: 1px solid #d0d0d0;
-  background: #fff;
+  
+  background: #374151;
   margin: 0.25rem 0 0 0;
   border-top: 0 none;
   box-sizing: border-box;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  border-radius: 0 0 3px 3px;
+  border-radius: 3px 3x 5px 5px;
 }
 .ts-dropdown [data-selectable] {
   cursor: pointer;
+  background: #374151;
   overflow: hidden;
+  color: #fff;
+  border-radius: 0.5rem;
+  width: 100%;
 }
 .ts-dropdown [data-selectable] .highlight {
-  background: rgba(125, 168, 208, 0.2);
-  border-radius: 1px;
+  background: rgba(5, 21, 36, 0.2);
 }
 .ts-dropdown .option,
 .ts-dropdown .optgroup-header,
@@ -352,11 +359,11 @@
   cursor: default;
 }
 .ts-dropdown .active {
-  background-color: #f5fafd;
-  color: #495c68;
+  background-color: #3b82f6;
+  color: white;
 }
 .ts-dropdown .active.create {
-  color: #495c68;
+  color: white;
 }
 .ts-dropdown .create {
   color: rgba(48, 48, 48, 0.5);
