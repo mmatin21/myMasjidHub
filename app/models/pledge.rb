@@ -1,4 +1,5 @@
 class Pledge < ApplicationRecord
+  include ActionView::Helpers::NumberHelper
   belongs_to :fundraiser
   belongs_to :contact, optional: true
   has_many :donations
@@ -11,7 +12,7 @@ class Pledge < ApplicationRecord
   before_validation :build_new_contact_if_needed
 
   def name
-    "#{self.contact.full_name} #{self.fundraiser.name} - #{amount}"
+    "#{self.fundraiser.name} - #{number_to_currency(amount)}"
   end
 
   private
