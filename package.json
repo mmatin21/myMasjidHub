@@ -3,6 +3,7 @@
     "@rails/request.js": "^0.0.11",
     "apexcharts": "^3.53.0",
     "flowbite": "^2.5.1",
+    "tailwindcss": "^3.4.17",
     "tom-select": "^2.4.1"
   }
 }
