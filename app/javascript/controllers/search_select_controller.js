@@ -2,11 +2,56 @@ import { Controller } from "@hotwired/stimulus";
 import TomSelect from "tom-select";
 
 export default class extends Controller {
+  
+
   connect() {
-    this.select = new TomSelect(this.element, {
-      create: this.handleCreate.bind(this), // Custom create behavior
-      persist: false,
-    });
+  // Initialize TomSelect when the controller is connected
+  this.initializeTomSelect();
+
+  // Listen for Turbo stream events
+  this.element.addEventListener('turbo:before-stream-render', this.cleanupPreviousWrapper.bind(this));
+  this.element.addEventListener('turbo:render', this.reinitializeTomSelect.bind(this));
+  }
+
+  disconnect() {
+    // Cleanup when the controller is disconnected
+    if (this.element.tomselect) {
+      this.element.tomselect.destroy();
+    }
+  }
+
+  initializeTomSelect() {
+    // Initialize TomSelect for this specific element
+    if (!this.element.tomselect) {
+      this.select = new TomSelect(this.element, {
+        create: this.handleCreate.bind(this), // Custom create behavior
+        persist: false,
+      });
+    }
+  }
+
+  cleanupPreviousWrapper(event) {
+    // Get the target of the turbo stream
+    const targetId = event.target.getAttribute('target');
+    const selectElement = document.getElementById(targetId); // Find the targeted <select>
+
+    if (selectElement && selectElement.tomselect) {
+      // Destroy the TomSelect instance
+      selectElement.tomselect.destroy();
+
+      // Remove the old wrapper
+      const wrapper = selectElement.closest('.ts-wrapper');
+      if (wrapper) {
+        wrapper.remove();
+      }
+    }
+  }
+
+  reinitializeTomSelect() {
+    // Reinitialize TomSelect after Turbo has rendered
+    if (!this.element.tomselect) {
+      this.initializeTomSelect();
+    }
   }
 
   handleCreate(input, callback) {
