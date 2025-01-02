@@ -48,7 +48,7 @@ class PledgesController < ApplicationController
         format.html { redirect_to pledge_url(@pledge), notice: "Pledge was successfully created." }
         format.turbo_stream do
           render turbo_stream: turbo_stream.prepend("pledge_table", partial: "tables/pledge_row", locals: { item: @pledge }) 
-        end 
+        end
         format.json { render :show, status: :created, location: @pledge }
       else
         format.html { render :new, status: :unprocessable_entity }

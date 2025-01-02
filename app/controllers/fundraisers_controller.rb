@@ -37,6 +37,9 @@ class FundraisersController < ApplicationController
     respond_to do |format|
       if @fundraiser.save
         format.html { redirect_to fundraiser_url(@fundraiser), notice: "Fundraiser was successfully created." }
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.prepend("fundraisers", partial: "fundraisers/fundraiser", locals: { fundraiser: @fundraiser }) 
+        end 
         format.json { render :show, status: :created, location: @fundraiser }
       else
         format.html { render :new, status: :unprocessable_entity }

@@ -27,6 +27,9 @@ class EventsController < ApplicationController
     respond_to do |format|
       if @event.save
         format.html { redirect_to event_url(@event), notice: "Event was successfully created." }
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.prepend("events", partial: "events/event", locals: { event: @event })
+        end
         format.json { render :show, status: :created, location: @event }
       else
         format.html { render :new, status: :unprocessable_entity }

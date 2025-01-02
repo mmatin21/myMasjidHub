@@ -27,6 +27,9 @@ class PrayersController < ApplicationController
     respond_to do |format|
       if @prayer.save
         format.html { redirect_to prayer_url(@prayer), notice: "Prayer was successfully created." }
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.prepend("prayers", partial: "prayers/prayer", locals: { prayer: @prayer }) 
+        end 
         format.json { render :show, status: :created, location: @prayer }
       else
         format.html { render :new, status: :unprocessable_entity }
