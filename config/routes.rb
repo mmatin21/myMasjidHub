@@ -23,12 +23,13 @@ Rails.application.routes.draw do
     end
   end
   resources :options do
-    collection do 
+    collection do
       get :pledges
     end
   end
   resources :masjids do
     resources :payouts, only: [:new, :create]
+    resources :dashboard, only: [:index]
     member do
       get :connect_stripe
       get :open_stripe_dashboard
