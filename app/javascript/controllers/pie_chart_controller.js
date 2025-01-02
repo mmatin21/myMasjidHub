@@ -8,8 +8,8 @@ export default class extends Controller {
 
   static values = {
     labels: Array,
-    series: Array
-  }
+    revenueSeries: Array
+    }
 
   connect() {
     console.log("Pie Chart connected")
@@ -27,14 +27,16 @@ export default class extends Controller {
    get chartOptions() {
     return {
       chart: {
-        height: '340',
+        height: '240',
         width: '100%',
         type: 'pie'
       },
       legend: { 
         show: false 
       },
-      series: this.seriesValue,
+      series: [
+        this.revenueSeriesValue
+            ],
       labels: this.labelsValue,
     }
   }

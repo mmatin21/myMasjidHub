@@ -2,24 +2,82 @@
   <main class="p-4 md:ml-64 h-auto pt-20">
       <div class="grid grid-cols-2 gap-4">
         <div
-          class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+          class="relative overflow-x-auto bg-white dark:bg-gray-800 border-2 rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
         >
-          <h1> Events </h1>
+          <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th scope="col" class="px-6 py-3">
+                    Event Name
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Event Date
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Event Location
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @events.each do |event| %>
+              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  <%= link_to event.name, event, data: { turbo: :false }%>
+                </th>
+                <td class="px-6 py-4">
+                  <%= event.event_date.strftime("%b %d, %Y %l:%M %p") %>
+                </td>
+                <td class="px-6 py-4">
+                  <%= event.full_address %>
+                </td>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
         </div>
         <div
-          class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+          class="relative overflow-x-auto border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
         >
           <h1> Expenses </h1>
         </div>
         <div
-          class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+          class="relative overflow-x-auto border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
         >
           <h1> Pledges </h1>
         </div>
         <div
-          class="border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+          class="relative overflow-x-auto bg-white dark:bg-gray-800 border-2 rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
         >
-          <h1> Table </h1>
+          <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th scope="col" class="px-6 py-3">
+                    Expense Name
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Expense Amount
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Expense Date
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @expenses.each do |expense| %>
+              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  <%= link_to expense.name, expense, data: { turbo: :false }%>
+                </th>
+                <td class="px-6 py-4">
+                  <%= number_to_currency(expense.amount) %>
+                </td>
+                <td class="px-6 py-4">
+                  <%= expense.date %>
+                </td>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
         </div>
       </div>
     </main>
