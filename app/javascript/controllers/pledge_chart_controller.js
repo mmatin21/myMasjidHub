@@ -1,17 +1,17 @@
 import { Controller } from "@hotwired/stimulus"
 import ApexCharts from "apexcharts"
 
-// Connects to data-controller="bar-chart"
+// Connects to data-controller="pledge-chart"
 export default class extends Controller {
   static targets = ["chart"]
   static values = {
     labels: Array,
-    revenueSeries: Array,
-    expenseSeries: Array
+    pledges: Array,
+    donations: Array
   }
 
   connect() {
-    console.log("Bar chart connected")
+    console.log("chart connected")
   }
 
   initialize() {
@@ -23,14 +23,14 @@ export default class extends Controller {
     return {
       series: [
         {
-          name: "Revenue",
-          color: "#31C48D",
-          data: this.revenueSeriesValue,
+          name: "Pledge",
+          color: "#1d4ed8",
+          data: this.pledgesValue,
         },
         {
-          name: "Expense",
-          data: this.expenseSeriesValue,
-          color: "#F05252",
+          name: "Donations",
+          data: this.donationsValue,
+          color: "#31C48D",
         }
       ],
       chart: {
@@ -102,7 +102,7 @@ export default class extends Controller {
       },
       grid: {
         show: true,
-        strokeDashArray: 4,
+        
         padding: {
           left: 10,
           right: 2,

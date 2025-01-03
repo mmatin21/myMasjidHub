@@ -8,9 +8,6 @@
             <% @events.each do |event| %>
             <li class="pb-3 sm:pb-4">
                 <div class="flex items-center space-x-4 rtl:space-x-reverse">
-                  <div class="flex-shrink-0">
-                      <img class="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-1.jpg" alt="Neil image">
-                  </div>
                   <div class="flex-1 min-w-0">
                       <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
                          <%= link_to event.name, event, data: { turbo: :false } %>
@@ -103,13 +100,29 @@
                 </ul>
               </div>
             </div>
-        </div>
+          </div>
       </div>
         <div
-          class="relative overflow-x-auto border-2 border-dashed rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
+          class="relative overflow-x-auto bg-white dark:bg-gray-800 border-2 rounded-lg border-gray-300 dark:border-gray-600 p-2 h-48 md:h-72"
         >
-          <h1> Pledges </h1>
-        </div>
+          <div class="grid grid-cols-2 py-3">
+            <dl>
+              <dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">Pledges Made</dt>
+              <dd class="leading-none text-xl font-bold text-blue-600 dark:text-blue-600 "><%= number_to_currency(@pledges.values.sum) %></dd>
+            </dl>
+            <dl>
+              <dt class="text-base font-normal text-gray-500 dark:text-gray-400 pb-1">Donations Made</dt>
+              <dd class="leading-none text-xl font-bold text-green-500 dark:text-green-400"><%= number_to_currency(@donations.values.sum) %></dd>
+            </dl>
+          </div>
+          <div
+            data-controller="pledge-chart" 
+            data-pledge-chart-labels-value="<%= @pledge_labels %>"
+            data-pledge-chart-pledges-value="<%= @pledges.values %>"
+            data-pledge-chart-donations-value="<%= @donations.values %>">
+            <div data-pledge-chart-target="chart"></div>
+          </div>
+         </div>
         <div
           class="relative overflow-x-auto bg-white dark:bg-gray-800 border-2 rounded-lg border-gray-300 dark:border-gray-600 h-48 md:h-72"
         >

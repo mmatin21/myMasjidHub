@@ -11,6 +11,24 @@ class Pledge < ApplicationRecord
 
   before_validation :build_new_contact_if_needed
 
+  def self.group_by_year_to_date
+    start_date = Time.current.beginning_of_year
+    end_date = Time.current.end_of_day
+  
+    # Group pledge amounts by month/year
+    pledge_amounts = self.where(created_at: start_date..end_date)
+                         .group("TO_CHAR(created_at, 'MM/YYYY')")
+                         .sum(:amount)
+  
+    # Group donation amounts by month/year
+    donation_amounts = Donation.where(created_at: start_date..end_date)
+                                .joins(:pledge) # Ensure we only consider donations linked to pledges
+                                .group("TO_CHAR(donations.created_at, 'MM/YYYY')")
+                                .sum(:amount)
+  
+    { pledges: pledge_amounts, donations: donation_amounts }
+  end
+
   def name
     "#{self.fundraiser.name} - #{number_to_currency(amount)}"
   end

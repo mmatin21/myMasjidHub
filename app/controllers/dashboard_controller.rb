@@ -23,11 +23,12 @@ class DashboardController < ApplicationController
     Rails.logger.debug "!!!expenses: #{@pie_expenses.inspect}!!!"
 
     @events = @masjid.events
-    @pledges = @masjid.pledges
-    @donations = 0
-    @pledges.each do |pledge|
-      @donations += pledge.donations.sum(:amount)
-    end
+    @pledges_data = @masjid.pledges.group_by_year_to_date
+    @pledge_labels = @pledges_data.values[0].keys
+    @pledges = @pledges_data.values[0]
+    @donations = @pledges_data.values[1]
+
+    Rails.logger.debug "!!!Donations: #{@pledges_data.values[0].keys}!!!"
   end
 
   private
