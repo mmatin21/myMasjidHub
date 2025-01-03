@@ -7,8 +7,10 @@ export default class extends Controller {
   static targets = ["chart"]
 
   static values = {
-    labels: Array,
-    revenueSeries: Array
+    revenueLabels: Array,
+    expenseLabels: Array,
+    revenueSeries: Array,
+    expenseSeries: Array
     }
 
   connect() {
@@ -26,18 +28,62 @@ export default class extends Controller {
 
    get chartOptions() {
     return {
-      chart: {
-        height: '240',
-        width: '100%',
-        type: 'pie'
-      },
-      legend: { 
-        show: false 
-      },
-      series: [
+      series: [ 
         this.revenueSeriesValue
-            ],
-      labels: this.labelsValue,
+      ],
+      chart: {
+        height: 420,
+        width: "100%",
+        type: "pie",
+      },
+      stroke: {
+        colors: ["white"],
+        lineCap: "",
+      },
+      plotOptions: {
+        pie: {
+          labels: {
+            show: true,
+          },
+          size: "100%",
+          dataLabels: {
+            offset: -25
+          }
+        },
+      },
+      labels: [
+        this.revenueLabelsValue
+      ],
+      dataLabels: {
+        enabled: true,
+        style: {
+          fontFamily: "Inter, sans-serif",
+        },
+      },
+      legend: {
+        position: "bottom",
+        fontFamily: "Inter, sans-serif",
+      },
+      yaxis: {
+        labels: {
+          formatter: function (value) {
+            return "$" + value 
+          },
+        },
+      },
+      xaxis: {
+        labels: {
+          formatter: function (value) {
+            return "$" + value 
+          },
+        },
+        axisTicks: {
+          show: false,
+        },
+        axisBorder: {
+          show: false,
+        },
+      },
     }
   }
   disconnect() {

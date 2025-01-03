@@ -38,8 +38,8 @@ export default class extends Controller {
           enabled: false,
         },
         type: "bar",
-        width: "100%",
-        height: 400,
+        width: "50%",
+        height: 200,
         toolbar: {
           show: false,
         }
@@ -49,8 +49,8 @@ export default class extends Controller {
       },
       plotOptions: {
         bar: {
-          horizontal: true,
-          columnWidth: "100%",
+          horizontal: false,
+          columnWidth: "50%",
           borderRadiusApplication: "end",
           borderRadius: 6,
           dataLabels: {
@@ -80,7 +80,7 @@ export default class extends Controller {
             cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
           },
           formatter: function(value) {
-            return "$" + value
+            return value
           }
         },
         categories: this.labelsValue,
