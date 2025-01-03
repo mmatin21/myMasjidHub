@@ -80,3 +80,7 @@ group :test do
 end
 gem "graphql", "~> 2.4"
 gem "graphiql-rails", group: :development
+
+# This is for the calendar widget on the dashboard.
+gem 'fullcalendar-rails'
+gem 'momentjs-rails'
