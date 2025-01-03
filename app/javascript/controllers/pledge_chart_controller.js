@@ -102,7 +102,7 @@ export default class extends Controller {
       },
       grid: {
         show: true,
-        
+        strokeDashArray: 4,
         padding: {
           left: 10,
           right: 2,
