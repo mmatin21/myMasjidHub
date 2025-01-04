@@ -29,7 +29,7 @@ class ContactsController < ApplicationController
     @contact = Contact.new(contact_params)
     @contact.masjid_id = current_masjid.id
 
-    
+
     respond_to do |format|
       if @contact.save
         if params[:step].to_i == 2
