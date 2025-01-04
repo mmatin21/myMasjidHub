@@ -35,6 +35,7 @@ Rails.application.routes.draw do
       get :open_stripe_dashboard
     end
   end
+  post '/webhooks/stripe', to: 'webhooks#stripe'
   resources :landing
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
