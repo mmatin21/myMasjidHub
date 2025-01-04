@@ -23,8 +23,14 @@ export default class extends Controller {
     addressComponents.forEach((component) => {
       const types = component.types;
 
+      if (types.includes("street_number")) {
+        this.autocompleteTarget.value = component.long_name; // Address
+      }
+      if (types.includes("route")) {
+        this.autocompleteTarget.value += " " + component.short_name; // Address
+      }
       if (types.includes("locality")) {
-        this.cityTarget.value = component.long_name; // City
+        this.cityTarget.value =  component.long_name; // City
       }
 
       if (types.includes("administrative_area_level_1")) {
