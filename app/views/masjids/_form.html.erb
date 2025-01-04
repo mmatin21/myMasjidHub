@@ -1,6 +1,6 @@
   <div class="max-w-2xl px-4 py-8 mx-auto lg:py-16 bg-white rounded-lg shadow dark:bg-gray-700">
     <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Update product</h2>
-    <%= form_with(model: masjid, class: "contents") do |form| %>
+    <%= form_with(model: masjid, class: "contents", data: { controller: "places" }) do |form| %>
       <div class="grid gap-4 mb-4 sm:grid-cols-2 sm:gap-6 sm:mb-5">
         <% if masjid.errors.any? %>
           <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
@@ -18,19 +18,19 @@
         </div>
         <div class="sm:col-span-2">
           <%= form.label :address, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-          <%= form.text_field :address, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" %>
+          <%= form.text_field :address, id: 'autocomplete', class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", data: { places_target: 'autocomplete' } %>
         </div>
         <div class="my-5">
           <%= form.label :city, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-          <%= form.text_field :city, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" %>
+          <%= form.text_field :city, id: 'city', class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", data: { places_target: 'city' } %>
         </div>
         <div class="my-5">
           <%= form.label :state, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-          <%= form.text_field :state, class:"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" %>
+          <%= form.text_field :state, id: 'state', class:"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", data: { places_target: 'state' } %>
         </div>
         <div class="my-5">
           <%= form.label :zipcode, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-          <%= form.text_field :zipcode, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" %>
+          <%= form.text_field :zipcode, id: 'zipcode', class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", data: { places_target: 'zipcode' } %>
         </div>
         <div class="my-5">
           <%= form.label :phone_number, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
