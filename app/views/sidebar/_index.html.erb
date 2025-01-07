@@ -35,7 +35,11 @@
             </svg>
             <span class="sr-only">Toggle sidebar</span>
           </button>
-          <a href="/masjids/<%=current_masjid.id %>/dashboard" class="flex items-center justify-between mr-4">
+          <% if masjid_signed_in? %>
+            <a href="/masjids/<%=current_masjid.id %>/dashboard" class="flex items-center justify-between mr-4">
+          <% else %>
+            <a href="/landings" class="flex items-center justify-between mr-4">
+          <% end %>
             <img
               src="https://flowbite.s3.amazonaws.com/logo.svg"
               class="mr-3 h-8"

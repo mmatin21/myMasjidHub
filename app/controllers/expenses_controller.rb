@@ -1,7 +1,6 @@
 class ExpensesController < ApplicationController
   before_action :set_expense, only: %i[ show edit update destroy ]
   include Pagy::Backend
-  Pagy::DEFAULT[:limit] = 30
 
   # GET /expenses or /expenses.json
   def index

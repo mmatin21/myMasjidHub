@@ -37,9 +37,10 @@ Rails.application.routes.draw do
   end
   post '/webhooks/stripe', to: 'webhooks#stripe'
   resources :landing
+  delete 'bulk_delete', to: 'application#bulk_delete'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
-  root "landing#show"
+  root "landing#index"
 
 end
