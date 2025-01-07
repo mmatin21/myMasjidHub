@@ -14,7 +14,7 @@ export default class extends Controller {
     document.getElementById('deleteAllButton').classList.toggle('hidden')
   }
 
-  checkAll() {
+  checkAll(event) {
     const isChecked = event.target.checked
     const checkboxes = document.querySelectorAll('input[type="checkbox"].row-checkbox')
     checkboxes.forEach(checkbox => {
@@ -23,17 +23,20 @@ export default class extends Controller {
     })
   }
 
-  toggleRow() {
+  toggleRow(event) {
     this.updateSelectedIds(event.target)
   }
 
   updateSelectedIds(checkbox) {
-    const id = checkbox.value
-    if (checkbox.checked) {
-      this.selectedIds.add(id)
-    } else {
-      this.selectedIds.delete(id)
-    }
+    const checkboxes = document.querySelectorAll('input[type="checkbox"].row-checkbox')
+    checkboxes.forEach(cb => {
+      if (cb.checked) {
+        this.selectedIds.add(cb.value)
+      } else {
+        this.selectedIds.delete(cb.value)
+      }
+    })
+    console.log(this.selectedIds)
     document.getElementById('selected_ids').value = Array.from(this.selectedIds).join(',')
   }
 }

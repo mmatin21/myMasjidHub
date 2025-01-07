@@ -3,6 +3,7 @@ class ApplicationController < ActionController::Base
   def bulk_delete
     # Properly capitalize and singularize the model name
     klass = params[:model_type].classify.constantize
+    Rails.logger.debug "ids: #{params[:ids]}"
     items = klass.where(id: params[:ids].split(','))
     items.destroy_all
     
@@ -14,7 +15,7 @@ class ApplicationController < ActionController::Base
       format.turbo_stream { 
         render turbo_stream: [
           turbo_stream.update("results", 
-            partial: "tables/table", 
+            partial: "tables/table",
             locals: { 
               model: klass,
               table: @table_records,
