@@ -51,7 +51,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_28_012135) do
 
   create_table "donations", force: :cascade do |t|
     t.bigint "fundraiser_id", null: false
-    t.bigint "masjid_id", null: false
+    t.bigint "masjid_id"
     t.decimal "amount", precision: 10, scale: 2
     t.string "currency"
     t.datetime "created_at", null: false
@@ -121,25 +121,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_28_012135) do
     t.string "phone_number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.string "email"
     t.string "stripe_account_id"
+    t.index ["email"], name: "index_masjids_on_email", unique: true
     t.index ["reset_password_token"], name: "index_masjids_on_reset_password_token", unique: true
-  end
-
-  create_table "mosques", force: :cascade do |t|
-    t.string "name"
-    t.string "address"
-    t.string "city"
-    t.string "state"
-    t.string "zipcode"
-    t.string "email"
-    t.string "phone_number"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "pledges", force: :cascade do |t|
