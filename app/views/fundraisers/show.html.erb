@@ -28,10 +28,12 @@
           </div>
           <!-- Column -->
           <dl class="p-4 bg-gray-50 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
-            <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Details:</dt>
+            <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Donations</dt>
+            <% @donations.each do |donation| %>
             <dd class="font-light text-gray-500 dark:text-gray-400">
-              USA enterprises and governments have committed to a technology-driven future, making USA one of the fastest-growing markets for digital technologies. This has also increased the exposure to the risk of cyber-attacks as businesses continue to progress toward being more digital in areas such as the workplace, which requires more security measures.
+              <%= donation.contact.first_name %> <%= donation.contact.last_name %> - <%= number_to_currency(donation.amount) %> on <%= donation.created_at.strftime("%B %d, %Y") %>
             </dd>
+            <% end %>
           </dl>
         </div>
         <div class="flex items-center px-4 space-x-4">
