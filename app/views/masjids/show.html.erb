@@ -5,7 +5,7 @@
         <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
       <% end %>
     </div>
-    <section class="bg-white dark:bg-gray-900">
+    <section>
       <div class="py-8 mx-auto max-w-6xl lg:py-16">
         <div class="grid gap-4 px-4 mb-4 sm:mb-5 sm:grid-cols-3 sm:gap-6 md:gap-12">
           <!-- Column -->
@@ -61,14 +61,14 @@
             <%= link_to "Connect to Stripe", connect_stripe_masjid_path(@masjid), class: "py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" %>
           <% elsif @stripe_onboarding_link %>
             <%= link_to "Finish Onboarding", @stripe_onboarding_link, target: "_blank", rel: "noopener noreferrer", class: "py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" %>
-            <% else @stripe_onboarding_link %>
-              <%= link_to "Open Stripe Dashboard", open_stripe_dashboard_masjid_path(@masjid), class: "py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" %>
-            <% end %>
-            <% unless current_masjid.stripe_account_id.nil? %>
-              <%= link_to "Go to Payouts", new_masjid_payout_path(@masjid), data: { turbo: false }, class: "py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" %>
-            </div>
+          <% else @stripe_onboarding_link %>
+            <%= link_to "Open Stripe Dashboard", open_stripe_dashboard_masjid_path(@masjid), class: "py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" %>
           <% end %>
-        </section>
-        <%=  %>
-      </main>
-    </div>
+          <% unless current_masjid.stripe_account_id.nil? %>
+            <%= link_to "Go to Payouts", new_masjid_payout_path(@masjid), data: { turbo: false }, class: "py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" %>
+          </div>
+        <% end %>
+      </section>
+      <%=  %>
+    </main>
+  </div>
