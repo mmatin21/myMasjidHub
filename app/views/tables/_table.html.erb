@@ -107,10 +107,10 @@
         </tbody>
       </table>
       <nav class="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4" aria-label="Table navigation">
-        <%= form_tag bulk_delete_path, method: :delete, data: { turbo: true } do %>
+        <%= form_tag expenses_and_revenues_bulk_deletes_path, method: :delete, data: { turbo: true } do %>
           <%= hidden_field_tag :model_type, model.to_s %>
           <%= hidden_field_tag :ids, '', id: 'selected_ids' %>
-          <%= button_to "Delete Selected", bulk_delete_path,
+          <%= button_to "Delete Selected", expenses_and_revenues_bulk_deletes_path,
             method: :delete,
             id: "deleteAllButton",
             data: { turbo_confirm: "Are you sure you want to delete the selected items?" },
