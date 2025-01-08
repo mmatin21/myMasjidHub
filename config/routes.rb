@@ -40,6 +40,7 @@ Rails.application.routes.draw do
   resources :bulk_deletes, only: [] do
     collection do
       delete :expenses_and_revenues
+      delete :pledges
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
