@@ -13,6 +13,7 @@ class PledgesController < ApplicationController
 
   # GET /pledges/1 or /pledges/1.json
   def show
+    @donations = Donation.where(pledge_id: @pledge.id)
   end
 
   # GET /pledges/new
