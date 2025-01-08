@@ -41,6 +41,7 @@ Rails.application.routes.draw do
     collection do
       delete :expenses_and_revenues
       delete :pledges
+      delete :contacts
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
