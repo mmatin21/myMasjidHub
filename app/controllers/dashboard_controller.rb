@@ -46,6 +46,3 @@ class DashboardController < ApplicationController
     @masjid = Masjid.find_by(id: current_masjid.id)
   end
 end
-
-
-
