@@ -10,13 +10,6 @@ Rails.application.routes.draw do
   resources :donations
   resources :fundraisers
   resources :events
-  resources :revenues
-  resources :expenses do
-    collection do
-      get :export_csv
-      post :import_csv
-    end
-  end
   resources :landing
 
   devise_for :masjids, path: 'masjids', controllers: {
@@ -29,6 +22,19 @@ Rails.application.routes.draw do
     member do
       get :connect_stripe
       get :open_stripe_dashboard
+    end
+  end
+
+  resources :revenues do
+    collection do
+      get :export_csv
+      post :import_csv
+    end
+  end
+  resources :expenses do
+    collection do
+      get :export_csv
+      post :import_csv
     end
   end
 

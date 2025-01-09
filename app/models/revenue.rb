@@ -1,3 +1,4 @@
+require 'csv'
 class Revenue < ApplicationRecord
   belongs_to :masjid
 
@@ -44,6 +45,26 @@ class Revenue < ApplicationRecord
 
   def self.ransackable_associations(auth_object = nil)
     []
+  end
+
+  def self.to_csv
+    CSV.generate(headers: true) do |csv|
+      csv << ["Name", "Amount", "Date"]
+      all.each do |expense|
+        csv << [expense.name, expense.amount, expense.date]
+      end
+    end
+  end
+
+  def self.import(file, masjid_id)
+    CSV.foreach(file.path, headers: true) do |row|
+      expense_data = row.to_hash
+      expense_data["masjid_id"] = masjid_id # Attach the masjid_id
+
+      # Find existing expense or initialize a new one
+      expense = find_or_initialize_by(id: expense_data["id"]) # Use a unique identifier
+      expense.update(expense_data)
+    end
   end
 
 end
