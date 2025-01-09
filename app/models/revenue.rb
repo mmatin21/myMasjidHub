@@ -49,7 +49,7 @@ class Revenue < ApplicationRecord
 
   def self.to_csv
     CSV.generate(headers: true) do |csv|
-      csv << ["Name", "Amount", "Date"]
+      csv << ["name", "amount", "date"]
       all.each do |expense|
         csv << [expense.name, expense.amount, expense.date]
       end
