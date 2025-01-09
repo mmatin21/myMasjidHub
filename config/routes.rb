@@ -11,7 +11,12 @@ Rails.application.routes.draw do
   resources :fundraisers
   resources :events
   resources :revenues
-  resources :expenses
+  resources :expenses do
+    collection do
+      get :export_csv
+      post :import_csv
+    end
+  end
   resources :landing
 
   devise_for :masjids, path: 'masjids', controllers: {

@@ -127,6 +127,27 @@ class ExpensesController < ApplicationController
     end
   end
 
+  def export_csv
+    @expenses = Expense.where(masjid_id: current_masjid.id)
+
+    respond_to do |format|
+      format.csv { send_data @expenses.to_csv, filename: "expenses_#{Date.today}.csv" }
+    end
+  end
+
+  def import_csv
+    if params[:file].present?
+      Rails.logger.info "Uploaded file: #{params[:file].original_filename}"
+      Rails.logger.info "Masjid: #{current_masjid.id}"
+      masjid_id = current_masjid.id # Get the masjid_id for the current user
+      Expense.import(params[:file], masjid_id)
+      redirect_to expenses_path, notice: "Records imported successfully."
+    else
+      redirect_to expenses_path, alert: "Please upload a valid CSV file."
+    end
+     Rails.logger.warn "No file uploaded"
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_expense
