@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   resources :donations do
     collection do
       get :export_csv
+      post :import_csv
     end
   end
 
