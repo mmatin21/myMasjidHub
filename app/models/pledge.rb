@@ -57,4 +57,42 @@ class Pledge < ApplicationRecord
       end
     end
   end
+
+  def self.import(file, masjid_id)
+    CSV.foreach(file.path, headers: true) do |row|
+      pledge_data = row.to_hash
+      pledge_data["masjid_id"] = masjid_id # Attach the masjid_id
+      Rails.logger.info "Pledge data: #{pledge_data}"
+
+
+      # Find or initialize fundraiser by name and masjid_id
+      fundraiser = Fundraiser.find_or_initialize_by(
+        name: pledge_data["Fundraiser"],
+        masjid_id: masjid_id
+      )
+      fundraiser.save if fundraiser.new_record?
+
+      # Find or initialize contact by email and masjid_id
+      contact = Contact.find_or_initialize_by(
+        email: pledge_data["Email"],
+        masjid_id: masjid_id
+      )
+      contact.save if contact.new_record?
+
+      # Clean Pledge data to only include valid attributes
+      pledge_data = {
+        amount: pledge_data["Amount"].gsub(/[$,]/, '').to_f,
+        fundraiser_id: fundraiser.id,
+        contact_id: contact.id,
+        masjid_id: masjid_id
+      }
+
+      Rails.logger.info "Pledge data: #{pledge_data}"
+
+      # Find existing Pledge or initialize a new one
+      pledge = find_or_initialize_by(id: pledge_data["id"])
+      pledge.update(pledge_data)
+      Rails.logger.info "Pledge updated: #{pledge.errors.full_messages}"
+    end
+  end
 end

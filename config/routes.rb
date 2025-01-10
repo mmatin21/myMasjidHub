@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   resources :pledges do
     collection do
       get :export_csv
+      post :import_csv
     end
   end
 
