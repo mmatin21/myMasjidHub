@@ -5,7 +5,6 @@ Rails.application.routes.draw do
   post "/graphql", to: "graphql#execute"
 
   resources :pledges
-  resources :contacts
   resources :prayers
   resources :fundraisers
   resources :events
@@ -21,6 +20,12 @@ Rails.application.routes.draw do
     member do
       get :connect_stripe
       get :open_stripe_dashboard
+    end
+  end
+
+  resources :contacts do
+    collection do
+      get :export_csv
     end
   end
 

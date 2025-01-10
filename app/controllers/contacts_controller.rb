@@ -82,6 +82,14 @@ class ContactsController < ApplicationController
     end
   end
 
+  def export_csv
+    @contacts = Contact.where(masjid_id: current_masjid.id)
+
+    respond_to do |format|
+      format.csv { send_data @contacts.to_csv, filename: "contacts_#{Date.today}.csv" }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_contact
