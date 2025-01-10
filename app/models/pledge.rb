@@ -48,4 +48,13 @@ class Pledge < ApplicationRecord
   def self.ransackable_associations(auth_object = nil)
     super + ['contact', 'fundraiser']
   end
+
+  def self.to_csv
+    CSV.generate(headers: true) do |csv|
+      csv << ["Contact Name", "Email", "Fundraiser", "Amount", "Fulfilled Amount"]
+      all.each do |pledge|
+        csv << [pledge.contact.name, pledge.contact.email, pledge.fundraiser.name, "$#{pledge.amount}", "$#{pledge.donations.sum(:amount)}"]
+      end
+    end
+  end
 end

@@ -84,6 +84,14 @@ class PledgesController < ApplicationController
     end
   end
 
+  def export_csv
+    @pledges = Pledge.where(masjid_id: current_masjid.id)
+
+    respond_to do |format|
+      format.csv { send_data @pledges.to_csv, filename: "pledges_#{Date.today}.csv" }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_pledge
