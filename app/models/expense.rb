@@ -6,7 +6,7 @@ class Expense < ApplicationRecord
   validates :name, presence: true
   validates :amount, presence: true, numericality: { greater_than_or_equal_to: 0}
   validates :date, presence: true
-  
+
   scope :by_year, ->(year) { where('extract(year from date) = ?', year) }
   scope :by_year_and_month, ->(year, month) { where('extract(year from date) = ? AND extract(month from date) = ?', year, month) }
 

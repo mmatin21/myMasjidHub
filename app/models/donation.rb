@@ -1,3 +1,5 @@
+require 'csv'
+
 class Donation < ApplicationRecord
   belongs_to :fundraiser
   belongs_to :masjid
@@ -14,4 +16,12 @@ class Donation < ApplicationRecord
     ["contact"]
   end
 
+  def self.to_csv
+    CSV.generate(headers: true) do |csv|
+      csv << ["first_name", "last_name", "email", "amount", "created_at"]
+      all.each do |donation|
+        csv << [donation.contact.first_name, donation.contact.last_name, donation.contact.email, "$#{donation.amount}", donation.created_at.strftime("%m/%d/%Y")]
+      end
+    end
+  end
 end

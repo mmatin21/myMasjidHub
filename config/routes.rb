@@ -7,7 +7,6 @@ Rails.application.routes.draw do
   resources :pledges
   resources :contacts
   resources :prayers
-  resources :donations
   resources :fundraisers
   resources :events
   resources :landing
@@ -22,6 +21,12 @@ Rails.application.routes.draw do
     member do
       get :connect_stripe
       get :open_stripe_dashboard
+    end
+  end
+
+  resources :donations do
+    collection do
+      get :export_csv
     end
   end
 

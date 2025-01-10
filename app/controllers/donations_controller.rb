@@ -81,6 +81,14 @@ class DonationsController < ApplicationController
     end
   end
 
+  def export_csv
+    @donations = Donation.where(masjid_id: current_masjid.id)
+
+    respond_to do |format|
+      format.csv { send_data @donations.to_csv, filename: "donations_#{Date.today}.csv" }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_donation
