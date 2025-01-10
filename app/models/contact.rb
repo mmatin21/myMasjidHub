@@ -23,4 +23,15 @@ class Contact < ApplicationRecord
       end
     end
   end
+
+  def self.import(file, masjid_id)
+    CSV.foreach(file.path, headers: true) do |row|
+      contact_data = row.to_hash
+      contact_data["masjid_id"] = masjid_id # Attach the masjid_id
+
+      # Find existing expense or initialize a new one
+      contact = find_or_initialize_by(id: contact_data["id"]) # Use a unique identifier
+      contact.update(contact_data)
+    end
+  end
 end

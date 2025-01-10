@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   resources :contacts do
     collection do
       get :export_csv
+      post :import_csv
     end
   end
 

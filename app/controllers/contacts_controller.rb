@@ -90,6 +90,17 @@ class ContactsController < ApplicationController
     end
   end
 
+  def import_csv
+    if params[:file].present?
+      masjid_id = current_masjid.id # Get the masjid_id for the current user
+      Contact.import(params[:file], masjid_id)
+      redirect_to contacts_path, notice: "Records imported successfully."
+    else
+      redirect_to contacts_path, alert: "Please upload a valid CSV file."
+    end
+     Rails.logger.warn "No file uploaded"
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_contact
