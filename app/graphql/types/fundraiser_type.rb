@@ -10,5 +10,10 @@ module Types
     field :end_date, GraphQL::Types::ISO8601DateTime
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
+
+    def formatted_end_date
+      object.end_date.strftime("%A, %B %e") # Example: "2000-01-01 13:30"
+    end
   end
 end
+

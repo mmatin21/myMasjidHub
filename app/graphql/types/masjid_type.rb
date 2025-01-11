@@ -13,5 +13,10 @@ module Types
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
     field :email, String
     field :stripe_account_id, String
+    field :latitude, Float
+    field :longitude, Float
+    field :events, [Types::EventType], null: true
+    field :fundraisers, [Types::FundraiserType], null: true
+    field :prayers, [Types::PrayerType], null: true
   end
 end
