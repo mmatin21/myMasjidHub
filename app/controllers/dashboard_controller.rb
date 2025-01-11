@@ -26,7 +26,11 @@ class DashboardController < ApplicationController
     @expense_series ||= @bar_expenses.values
 
     @profit = @revenue_series.sum - @expense_series.sum
-    @profit_rate = (@profit / @revenue_series.sum) * 100
+    if @revenue_series.sum > 0
+      @profit_rate = (@profit / @revenue_series.sum) * 100
+    else
+      @profit_rate = 0
+    end
 
     Rails.logger.debug "!!!expenses: #{@pie_expenses.inspect}!!!"
 

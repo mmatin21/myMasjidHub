@@ -13,6 +13,7 @@ class PledgesController < ApplicationController
 
   # GET /pledges/1 or /pledges/1.json
   def show
+    @donations = Donation.where(pledge_id: @pledge.id)
   end
 
   # GET /pledges/new
@@ -80,6 +81,24 @@ class PledgesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to pledges_url, notice: "Pledge was successfully destroyed." }
       format.json { head :no_content }
+    end
+  end
+
+  def export_csv
+    @pledges = Pledge.where(masjid_id: current_masjid.id)
+
+    respond_to do |format|
+      format.csv { send_data @pledges.to_csv, filename: "pledges_#{Date.today}.csv" }
+    end
+  end
+
+  def import_csv
+    if params[:file].present?
+      masjid_id = current_masjid.id # Get the masjid_id for the current user
+      Pledge.import(params[:file], masjid_id)
+      redirect_to pledges_path, notice: "Records imported successfully."
+    else
+      redirect_to pledges_path, alert: "Please upload a valid CSV file."
     end
   end
 

@@ -9,7 +9,7 @@
     </div>
     <div class="border-gray-300 dark:border-gray-600 rounded-xl h-128">
       <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <%= render "tables/contact_table", table: @table_contacts, query: @q, pagy: @pagy %>
+        <%= render "tables/contact_table", table: @table_contacts, query: @q, pagy: @pagy, model: :contact %>
       </div>
     </div>
   </main>

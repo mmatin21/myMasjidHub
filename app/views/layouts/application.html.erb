@@ -8,6 +8,9 @@
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <%= tag.script src: "https://maps.googleapis.com/maps/api/js?key=#{Rails.application.credentials.dig(:google_api_keys, :places_key)}&libraries=places", async: true, defer: true %>
+ </head>
+
   </head>
   <body class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-00 dark:from-gray-900 dark:to-gray-800">
     <main>

@@ -29,7 +29,7 @@ class ContactsController < ApplicationController
     @contact = Contact.new(contact_params)
     @contact.masjid_id = current_masjid.id
 
-    
+
     respond_to do |format|
       if @contact.save
         if params[:step].to_i == 2
@@ -80,6 +80,25 @@ class ContactsController < ApplicationController
       format.html { redirect_to contacts_url, notice: "Contact was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+  def export_csv
+    @contacts = Contact.where(masjid_id: current_masjid.id)
+
+    respond_to do |format|
+      format.csv { send_data @contacts.to_csv, filename: "contacts_#{Date.today}.csv" }
+    end
+  end
+
+  def import_csv
+    if params[:file].present?
+      masjid_id = current_masjid.id # Get the masjid_id for the current user
+      Contact.import(params[:file], masjid_id)
+      redirect_to contacts_path, notice: "Records imported successfully."
+    else
+      redirect_to contacts_path, alert: "Please upload a valid CSV file."
+    end
+     Rails.logger.warn "No file uploaded"
   end
 
   private
