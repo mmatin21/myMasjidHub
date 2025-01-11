@@ -6,14 +6,20 @@ class DashboardController < ApplicationController
     @revenues = @masjid.revenues
     @current_date = params[:date] ? Date.parse(params[:date]) : Date.current
 
-
-    if params[:view] == "last_three_months"
-      @bar_revenues =  @revenues.group_by_last_three_months
-      @bar_expenses =  @expenses.group_by_last_three_months
-    else
-      @bar_expenses =  @expenses.group_by_year_to_date
-      @bar_revenues =  @revenues.group_by_year_to_date
+    case params[:view]
+    when "last_three_months"
+      start_date = 3.months.ago.beginning_of_month
+      end_date = Date.current.end_of_month
+    when "current_month"
+      start_date = Date.current.beginning_of_month
+      end_date = Date.current.end_of_month
+    else # "ytd"
+      start_date = Date.current.beginning_of_year
+      end_date = Date.current.end_of_month
     end
+
+    @bar_revenues =  @revenues.group_by_last_three_months
+    @bar_expenses =  @expenses.group_by_last_three_months
 
     @labels ||= @bar_revenues.keys
     @revenue_series ||= @bar_revenues.values
@@ -41,6 +47,13 @@ class DashboardController < ApplicationController
 
     # Group events by date
     @events_by_date = @events.group_by { |event| event.event_date.to_date }
+
+    @combined_records = (Revenue.all + Donation.all).sort_by { |record| 
+      [
+        record.is_a?(Donation) ? 1 : 0,  # Revenues (0) come before Donations (1)
+        -(record.is_a?(Revenue) ? record.date : record.donation_date).to_time.to_i  # Most recent dates first
+      ]
+    }
 
   end
 

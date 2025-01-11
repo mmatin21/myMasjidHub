@@ -39,7 +39,7 @@ export default class extends Controller {
         },
         type: "bar",
         width: "95%",
-        height: 200,
+        height: 230,
         toolbar: {
           show: false,
         }
@@ -80,7 +80,9 @@ export default class extends Controller {
             cssClass: 'text-xs font-normal fill-gray-500 dark:fill-gray-400'
           },
           formatter: function(value) {
-            return value
+            const [month, year] = value.split('/');
+            const date = new Date(year, parseInt(month) - 1);
+            return date.toLocaleString('en-US', { month: 'short' }) + ' ' + year.slice(-2);
           }
         },
         categories: this.labelsValue,
