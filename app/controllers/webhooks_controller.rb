@@ -29,6 +29,8 @@ class WebhooksController < ApplicationController
       handle_payout_paid(event['data']['object'])
     when 'payout.updated'
       handle_payout_updated(event['data']['object'])
+    when 'payment_intent.succeeded'
+      handle_payment_paid(event['data']['object'])
     else
       Rails.logger.info "Unhandled event type: #{event['type']}"
     end
@@ -62,4 +64,8 @@ class WebhooksController < ApplicationController
   def handle_payout_updated(payout)
     Rails.logger.info "Payout updated: #{payout['id']}"
   end
+
+  def handle_payment_paid(payment_intent)
+    Rails.logger.info "Payment intent paid: #{payment_intent['id']}"
+  end 
 end

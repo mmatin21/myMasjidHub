@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
-  static targets = ["autocomplete", "city", "state", "zipcode"];
+  static targets = ["autocomplete", "city", "state", "zipcode", "latitude", "longitude"];
 
   connect() {
     if (this.hasAutocompleteTarget) {
@@ -19,6 +19,7 @@ export default class extends Controller {
   fillInAddress() {
     const place = this.autocomplete.getPlace();
     const addressComponents = place.address_components;
+    const location = place.geometry.location;
 
     addressComponents.forEach((component) => {
       const types = component.types;
@@ -41,5 +42,8 @@ export default class extends Controller {
         this.zipcodeTarget.value = component.long_name; // Zipcode
       }
     });
+
+    this.latitudeTarget.value = location.lat();
+    this.longitudeTarget.value = location.lng();
   }
 }
