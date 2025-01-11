@@ -66,6 +66,29 @@ class WebhooksController < ApplicationController
   end
 
   def handle_payment_paid(payment_intent)
-    Rails.logger.info "Payment intent paid: #{payment_intent['id']}"
+    Rails.logger.info "Payment intent paid: #{payment_intent.inspect}"
+    metadata = payment_intent['metadata']
+
+    contact = Contact.find_by(email: metadata['contact_email']) || Contact.new(email: metadata['contact_email'])
+    if contact.new_record?
+      contact.first_name = metadata['contact_first_name']
+      contact.last_name = metadata['contact_last_name']
+      contact.masjid_id = metadata['masjid_id']
+
+      unless contact.save
+        return { donation: nil, errors: contact.errors.full_messages}
+      end
+    end
+    amount = payment_intent['amount'] / 100.0
+    fee = payment_intent['application_fee_amount'] / 100.0
+    amount_after_fee = amount - fee
+    donation = Donation.new(
+      amount: amount_after_fee,
+      fundraiser_id: metadata['fundraiser_id'],
+      masjid_id: metadata['masjid_id'],
+      contact_id: contact.id
+    )
+    donation.save!
+    DonationConfirmationMailer.donation_confirmation(donation).deliver_now
   end 
 end

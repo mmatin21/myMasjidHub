@@ -225,12 +225,12 @@
                 <% donations.each_with_index do |record, index| %>
                   <tr class="<%= index.even? ? 'bg-white' : 'bg-gray-50' %> dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 shadow-sm" data-group-content="donations">
                     <td class="px-6 py-4 font-medium whitespace-nowrap">
-                      <%= link_to record.contact_name, donation_path(record), class: "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline" %>
+                      <%= link_to record.contact.full_name, donation_path(record), class: "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline" %>
                     </td>
                     <td class="px-6 py-4"><%= number_to_currency(record.amount) %></td>
-                    <td class="px-6 py-4"><%= record.donation_date %></td>
+                    <td class="px-6 py-4"><%= record.created_at.strftime("%B %d, %Y") %></td>
                     <td class="px-6 py-4"><%= record.fundraiser&.name || '-' %></td>
-                    <td class="px-6 py-4"><%= number_to_currency(record.pledge_amount) %></td>
+                    <td class="px-6 py-4"><%= record.pledge&.name || '-' %></td>
                     <td class="px-6 py-4">
                       <span class="text-blue-600 dark:text-blue-400">Donation</span>
                     </td>

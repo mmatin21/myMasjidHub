@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Donation Confirmation</title>
+  </head>
+  <body>
+    <h1>Donation Confirmation</h1>
+    <p>Thank you for your donation!</p>
+    <p>Your donation has been received and processed.</p>
+    <p>Donation Amount: <%= @donation.amount %></p>
+    <p>Donation Date: <%= @donation.created_at.strftime("%B %d, %Y") %></p>
+    <p>Fundraiser: <%= @donation.fundraiser.name %></p>
+  </body>
+</html>

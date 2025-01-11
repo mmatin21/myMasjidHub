@@ -40,7 +40,7 @@ class DonationsController < ApplicationController
     unless params[:pledge_id].nil?
       @donation.pledge_id = params[:pledge_id]
     end
-    
+
     respond_to do |format|
       if @donation.save
         format.html { redirect_to donation_url(@donation), notice: "Donation was successfully created." }

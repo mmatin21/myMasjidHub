@@ -51,7 +51,7 @@ class DashboardController < ApplicationController
     @combined_records = (Revenue.all + Donation.all).sort_by { |record| 
       [
         record.is_a?(Donation) ? 1 : 0,  # Revenues (0) come before Donations (1)
-        -(record.is_a?(Revenue) ? record.date : record.donation_date).to_time.to_i  # Most recent dates first
+        -(record.is_a?(Revenue) ? record.date : record.created_at).to_time.to_i  # Most recent dates first
       ]
     }
 
