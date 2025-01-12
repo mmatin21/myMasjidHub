@@ -7,7 +7,7 @@ class WebhooksController < ApplicationController
     endpoint_secret = if Rails.env.development?
       Rails.application.credentials.dig(:stripe, :webhook_key)
     else
-      Rails.application.credentials.dig(:stripe, :webhook_api_key)
+      Rails.application.credentials.dig(:stripe, :webhook_qa_key)
     end
 
     unless endpoint_secret.is_a?(String) && endpoint_secret.present?
