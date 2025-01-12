@@ -5,10 +5,10 @@ class WebhooksController < ApplicationController
     payload = request.body.read
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
     endpoint_secret = if Rails.env.development?
-      Rails.application.credentials.dig(:stripe, :webhook_key)
-    else
-      Rails.application.credentials.dig(:stripe, :webhook_qa_key)
-    end
+                        Rails.application.credentials.dig(:stripe, :webhook_key)
+                      else
+                        Rails.application.credentials.dig(:stripe, :webhook_qa_key)
+                      end
 
     unless endpoint_secret.is_a?(String) && endpoint_secret.present?
       Rails.logger.error "Invalid webhook secret: #{endpoint_secret.inspect}"
@@ -78,12 +78,10 @@ class WebhooksController < ApplicationController
       contact.last_name = metadata['contact_last_name']
       contact.masjid_id = metadata['masjid_id']
 
-      unless contact.save
-        return { donation: nil, errors: contact.errors.full_messages}
-      end
+      return { donation: nil, errors: contact.errors.full_messages } unless contact.save
     end
-    amount = payment_intent['amount'] / 100.0
-    fee = payment_intent['application_fee_amount'] / 100.0
+    amount = payment_intent['amount'].to_f / 100.0
+    fee = payment_intent['application_fee_amount'].to_f / 100.0
     amount_after_fee = amount - fee
     donation = Donation.new(
       amount: amount_after_fee,
@@ -93,5 +91,5 @@ class WebhooksController < ApplicationController
     )
     donation.save!
     DonationConfirmationMailer.donation_confirmation(donation, amount).deliver_now
-  end 
+  end
 end
