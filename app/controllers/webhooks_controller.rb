@@ -66,7 +66,6 @@ class WebhooksController < ApplicationController
   end
 
   def handle_payment_paid(payment_intent)
-    Rails.logger.info "Payment intent paid: #{payment_intent.inspect}"
     metadata = payment_intent['metadata']
 
     contact = Contact.find_by(email: metadata['contact_email']) || Contact.new(email: metadata['contact_email'])
@@ -81,7 +80,8 @@ class WebhooksController < ApplicationController
     end
     amount = payment_intent['amount'] / 100.0
     fee = payment_intent['application_fee_amount'] / 100.0
-    amount_after_fee = amount - fee
+    stripe_fee = (amount * 0.029) + 0.30
+    amount_after_fee = amount - fee - stripe_fee
     donation = Donation.new(
       amount: amount_after_fee,
       fundraiser_id: metadata['fundraiser_id'],
