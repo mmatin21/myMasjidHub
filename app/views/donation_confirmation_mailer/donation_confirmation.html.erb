@@ -9,8 +9,9 @@
     <h1>Donation Confirmation</h1>
     <p>Thank you for your donation!</p>
     <p>Your donation has been received and processed.</p>
-    <p>Donation Amount: <%= @donation.amount %></p>
+    <p>Donation Amount: <%= number_to_currency(@amount) %></p>
     <p>Donation Date: <%= @donation.created_at.strftime("%B %d, %Y") %></p>
+    <p>Masjid: <%= @donation.masjid.name %></p>
     <p>Fundraiser: <%= @donation.fundraiser.name %></p>
   </body>
 </html>

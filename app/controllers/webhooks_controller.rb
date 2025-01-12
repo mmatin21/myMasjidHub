@@ -80,8 +80,7 @@ class WebhooksController < ApplicationController
     end
     amount = payment_intent['amount'] / 100.0
     fee = payment_intent['application_fee_amount'] / 100.0
-    stripe_fee = (amount * 0.029) + 0.30
-    amount_after_fee = amount - fee - stripe_fee
+    amount_after_fee = amount - fee
     donation = Donation.new(
       amount: amount_after_fee,
       fundraiser_id: metadata['fundraiser_id'],
@@ -89,6 +88,6 @@ class WebhooksController < ApplicationController
       contact_id: contact.id
     )
     donation.save!
-    DonationConfirmationMailer.donation_confirmation(donation).deliver_now
+    DonationConfirmationMailer.donation_confirmation(donation, amount).deliver_now
   end 
 end
