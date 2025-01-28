@@ -1,10 +1,28 @@
 <aside
-  class="fixed top-0 left-0 z-40 w-64 h-screen pt-14 transition-transform -translate-x-full bg-white border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+  class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform duration-300 bg-white border-r border-gray-200 md:translate-x-0 dark:bg-gray-800 dark:border-gray-700"
+  data-collapsed="false"
   aria-label="Sidenav"
   id="drawer-navigation"
 >
   <div class="overflow-y-auto py-5 px-3 h-full bg-white dark:bg-gray-800">
     <ul class="space-y-2">
+      <li class="flex justify-left -mb-6">
+        <%= link_to root_path do %>
+          <img
+            src="/assets/myMasjidHub_LogoFiles_dark.svg"
+            class="h-28 block dark:hidden"
+            alt="MasjidManager Logo"
+          />
+          <img
+            src="/assets/myMasjidHub_LogoFiles.svg"
+            class="h-28 hidden dark:block"
+            alt="MasjidManager Logo"
+          />
+        <% end %>
+      </li>
+      <li class="text-left">
+        <span class="text-gray-400 dark:text-white text-xs"><%= current_masjid.name %></span>
+      </li>
       <li>
         <button
           type="button"
@@ -208,12 +226,7 @@
               class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
             >Events</a>
           </li>
-          <li>
-            <a
-              href="/prayers"
-              class="flex items-center p-2 pl-11 w-full text-base font-medium text-gray-900 rounded-lg transition duration-75 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700"
-            >Prayers</a>
-          </li>
+       
           <li>
             <a
               href="/contacts"

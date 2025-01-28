@@ -7,10 +7,8 @@
     <div class="flex justify-between items-center">
       <h1 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Events</h1>
     </div>
-    <div id="events" class="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
-      <% @events.each do |event| %>
-        <%= render event %>
-      <% end %>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <%= render @events %>
     </div>
   </main>
 </div>

@@ -2,7 +2,9 @@ import { Controller } from "@hotwired/stimulus";
 import TomSelect from "tom-select";
 
 export default class extends Controller {
-  
+  static values = {
+    newPath: String
+  }
 
   connect() {
   // Initialize TomSelect when the controller is connected
@@ -102,6 +104,16 @@ export default class extends Controller {
         form.classList.add("hidden")
       }
       
+    }
+  }
+
+  redirectToNewContact(event) {
+    const selectedOption = event.target.selectedOptions[0]
+    if (selectedOption.value === "") {
+      const searchText = event.target.value
+      if (searchText) {
+        window.location.href = `${this.newPathValue}?name=${encodeURIComponent(searchText)}`
+      }
     }
   }
 }
