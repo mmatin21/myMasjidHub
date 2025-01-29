@@ -1,4 +1,4 @@
-<%= form_with(model: expense, class: "max-w-2xl mx-auto") do |form| %>
+<%= form_with(model: expense, class: "p-4 md:p-5") do |form| %>
   <% if expense.errors.any? %>
     <div class="mb-6 p-4 rounded-lg bg-red-50 dark:bg-red-900/50 border border-red-200 dark:border-red-800">
       <div class="flex items-center mb-2">
@@ -51,17 +51,9 @@
       </div>
     </div>
 
-    <div class="flex justify-end mt-6">
-      <%= form.submit class: "inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg 
-                             shadow-sm text-white bg-blue-600 dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-600 
-                             focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 
-                             dark:focus:ring-offset-gray-800 transition duration-150" do %>
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-        </svg>
-        Save Expense
-      <% end %>
-    </div>
+      <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+      Submit
+    </button>
   </div>
 <% end %>
 
