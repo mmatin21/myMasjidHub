@@ -5,12 +5,9 @@ class Fundraiser < ApplicationRecord
 
   validates :name, presence: true
   validates :description, presence: true
-  validates :goal_amount, presence: true, numericality: { greater_than_or_equal_to: 0}
-  validates :end_date, presence: true
+  validates :goal_amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
-  def self.ransackable_attributes(auth_object = nil) 
-    ["name"]
+  def self.ransackable_attributes(_auth_object = nil)
+    ['name']
   end
-
-
 end
