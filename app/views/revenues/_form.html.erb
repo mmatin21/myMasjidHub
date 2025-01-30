@@ -14,44 +14,30 @@
       </ul>
     </div>
   <% end %>
-
   <div class="space-y-6">
     <div>
-      <%= form.label :name, class: "block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1" %>
+      <%= form.label :name, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
       <%= form.text_field :name,
-          class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm 
-                 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
-                 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150
-                 placeholder-gray-400 dark:placeholder-gray-500",
+          class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500",
           placeholder: "Enter revenue name" %>
     </div>
-
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
       <div>
-        <%= form.label :amount, class: "block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1" %>
+        <%= form.label :amount, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
         <div class="relative">
-          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <span class="text-gray-500 dark:text-gray-400 sm:text-sm">$</span>
-          </div>
+
           <%= form.text_field :amount,
-              class: "w-full pl-7 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm 
-                     bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
-                     focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150
-                     placeholder-gray-400 dark:placeholder-gray-500",
-              placeholder: "0.00" %>
+              class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500",
+              placeholder: "$29.99" %>
         </div>
       </div>
-
       <div>
-        <%= form.label :date, class: "block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1" %>
+        <%= form.label :date, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
         <%= form.date_field :date,
-            class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm 
-                   bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
-                   focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150" %>
+            class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" %>
       </div>
     </div>
-
-      <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+    <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
       Submit
     </button>
   </div>
