@@ -16,7 +16,7 @@
     <main>
       <%= turbo_frame_tag "turbo-modal" %>
       <% unless masjid_signed_in? and current_masjid.address.nil? %>
-        <%= render "sidebar/index" %>
+        <%= render "navbar/index" %>
       <% end %>
       <%= yield %>
     </main>

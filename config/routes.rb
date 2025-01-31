@@ -1,21 +1,18 @@
 Rails.application.routes.draw do
-  if Rails.env.development?
-    mount GraphiQL::Rails::Engine, at: "/graphiql", graphql_path: "/graphql"
-  end
-  post "/graphql", to: "graphql#execute"
+  mount GraphiQL::Rails::Engine, at: '/graphiql', graphql_path: '/graphql' if Rails.env.development?
+  post '/graphql', to: 'graphql#execute'
 
-  
   resources :prayers
   resources :fundraisers
   resources :events
   resources :landing
 
   devise_for :masjids, path: 'masjids', controllers: {
-    sessions: "masjids/sessions",
-    registrations: "masjids/registrations"
+    sessions: 'masjids/sessions',
+    registrations: 'masjids/registrations'
   }
   resources :masjids do
-    resources :payouts, only: [:new, :create]
+    resources :payouts, only: %i[new create]
     resources :dashboard, only: [:index]
     member do
       get :connect_stripe
@@ -82,6 +79,5 @@ Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")
-  root "landing#index"
-
+  root 'landing#index'
 end
