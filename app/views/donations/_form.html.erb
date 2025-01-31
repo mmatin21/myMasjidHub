@@ -15,18 +15,19 @@
     <% end %>
     <div class="grid gap-4 mb-4 grid-cols-2">
       <div class="col-span-2">
-        <%= form.label :fundraiser_id, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+        <%= form.label :fundraiser_id, "Fundraisers*", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
         <%= form.select :fundraiser_id, Fundraiser.where(masjid_id: current_masjid.id).map{|m| [m.name, m.id]}, {prompt: "Select a fundraiser"}, 
-      { data: {
-          controller: "select",
-          action: "change->select#change",
-          select_param: "fundraiser_id",
-          select_url_value: "/options/pledges"
-              },
-      class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", required: true }%>
+          { data: {
+            controller: "select",
+            action: "change->select#change",
+            select_param: "fundraiser_id",
+            select_url_value: "/options/pledges"
+            },
+            class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", required: true }
+        %>
       </div>
       <div class="col-span-2">
-        <%= form.label :contact_id, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+        <%= form.label :contact_id, "Contacts*", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
         <%= form.select :contact_id,
                     @contacts.map{|m| [m.full_name, m.id]},
                     { include_blank: "Select or add a contact" },
@@ -37,7 +38,9 @@
                     select_url_value: "/options/pledges"
                     },
                     class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", required: true } %>
-        <%= form.label :pledge_id,  id: "pledge-select", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+      </div>
+      <div class="col-span-2">
+        <%= form.label :pledge_id, "Pledges*", id: "pledge-select", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
         <%= form.select :pledge_id,
                     [],
                     { include_blank: "Select a fundraiser and contact to populate" },
@@ -46,11 +49,12 @@
                      search_select_target: "pledge"
                     }, 
                      class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" } %>
-        <%= form.label :amount , class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white"%>
+      </div>
+      <div class="col-span-2">
+        <%= form.label :amount, "Donation Amount*", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white"%>
         <%= form.number_field :amount, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", placeholder: "$2999", required: true%>
       </div>
       <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-        <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
         Submit
       </button>
     </div>
@@ -140,19 +144,18 @@
       <% end %>
       <div class="grid gap-4 mb-4 grid-cols-2">
         <div class="col-span-2">
-          <%= form.label :contact_id, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+          <%= form.label :fundraiser_id, "Fundraisers*", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+          <%= form.select :fundraiser_id, Fundraiser.where(masjid_id: current_masjid.id).map{|m| [m.name, m.id]}, {include_blank: "Select a fundraiser"}, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" %>
+        </div>
+        <div class="col-span-2">
+          <%= form.label :contact_id, "Contacts*", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
           <%= form.select :contact_id,
-                    Contact.where(masjid_id: current_masjid.id).map{|m| [m.full_name, m.id]},
-                    { include_blank: "Select or Add Contact" },
-                    { class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" } %>
+                    @contacts.map{|m| [m.full_name, m.id]},
+                    { include_blank: "Select or Add Contact" }, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" %>
         </div>
         <div class="col-span-2">
-          <%= form.label :fundraiser_id, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-          <%= form.select :fundraiser_id, Fundraiser.where(masjid_id: current_masjid.id).map{|m| [m.name, m.id]}, {}, {class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"}%>
-        </div>
-        <div class="col-span-2">
-          <%= form.label :amount, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-          <%= form.text_field :amount, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", placeholder: "$12000"%>
+          <%= form.label :amount, "Pledge Amount*", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+          <%= form.number_field :amount, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", placeholder: "$12000"%>
         </div>
         <%= hidden_field_tag "step", 2 %>
         <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
