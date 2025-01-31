@@ -84,3 +84,5 @@ gem "graphiql-rails", group: :development
 # This is for the calendar widget on the dashboard.
 gem 'fullcalendar-rails'
 gem 'momentjs-rails'
+
+gem "rqrcode", "~> 2.2"

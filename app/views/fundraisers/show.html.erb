@@ -1,4 +1,4 @@
-<div class="antialiased"> 
+<div class="antialiased">
   <main class="p-4 md:ml-64 h-auto pt-20">
     <div class="mx-auto">
       <% if notice.present? %>
@@ -9,11 +9,11 @@
       <div class="py-8 mx-auto max-w-6xl lg:py-16">
         <div class="grid gap-4 px-4 mb-4 sm:mb-5 sm:grid-cols-3 sm:gap-6 md:gap-12">
           <!-- Column -->
-          <div class="sm:col-span-2">
-            <h2 class="flex items-center mb-4 text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white sm:mb-5">
+          <div>
+            <dl class="p-4 bg-gray-50 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+              <h2 class="flex items-center mb-4 text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white sm:mb-5">
               <%= @fundraiser.name %>
             </h2>
-            <dl>
               <dt class="mb-2 leading-none text-gray-500 dark:text-gray-400">Fundraiser Goal</dt>
               <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white"><%= number_to_currency(@fundraiser.goal_amount) %></dd>
               <dt class="mb-2 leading-none text-gray-500 dark:text-gray-400">Amount Raised</dt>
@@ -30,9 +30,18 @@
           <dl class="p-4 bg-gray-50 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
             <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Donations</dt>
             <% @donations.each do |donation| %>
-            <dd class="font-light text-gray-500 dark:text-gray-400">
-              <%= donation.contact.first_name %> <%= donation.contact.last_name %> - <%= number_to_currency(donation.amount) %> on <%= donation.created_at.strftime("%B %d, %Y") %>
-            </dd>
+              <dd class="font-light text-gray-500 dark:text-gray-400">
+                <%= donation.contact.first_name %> <%= donation.contact.last_name %> - <%= number_to_currency(donation.amount) %> on <%= donation.created_at.strftime("%B %d, %Y") %>
+              </dd>
+            <% end %>
+          </dl>
+          <dl class="p-4 bg-gray-50 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+            <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">QR Code</dt>
+            <% if @fundraiser.qr_code.attached? %>
+              <%= image_tag qr_code_url(@fundraiser), alt: "Fundraiser QR Code" if @fundraiser.qr_code.attached? %>
+              <%= link_to "Download QR Code", rails_blob_path(@fundraiser.qr_code, disposition: "attachment") %>
+            <% else %>
+              <p>QR Code is not available yet.</p>
             <% end %>
           </dl>
         </div>
