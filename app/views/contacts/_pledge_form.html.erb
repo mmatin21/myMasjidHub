@@ -1,6 +1,8 @@
 <div id="parent-form">
   <%= form_with(model: pledge, class: "p-4 md:p-5") do |form| %>
-  <% pledge.contact_id = contact_id%>
+  <% unless contact_id == 'nil'%>
+    <% pledge.contact_id = contact_id %>
+  <% end %>
     <% if pledge.errors.any? %>
       <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
         <h2><%= pluralize(pledge.errors.count, "error") %> prohibited this pledge from being saved:</h2>

@@ -1,7 +1,7 @@
 <%= turbo_frame_tag "turbo-modal" do %>
   <div class = "turbo-modal">
     <%= tag.div data: { controller: "turbo-modal", action: "turbo:submit-end->turbo-modal#submitEnd" } do %>
-      <div class="relative p-4 w-full max-w-md max-h-full">
+      <div class="relative p-6 w-[500px] max-h-[80vh]">
         <!-- Modal content -->
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
           <!-- Modal header -->
@@ -22,7 +22,7 @@
             </button>
           </div>
           <!-- Modal body -->
-            <%= render "donation_form", donation: donation, contact: contact, pledge: pledge, contact_id: contact_id %>
+          <%= render "donation_form", donation: donation, contact: contact, pledge: pledge, contact_id: contact_id %>
         </div>
       </div>
     <% end  %>
