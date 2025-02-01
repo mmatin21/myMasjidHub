@@ -72,7 +72,8 @@ class WebhooksController < ApplicationController
   def handle_payment_paid(payment_intent)
     metadata = payment_intent['metadata']
 
-    contact = Contact.find_by(email: metadata['contact_email']) || Contact.new(email: metadata['contact_email'])
+    contact = Contact.find_by(email: metadata['contact_email'], masjid_id: metadata['masjid_id']) ||
+              Contact.new(email: metadata['contact_email'], masjid_id: metadata['masjid_id'])
     if contact.new_record?
       contact.first_name = metadata['contact_first_name']
       contact.last_name = metadata['contact_last_name']
