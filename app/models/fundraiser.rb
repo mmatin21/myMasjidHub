@@ -6,6 +6,7 @@ class Fundraiser < ApplicationRecord
   has_one_attached :qr_code
 
   after_create :generate_qr_code
+  after_destroy :delete_qr_code_from_s3
 
   validates :name, presence: true
   validates :description, presence: true
@@ -28,5 +29,10 @@ class Fundraiser < ApplicationRecord
       filename: "fundraiser-#{id}.png",
       content_type: 'image/png'
     )
+  end
+
+  def delete_qr_code_from_s3
+    # Only delete if qr_code is attached
+    qr_code.purge_later if qr_code.attached?
   end
 end
