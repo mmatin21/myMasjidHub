@@ -5,46 +5,11 @@ class ExpensesController < ApplicationController
   # GET /expenses or /expenses.json
   def index
     @expenses = Expense.where(masjid_id: current_masjid.id)
-    @pie_expenses = Expense.where(masjid_id: current_masjid.id)
-
-    # Area chart
-    @area_expenses = if params[:view] == 'last_three_months'
-                       @expenses.group_by_last_three_months
-                     else
-                       @expenses.group_by_year_to_date
-                     end
-
-    @area_expenses.each do |month|
-      Rails.logger.debug "Month Name: #{month}"
-    end
-
-    @labels ||= @area_expenses.keys
-    @series ||= @area_expenses.values
-
-    # Filter by year
-    @pie_expenses = @pie_expenses.by_year(params[:year].to_i) if params[:year].present?
-
-    # Filter by year and month
-    if params[:year].present? && params[:months].present?
-      @pie_expenses = if params[:months] == 'All Months'
-                        @pie_expenses.by_year(params[:year].to_i)
-                      else
-                        @pie_expenses.by_year_and_month(params[:year].to_i, params[:months].to_i)
-                      end
-    end
-
-    # Pie chart
-    @pie_expenses = @pie_expenses.group(:name).sum(:amount)
-    @pie_labels ||= @pie_expenses.keys
-    @pie_series ||= @pie_expenses.values
 
     # Pagy and table filtering
     @q = @expenses.ransack(params[:q])
     @expenses = @q.result
     @pagy, @table_expenses = pagy(@expenses)
-
-    # Fetch available years for the dropdown
-    @available_years = Expense.pluck(Arel.sql('distinct extract(year from date)')).map(&:to_i)
   end
 
   # GET /expenses/1 or /expenses/1.json
