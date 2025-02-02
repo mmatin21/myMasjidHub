@@ -39,7 +39,11 @@ class ContactsController < ApplicationController
         elsif params[:step].to_i == 3
           format.turbo_stream do
             render turbo_stream: turbo_stream.replace('turbo-modal',
-                                                      partial: 'contacts/success_donation', locals: { donation: Donation.new, contact: Contact.new, pledge: Pledge.new, contact_id: @contact.id, contact_creation: true })
+                                                      partial: 'shared/success_donation', locals: { donation: Donation.new,
+                                                                                                    contact: Contact.new,
+                                                                                                    pledge: Pledge.new,
+                                                                                                    contact_id: @contact.id,
+                                                                                                    contact_creation: true })
           end
         end
         format.turbo_stream do
@@ -51,12 +55,18 @@ class ContactsController < ApplicationController
         if params[:step].to_i == 2
           format.turbo_stream do
             render turbo_stream: turbo_stream.replace('turbo-modal',
-                                                      partial: 'contacts/success_pledge', locals: { pledge: Pledge.new, contact: Contact.new, contact_id: 'nil' })
+                                                      partial: 'contacts/success_pledge', locals: { pledge: Pledge.new,
+                                                                                                    contact: Contact.new,
+                                                                                                    contact_id: 'nil' })
           end
         elsif params[:step].to_i == 3
           format.turbo_stream do
             render turbo_stream: turbo_stream.replace('turbo-modal',
-                                                      partial: 'contacts/success_donation', locals: { donation: Donation.new, contact: Contact.new, pledge: Pledge.new, contact_id: @contact.id, contact_creation: true })
+                                                      partial: 'contacts/success_donation', locals: { donation: Donation.new,
+                                                                                                      contact: Contact.new,
+                                                                                                      pledge: Pledge.new,
+                                                                                                      contact_id: @contact.id,
+                                                                                                      contact_creation: true })
           end
         else
           format.html { render :new, status: :unprocessable_entity }

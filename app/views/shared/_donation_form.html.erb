@@ -152,13 +152,13 @@
       <div class="grid gap-4 mb-4 grid-cols-2">
         <div class="col-span-2">
           <%= form.label :fundraiser_id, "Fundraisers*", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-          <%= form.select :fundraiser_id, Fundraiser.where(masjid_id: current_masjid.id).map{|m| [m.name, m.id]}, {include_blank: "Select a fundraiser"}, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", required: true %>
+          <%= form.select :fundraiser_id, Fundraiser.where(masjid_id: current_masjid.id).map{|m| [m.name, m.id]}, {prompt: "Select a fundraiser"}, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", required: true %>
         </div>
         <div class="col-span-2">
           <%= form.label :contact_id, "Contacts*", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
           <%= form.select :contact_id,
                     Contact.where(masjid_id: current_masjid.id).map{|m| [m.full_name, m.id]},
-                    { include_blank: "Select or Add Contact" }, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", required: true %>
+                    { prompt: "Select or Add Contact" }, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", required: true %>
         </div>
         <div class="col-span-2">
           <%= form.label :amount, "Pledge Amount*", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>

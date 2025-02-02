@@ -22,7 +22,11 @@
             </button>
           </div>
           <!-- Modal body -->
-          <%= render "shared/donation_form", donation: donation, contact: contact, pledge: pledge, contact_id: contact_id, contact_creation: contact_creation %>
+          <% if contact_creation %>
+            <%= render "shared/donation_form", donation: donation, contact: contact, pledge: pledge, contact_id: contact_id, contact_creation: contact_creation %>
+          <% else %>
+            <%= render "shared/donation_form", donation: donation, contact: contact, pledge: pledge, contact_id: contact_id, pledge_id: pledge_id, fundraiser_id: fundraiser_id, contact_creation: contact_creation %>
+          <% end %>
         </div>
       </div>
     <% end  %>
