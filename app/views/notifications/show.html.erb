@@ -1,0 +1,8 @@
+<div class="antialiased">
+  <main class="p-4 md:ml-64 h-auto pt-20">
+    <h1>Notification</h1>
+    <p><%= @notification.message %></p>
+    <p><small><%= time_ago_in_words(@notification.created_at) %> ago</small></p>
+    <%= link_to 'Back to Notifications', notifications_path, class: "text-blue-500" %>
+  </main>
+</div>

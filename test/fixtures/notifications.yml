@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  masjid: one
+  donation: one
+  message: MyString
+  read_at: 2025-02-02 14:56:26
+
+two:
+  masjid: two
+  donation: two
+  message: MyString
+  read_at: 2025-02-02 14:56:26

@@ -72,25 +72,33 @@ class WebhooksController < ApplicationController
   def handle_payment_paid(payment_intent)
     metadata = payment_intent['metadata']
 
-    contact = Contact.find_by(email: metadata['contact_email'], masjid_id: metadata['masjid_id']) ||
-              Contact.new(email: metadata['contact_email'], masjid_id: metadata['masjid_id'])
+    masjid_id = metadata['masjid_id']
+
+    contact = Contact.find_by(email: metadata['contact_email'], masjid_id: masjid_id) ||
+              Contact.new(email: metadata['contact_email'], masjid_id: masjid_id)
     if contact.new_record?
       contact.first_name = metadata['contact_first_name']
       contact.last_name = metadata['contact_last_name']
-      contact.masjid_id = metadata['masjid_id']
+      contact.masjid_id = masjid_id
 
       return { donation: nil, errors: contact.errors.full_messages } unless contact.save
     end
     amount = payment_intent['amount'].to_f / 100.0
     fee = payment_intent['application_fee_amount'].to_f / 100.0
-    amount_after_fee = amount - fee
+    amount_after_fee = (amount - fee).round(2)
     donation = Donation.new(
       amount: amount_after_fee,
       fundraiser_id: metadata['fundraiser_id'],
-      masjid_id: metadata['masjid_id'],
+      masjid_id: masjid_id,
       contact_id: contact.id
     )
     donation.save!
     DonationConfirmationMailer.donation_confirmation(donation, amount).deliver_now
+
+    Notification.create!(
+      masjid_id: masjid_id,
+      message: "A new donation of $#{'%.2f' % amount_after_fee} has been made to your fundraiser #{donation.fundraiser.name} by #{donation.contact.name}!",
+      donation_id: donation.id
+    )
   end
 end

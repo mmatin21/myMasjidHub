@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_01_31_224425) do
+ActiveRecord::Schema[7.0].define(version: 2025_02_02_195626) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -174,6 +174,17 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_31_224425) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "masjid_id", null: false
+    t.bigint "donation_id", null: false
+    t.string "message"
+    t.datetime "read_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["donation_id"], name: "index_notifications_on_donation_id"
+    t.index ["masjid_id"], name: "index_notifications_on_masjid_id"
+  end
+
   create_table "pledges", force: :cascade do |t|
     t.decimal "amount"
     t.bigint "fundraiser_id", null: false
@@ -217,6 +228,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_31_224425) do
   add_foreign_key "fundraisers", "masjids"
   add_foreign_key "masjid_attendees", "attendees"
   add_foreign_key "masjid_attendees", "masjids"
+  add_foreign_key "notifications", "donations"
+  add_foreign_key "notifications", "masjids"
   add_foreign_key "pledges", "contacts"
   add_foreign_key "pledges", "fundraisers"
   add_foreign_key "pledges", "masjids"

@@ -26,7 +26,7 @@ class Fundraiser < ApplicationRecord
 
     qr_code.attach(
       io: qr_png,
-      filename: "fundraiser-#{id}.png",
+      filename: "fundraiser-#{name}.png",
       content_type: 'image/png'
     )
   end
