@@ -77,7 +77,12 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :notifications, only: %i[index show]
+  resources :notifications, only: %i[index] do
+    collection do
+      patch :mark_as_read
+    end
+  end
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Defines the root path route ("/")

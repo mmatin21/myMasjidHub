@@ -1,13 +1,16 @@
 class NotificationsController < ApplicationController
-  before_action :set_notification, only: %i[show mark_as_read]
+  before_action :authenticate_masjid!
 
   def index
-    @notifications = Notification.where(masjid_id: current_masjid.id).order(created_at: :desc)
+    @notifications = current_masjid.notifications.order(created_at: :desc).limit(6)
   end
 
-  private
+  def mark_as_read
+    notifications = current_masjid.notifications.where(read_at: nil)
+    Rails.logger.info "Notifications number #{notifications.count.positive?}"
 
-  def set_notification
-    @notification = Notification.find(params[:id])
+    return unless notifications.count.positive?
+
+    notifications.update_all(read_at: Time.now)
   end
 end

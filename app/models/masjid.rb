@@ -13,6 +13,7 @@ class Masjid < ApplicationRecord
   has_many :contacts
   has_many :pledges
   has_many :events
+  has_many :notifications
 
 
   def full_address
