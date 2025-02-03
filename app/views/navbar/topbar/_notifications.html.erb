@@ -1,5 +1,5 @@
 <% notifications = Notification.where(masjid_id: current_masjid.id).order(created_at: :desc).limit(5) %>
-<% unread_count = Notification.where(masjid_id: current_masjid.id, read_at: nil).count %>
+<% unread_count = current_masjid.notifications.where(read_at: nil).count %>
 <button
   type="button"
   data-controller="notifications"
@@ -22,6 +22,7 @@
     ></path>
   </svg>
   <div id="notification-wrapper">
+    <%= turbo_stream_from "bell_notifications_#{current_masjid.id}" %>
     <% if unread_count.positive? %>
       <span
       id="notification-badge"

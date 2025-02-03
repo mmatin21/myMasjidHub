@@ -1,6 +1,6 @@
-<span
+  <span
       id="notification-badge"
       class="absolute top-0 right-0 inline-flex items-center justify-center w-4 h-4 text-xs font-bold text-white bg-red-600 rounded-full"
     >
-  <%= masjid.notifications.where(masjid_id: masjid.id, read_at: nil).count %>
-</span>
+    <%= masjid.notifications.where(masjid_id: masjid.id, read_at: nil).count %>
+  </span>
