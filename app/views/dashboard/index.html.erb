@@ -34,7 +34,7 @@
       <div class="bg-white dark:bg-gray-800 rounded-lg px-4 py-2.5 shadow-sm border border-gray-200 dark:border-gray-700">
         <dt class="text-xs font-medium text-gray-500 dark:text-gray-400">Total Expenses</dt>
         <dd class="mt-1 text-[clamp(0.875rem,2.5vw,1.5rem)] leading-tight font-semibold text-red-600 dark:text-red-500 break-words">
-          -<%= number_to_currency(@expenses.sum(:amount)) %>
+          <%= number_to_currency(@expenses.sum(:amount)) %>
         </dd>
       </div>
     </div>
