@@ -1,10 +1,11 @@
 class ExpensesController < ApplicationController
+  before_action :authenticate_masjid!
   before_action :set_expense, only: %i[show edit update destroy]
   include Pagy::Backend
 
   # GET /expenses or /expenses.json
   def index
-    @expenses = Expense.where(masjid_id: current_masjid.id)
+    @expenses = current_masjid.expenses.order(date: :desc)
 
     # Pagy and table filtering
     @q = @expenses.ransack(params[:q])

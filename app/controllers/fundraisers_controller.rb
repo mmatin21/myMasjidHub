@@ -1,11 +1,12 @@
 class FundraisersController < ApplicationController
+  before_action :authenticate_masjid!
   before_action :set_fundraiser, only: %i[show edit update destroy]
   include Pagy::Backend
   Pagy::DEFAULT[:limit] = 7
 
   # GET /fundraisers or /fundraisers.json
   def index
-    @fundraisers = Fundraiser.where(masjid_id: current_masjid.id)
+    @fundraisers = current_masjid.fundraisers
   end
 
   # GET /fundraisers/1 or /fundraisers/1.json

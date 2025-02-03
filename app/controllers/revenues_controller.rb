@@ -1,11 +1,11 @@
 class RevenuesController < ApplicationController
+  before_action :authenticate_masjid!
   before_action :set_revenue, only: %i[show edit update destroy]
   include Pagy::Backend
 
   # GET /revenues or /revenues.json
   def index
-    @revenues = Revenue.where(masjid_id: current_masjid.id)
-
+    @revenues = current_masjid.revenues.order(date: :desc)
     # Pagy and table filtering
     @q = @revenues.ransack(params[:q])
     @revenues = @q.result

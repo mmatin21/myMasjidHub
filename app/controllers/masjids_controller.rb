@@ -1,5 +1,6 @@
 class MasjidsController < ApplicationController
-  before_action :set_masjid, only: %i[show edit update destroy]
+  before_action :authenticate_masjid!
+  before_action :set_masjid, only: %i[show edit update]
 
   # GET /masjids/1 or /masjids/1.json
   def show
