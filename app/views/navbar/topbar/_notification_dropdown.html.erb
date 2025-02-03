@@ -1,0 +1,17 @@
+<div
+      class="flex py-3 px-4 border-b hover:bg-gray-100 dark:hover:bg-gray-600 dark:border-gray-600"
+     
+    >
+  <div class="pl-3 w-full">
+    <div
+          class="text-gray-500 font-normal text-sm mb-1.5 dark:text-gray-400"
+        >
+      <%= notification.message %>
+    </div>
+    <div
+          class="text-xs font-medium text-gray-600 dark:text-white"
+        >
+      <%= time_ago_in_words(notification.created_at) %> ago 
+    </div>
+  </div>
+</div>

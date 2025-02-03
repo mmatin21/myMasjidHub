@@ -1,7 +1,8 @@
 <div class="antialiased">
   <main class="p-4 md:ml-64 h-auto pt-20">
     <h1>Notifications</h1>
-    <ul>
+    <%= turbo_stream_from "notifications_#{current_masjid.id}" %>
+    <ul id="notification-list">
       <% @notifications.each do |notification| %>
         <li>
           <strong><%= notification.message %></strong>
