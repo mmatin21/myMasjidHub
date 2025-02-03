@@ -34,8 +34,10 @@ class ExpensesController < ApplicationController
       if @expense.save
         format.html { redirect_to expense_url(@expense), notice: 'Expense was successfully created.' }
         format.turbo_stream do
-          render turbo_stream: turbo_stream.append('expense_table', partial: 'tables/table_row',
-                                                                    locals: { item: @expense })
+          render turbo_stream: [turbo_stream.append('expense_table', partial: 'tables/table_row',
+                                                                     locals: { item: @expense }),
+                                turbo_stream.replace('flash',
+                                                     partial: 'shared/alert', locals: { notice: 'Expense was successfully created.' })]
         end
         format.json { render :show, status: :created, location: @expense }
       else
