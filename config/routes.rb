@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     sessions: 'masjids/sessions',
     registrations: 'masjids/registrations'
   }
-  resources :masjids do
+  resources :masjids, only: %i[show edit] do
     resources :payouts, only: %i[new create]
     resources :dashboard, only: [:index]
     member do

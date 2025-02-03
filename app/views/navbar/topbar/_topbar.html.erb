@@ -1,134 +1,123 @@
 <nav class="bg-white border-b border-gray-200 px-4 py-4 h-16 dark:bg-gray-800 dark:border-gray-700 fixed left-0 right-0 top-0 z-50 flex justify-between items-center">
-    <div class="flex justify-start items-center">
-      <button
+  <div class="flex justify-start items-center">
+    <button
             data-drawer-target="drawer-navigation"
             data-drawer-toggle="drawer-navigation"
             aria-controls="drawer-navigation"
             class="p-2 mr-2 text-gray-600 rounded-lg cursor-pointer md:hidden hover:text-gray-900 hover:bg-gray-100 focus:bg-gray-100 dark:focus:bg-gray-700 focus:ring-2 focus:ring-gray-100 dark:focus:ring-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"
           >
-        <svg
+      <svg
               
               class="w-6 h-6"
               fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
             >
-          <path
+        <path
                 fill-rule="evenodd"
                 d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
                 clip-rule="evenodd"
               ></path>
-        </svg>
-        <svg
+      </svg>
+      <svg
               
               class="hidden w-6 h-6"
               fill="currentColor"
               viewBox="0 0 20 20"
               xmlns="http://www.w3.org/2000/svg"
             >
-          <path
+        <path
                 fill-rule="evenodd"
                 d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
                 clip-rule="evenodd"
               ></path>
-        </svg>
-        <span class="sr-only">Toggle sidebar</span>
-      </button>
-      <% if masjid_signed_in? %>
-        <% href = "masjids/#{current_masjid.id}/dashboard" %>
-      <% else %>
-        <% href = "landing" %>
-      <% end %>
-      <a href="/<%= href %>" >
-        <%= image_tag "logo.png", alt: "My Logo", class: "w-auto h-24 mr-2" %>
-      </a>
-    </div>
-    <div class="flex items-center lg:order-2">
-      <button
-            type="button"
-            data-drawer-toggle="drawer-navigation"
-            aria-controls="drawer-navigation"
-            class="p-2 mr-1 text-gray-500 rounded-lg md:hidden hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-          >
-        <span class="sr-only">Toggle search</span>
-        <svg  class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" >
-          <path clip-rule="evenodd" fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"></path>
-        </svg>
-      </button>
-      <!-- Notifications -->
-      <%= render "navbar/topbar/notifications" %>
-      <% unless masjid_signed_in? %>
-        <%= link_to new_masjid_session_path do %>
-          <button
+      </svg>
+      <span class="sr-only">Toggle sidebar</span>
+    </button>
+    <% if masjid_signed_in? %>
+      <% href = "masjids/#{current_masjid.id}/dashboard" %>
+    <% else %>
+      <% href = "landing" %>
+    <% end %>
+    <a href="/<%= href %>" >
+      <%= image_tag "logo.png", alt: "My Logo", class: "w-auto h-24 mr-2" %>
+    </a>
+  </div>
+  <div class="flex items-center lg:order-2">
+    <!-- Notifications -->
+    <% unless masjid_signed_in? %>
+      <%= link_to new_masjid_session_path do %>
+        <button
                 type="button"
                 class="p-2 mr-1 text-gray-500 rounded-lg hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-700 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
               >
-            <span class="sr-only">Sign in</span>
-            <svg class="w-6 h-6"
+          <span class="sr-only">Sign in</span>
+          <svg class="w-6 h-6"
                 fill="currentColor"  xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12H4m12 0-4 4m4-4-4-4m3-4h2a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3h-2"/>
-            </svg>
-          </button>
-        <% end %>
-      <% else %>
-        <button
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12H4m12 0-4 4m4-4-4-4m3-4h2a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3h-2"/>
+          </svg>
+        </button>
+      <% end %>
+    <% else %>
+      <%= render "navbar/topbar/notifications" %>
+      <button
               type="button"
               class="flex mx-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
               id="user-menu-button"
               aria-expanded="false"
               data-dropdown-toggle="dropdown"
             >
-          <span class="sr-only">Open user menu</span>
-          <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-            <path fill-rule="evenodd" d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z" clip-rule="evenodd"/>
-          </svg>
-        </button>
-      <% end %>
-      <!-- Dropdown menu -->
-      <div
+        <span class="sr-only">Open user menu</span>
+        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+          <path fill-rule="evenodd" d="M12 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4h-4Z" clip-rule="evenodd"/>
+        </svg>
+      </button>
+    <% end %>
+    <!-- Dropdown menu -->
+    <div
             class="hidden z-50 my-4 w-56 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600 rounded-xl"
             id="dropdown"
           >
-        <% if masjid_signed_in? %>
-          <div class="py-3 px-4">
-            <span
+      <% if masjid_signed_in? %>
+        <div class="py-3 px-4">
+          <span
                   class="block text-sm font-semibold text-gray-900 dark:text-white"
                   ><%= current_masjid.name %></span
                 >
-            <span
+          <span
                   class="block text-sm text-gray-900 truncate dark:text-white"
                   ><%= current_masjid.email %></span
                 >
-          </div>
-        <% else %>
-          <div class="py-3 px-4">
-          </div>
-        <% end %>
-        <ul
+        </div>
+      <% else %>
+        <div class="py-3 px-4">
+        </div>
+      <% end %>
+      <ul
               class="py-1 text-gray-700 dark:text-gray-300"
               aria-labelledby="dropdown"
             >
-          <li>
-            <a
+        <li>
+          <a
                   href="/masjids/show"
                   class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
                   >My profile</a
                 >
-          </li>
-          <li>
-            <a
+        </li>
+        <li>
+          <a
                   href="/masjids/edit"
                   class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white"
                   >Account settings</a
                 >
-          </li>
-        </ul>
-        <ul
+        </li>
+      </ul>
+      <ul
               class="py-1 text-gray-700 dark:text-gray-300"
               aria-labelledby="dropdown"
             >
-          <%# TODO: Redo this to take stripe dashboard/connect to stripe %>
-          <%# <li>
+        <%# TODO: Redo this to take stripe dashboard/connect to stripe %>
+        <%# <li>
                 <a
                   href="#"
                   class="flex items-center py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
@@ -147,55 +136,55 @@
                   </a
                 >
               </li> %>
-          <li>
-            <a
+        <li>
+          <a
                   href="#"
                   class="flex justify-between items-center py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                 >
-              <span class="flex items-center">
-                <svg
+            <span class="flex items-center">
+              <svg
                       
                       class="mr-2 w-5 h-5 text-primary-600 dark:text-primary-500"
                       fill="currentColor"
                       viewBox="0 0 20 20"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                  <path
+                <path
                         fill-rule="evenodd"
                         d="M12.395 2.553a1 1 0 00-1.45-.385c-.345.23-.614.558-.822.88-.214.33-.403.713-.57 1.116-.334.804-.614 1.768-.84 2.734a31.365 31.365 0 00-.613 3.58 2.64 2.64 0 01-.945-1.067c-.328-.68-.398-1.534-.398-2.654A1 1 0 005.05 6.05 6.981 6.981 0 003 11a7 7 0 1011.95-4.95c-.592-.591-.98-.985-1.348-1.467-.363-.476-.724-1.063-1.207-2.03zM12.12 15.12A3 3 0 017 13s.879.5 2.5.5c0-1 .5-4 1.25-4.5.5 1 .786 1.293 1.371 1.879A2.99 2.99 0 0113 13a2.99 2.99 0 01-.879 2.121z"
                         clip-rule="evenodd"
                       ></path>
-                </svg>
-                Pro version
-              </span>
-              <svg
+              </svg>
+              Pro version
+            </span>
+            <svg
                     
                     class="w-5 h-5 text-gray-400"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                <path
+              <path
                       fill-rule="evenodd"
                       d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                       clip-rule="evenodd"
                     ></path>
-              </svg>
-            </a>
-          </li>
-        </ul>
-        <ul
+            </svg>
+          </a>
+        </li>
+      </ul>
+      <ul
               class="py-1 text-gray-700 dark:text-gray-300"
               aria-labelledby="dropdown"
             >
-          <li>
-            <a
+        <li>
+          <a
                   href="<%= destroy_masjid_session_path %>" data-turbo-method="delete"
                   class="block py-2 px-4 text-sm hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                   >Sign out</a
                 >
-          </li>
-        </ul>
-      </div>
+        </li>
+      </ul>
     </div>
+  </div>
 </nav>

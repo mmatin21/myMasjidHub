@@ -1,11 +1,13 @@
 class ContactsController < ApplicationController
+  before_action :authenticate_masjid!
   before_action :set_contact, only: %i[show edit update destroy]
+
   include Pagy::Backend
   Pagy::DEFAULT[:limit] = 30
 
   # GET /contacts or /contacts.json
   def index
-    @contacts = Contact.where(masjid_id: current_masjid.id)
+    @contacts = current_masjid.contacts
     @q = @contacts.ransack(params[:q])
     @contacts = @q.result
     @pagy, @table_contacts = pagy(@contacts)
