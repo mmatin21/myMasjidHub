@@ -1,306 +1,262 @@
 <div class="antialiased">
-  <main class="p-4 md:ml-64 h-auto pt-20">
-    <% if notice.present? %>
-      <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
-    <% end %>
+  <section class="p-4 md:ml-64 h-auto pt-20">
     <% content_for :title, "Dashboard" %>
     <div class="flex justify-between items-center">
       <h1 class="mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white">Dashboard</h1>
+    </div>
+    <!-- Stats Row -->
+    <div class="grid grid-cols-4 gap-4 mb-4">
+      <!-- Profit Card -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg px-4 py-2.5 shadow-sm border border-gray-200 dark:border-gray-700">
+        <dt class="text-xs font-medium text-gray-500 dark:text-gray-400">Total Profit</dt>
+        <% profit = @combined_records.select { |r| r.is_a?(Donation) }.sum(&:amount) +  @revenues.sum(:amount) - @expenses.sum(:amount)%>
+        <% if profit > 0 %>
+          <dd class="mt-1 text-[clamp(0.875rem,2.5vw,1.5rem)] leading-tight font-semibold text-green-500 dark:text-green-400 break-words"><%= number_to_currency(profit) %></dd>
+        <% else %>
+          <dd class="mt-1 text-[clamp(0.875rem,2.5vw,1.5rem)] leading-tight font-semibold text-red-600 dark:text-red-500 break-words"><%= number_to_currency(profit) %></dd>
+        <% end %>
       </div>
-
-<!-- Stats Row -->
-      <div class="grid grid-cols-4 gap-4 mb-4">
-
-        <!-- Profit Card -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg px-4 py-2.5 shadow-sm border border-gray-200 dark:border-gray-700">
-          <dt class="text-xs font-medium text-gray-500 dark:text-gray-400">Total Profit</dt>
-          <% profit = @combined_records.select { |r| r.is_a?(Donation) }.sum(&:amount) +  @revenues.sum(:amount) - @expenses.sum(:amount)%>
-          <% if profit > 0 %>
-            <dd class="mt-1 text-[clamp(0.875rem,2.5vw,1.5rem)] leading-tight font-semibold text-green-500 dark:text-green-400 break-words"><%= number_to_currency(profit) %></dd>
-          <% else %>
-            <dd class="mt-1 text-[clamp(0.875rem,2.5vw,1.5rem)] leading-tight font-semibold text-red-600 dark:text-red-500 break-words"><%= number_to_currency(profit) %></dd>
-          <% end %>
-        </div>
-  
-        <!-- Donations Card -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg px-4 py-2.5 shadow-sm border border-gray-200 dark:border-gray-700">
-          <dt class="text-xs font-medium text-gray-500 dark:text-gray-400">Total Donations</dt>
-          <dd class="mt-1 text-[clamp(0.875rem,2.5vw,1.5rem)] leading-tight font-semibold text-blue-600 dark:text-blue-400 break-words">
-            <%= number_to_currency(@combined_records.select { |r| r.is_a?(Donation) }.sum(&:amount)) %>
-          </dd>
-        </div>
-  
-        <!-- Revenue Card -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg px-4 py-2.5 shadow-sm border border-gray-200 dark:border-gray-700">
-          <dt class="text-xs font-medium text-gray-500 dark:text-gray-400">Total Revenue</dt>
-          <dd class="mt-1 text-[clamp(0.875rem,2.5vw,1.5rem)] leading-tight font-semibold text-blue-600 dark:text-blue-400 break-words">
-            <%= number_to_currency(@revenues.sum(:amount)) %>
-          </dd>
-        </div>
-  
-        <!-- Expenses Card -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg px-4 py-2.5 shadow-sm border border-gray-200 dark:border-gray-700">
-          <dt class="text-xs font-medium text-gray-500 dark:text-gray-400">Total Expenses</dt>
-          <dd class="mt-1 text-[clamp(0.875rem,2.5vw,1.5rem)] leading-tight font-semibold text-red-600 dark:text-red-500 break-words">
-            -<%= number_to_currency(@expenses.sum(:amount)) %>
-          </dd>
-        </div>
+      <!-- Donations Card -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg px-4 py-2.5 shadow-sm border border-gray-200 dark:border-gray-700">
+        <dt class="text-xs font-medium text-gray-500 dark:text-gray-400">Total Donations</dt>
+        <dd class="mt-1 text-[clamp(0.875rem,2.5vw,1.5rem)] leading-tight font-semibold text-blue-600 dark:text-blue-400 break-words">
+          <%= number_to_currency(@combined_records.select { |r| r.is_a?(Donation) }.sum(&:amount)) %>
+        </dd>
       </div>
-
-
-
-     <div class="grid grid-cols-1 gap-4 mb-8">
-        <div
+      <!-- Revenue Card -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg px-4 py-2.5 shadow-sm border border-gray-200 dark:border-gray-700">
+        <dt class="text-xs font-medium text-gray-500 dark:text-gray-400">Total Revenue</dt>
+        <dd class="mt-1 text-[clamp(0.875rem,2.5vw,1.5rem)] leading-tight font-semibold text-blue-600 dark:text-blue-400 break-words">
+          <%= number_to_currency(@revenues.sum(:amount)) %>
+        </dd>
+      </div>
+      <!-- Expenses Card -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg px-4 py-2.5 shadow-sm border border-gray-200 dark:border-gray-700">
+        <dt class="text-xs font-medium text-gray-500 dark:text-gray-400">Total Expenses</dt>
+        <dd class="mt-1 text-[clamp(0.875rem,2.5vw,1.5rem)] leading-tight font-semibold text-red-600 dark:text-red-500 break-words">
+          -<%= number_to_currency(@expenses.sum(:amount)) %>
+        </dd>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 gap-4 mb-8">
+      <div
           class="bg-white dark:bg-gray-800 border-2 rounded-lg border-gray-300 dark:border-gray-600 p-6 min-h-[425px] flex flex-col"
-        > 
-
-       
-           
-<!-- Upcoming Events Header -->
-          <div class="flex justify-between items-center mb-2">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Upcoming Events</h3>
-          </div>
-           
-          <div class="bg-white dark:bg-gray-800">
-            <!-- Calendar Header -->
-            <div class="flex justify-between items-center mb-3">
-              <h3 class="text-sm font-semibold text-gray-900 dark:text-white">
-                <%= @current_date.strftime("%B %Y") %>
-              </h3>
-              <div class="flex items-center space-x-2">
-                <%= link_to masjid_dashboard_index_path(current_masjid.id, date: @current_date.prev_month), class: "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300" do %>
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                  </svg>
-                <% end %>
-                <%= link_to masjid_dashboard_index_path(current_masjid.id, date: @current_date.next_month), class: "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300" do %>
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                  </svg>
-                <% end %>
-              </div>
+        >
+        <!-- Upcoming Events Header -->
+        <div class="flex justify-between items-center mb-2">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Upcoming Events</h3>
+        </div>
+        <div class="bg-white dark:bg-gray-800">
+          <!-- Calendar Header -->
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="text-sm font-semibold text-gray-900 dark:text-white">
+              <%= @current_date.strftime("%B %Y") %>
+            </h3>
+            <div class="flex items-center space-x-2">
+              <%= link_to masjid_dashboard_index_path(current_masjid.id, date: @current_date.prev_month), class: "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300" do %>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+              <% end %>
+              <%= link_to masjid_dashboard_index_path(current_masjid.id, date: @current_date.next_month), class: "text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300" do %>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                </svg>
+              <% end %>
             </div>
           </div>
-          <!-- Days Header-->
-          <div class="grid grid-cols-7 gap-1 mb-1">
-            <% ['S', 'M', 'T', 'W', 'T', 'F', 'S'].each do |day| %>
-              <div class="text-center text-xs font-medium text-gray-500 dark:text-gray-400">
-                <%= day %>
-              </div>
-            <% end %>
-          </div>
-          <!-- Calendar Grid -->
-          <div class="grid grid-cols-7 gap-1">
-            <%# Empty cells before month starts %>
-            <% @current_date.beginning_of_month.wday.times do %>
-              <div class="h-14 rounded p-1 bg-gray-50 dark:bg-gray-700"></div>
-            <% end %>
-            <%# Days of the month %>
-            <% (@current_date.beginning_of_month..@current_date.end_of_month).each do |date| %>
-              <div class="h-14 rounded p-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 relative">
-                <%# Date number %>
-                <div class="text-xs text-gray-900 dark:text-white">
-                  <%= date.day %>
-                </div>
-                <%# Event indicator with popup %>
-                <% if @events_by_date[date].present? %>
-                  <div class="group relative">
-                    <%# Blue dot indicator %>
-                    <div class="absolute bottom-1 right-1 w-2.5 h-2.5 bg-blue-500 rounded-full cursor-pointer"></div>
-                    <%# Hover popup - repositioned much closer to dot %>
-                    <div class="hidden group-hover:block absolute z-[100] bg-white dark:bg-gray-800 shadow-lg rounded-lg p-2 w-48 border border-gray-200 dark:border-gray-700 bottom-0 right-0">
-                      <%# Events list %>
-                      <% @events_by_date[date].each do |event| %>
-                        <%= link_to event_path(event), data: { turbo: false }, class: "block mb-2 last:mb-0 hover:bg-gray-50 dark:hover:bg-gray-700 rounded p-1" do %>
-                          <p class="text-sm font-medium text-gray-900 dark:text-white"><%= event.name %></p>
-                          <p class="text-xs text-gray-500 dark:text-gray-400">
-                            <%= event.event_date.strftime("%l:%M %p") %>
-                          </p>
-                        <% end %>
-                      <% end %>
-                    </div>
-                  </div>
-                <% end %>
-              </div>
-            <% end %>
-          </div>
         </div>
-        <!-- Upcoming Events Table -->
-        <!-- <ul class="max-w-md divide-y divide-gray-200 dark:divide-gray-700">
-            <% @events.each do |event| %>
-            <li class="pb-3 sm:pb-4">
-                <div class="flex items-center space-x-4 rtl:space-x-reverse">
-                  <div class="flex-1 min-w-0">
-                      <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                         <%= link_to event.name, event, data: { turbo: :false } %>
-                      </p>
-                      <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                        <%= event.full_address %>
-                      </p>
-                  </div>
-                  <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                     <%= event.event_date.strftime("%b %d, %Y %l:%M %p") %>
-                  </div>
-                </div>
-            </li>
+        <!-- Days Header-->
+        <div class="grid grid-cols-7 gap-1 mb-1">
+          <% ['S', 'M', 'T', 'W', 'T', 'F', 'S'].each do |day| %>
+            <div class="text-center text-xs font-medium text-gray-500 dark:text-gray-400">
+              <%= day %>
+            </div>
           <% end %>
-          </ul> -->
         </div>
-
-
-        <div class="grid grid-cols-2 gap-4">
-        <div
-          class="bg-white dark:bg-gray-800 border-2 rounded-lg border-gray-300 dark:border-gray-600 p-6 h-[500px] flex flex-col relative"
-        >
-          <!-- Combined Revenue & Donations Header -->
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Revenue & Donations</h3>
-          </div>
-
-          <!-- Combined Table -->
-          <div class="overflow-x-auto overflow-y-auto h-[calc(100%-100px)]" data-controller="table">
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-              <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-800 dark:text-gray-400">
-                <tr class="shadow-md">
-                  <th scope="col" class="px-6 py-4 font-bold text-gray-900 dark:text-white">Name/Contact</th>
-                  <th scope="col" class="px-6 py-4 font-bold text-gray-900 dark:text-white">Amount</th>
-                  <th scope="col" class="px-6 py-4 font-bold text-gray-900 dark:text-white">Date</th>
-                  <th scope="col" class="px-6 py-4 font-bold text-gray-900 dark:text-white">Fundraiser</th>
-                  <th scope="col" class="px-6 py-4 font-bold text-gray-900 dark:text-white">Pledge</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- Revenues Section -->
-                <tr class="bg-gray-50 dark:bg-gray-600 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500" data-action="click->table#toggleGroup" data-group="revenues">
-                  <td colspan="5" class="px-4 py-2">
-                    <div class="flex items-center text-gray-700 dark:text-gray-200">
-                      <svg class="w-4 h-4 mr-2 transition-transform" data-group-icon="revenues" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                      </svg>
-                      <span class="font-medium">Revenues</span>
-                    </div>
-                  </td>
-                </tr>
-                <% revenues = @combined_records.select { |r| r.is_a?(Revenue) } %>
-                <% revenues.each_with_index do |record, index| %>
-                  <tr class="<%= index.even? ? 'bg-white' : 'bg-gray-50' %> dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 shadow-sm" data-group-content="revenues">
-                    <td class="px-6 py-4 font-medium whitespace-nowrap">
-                      <%= link_to record.name, revenue_path(record), class: "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline" %>
-                    </td>
-                    <td class="px-6 py-4"><%= number_to_currency(record.amount) %></td>
-                    <td class="px-6 py-4"><%= record.date %></td>
-                    <td class="px-6 py-4">-</td>
-                    <td class="px-6 py-4">-</td>
-                  </tr>
-                <% end %>
-                <!-- Revenue Total -->
-                <tr class="bg-blue-600 dark:bg-blue-400 font-bold" data-group-content="revenues">
-                  <td class="px-4 py-2 text-right text-white dark:text-white" colspan="1">Revenue Total:</td>
-                  <td class="px-4 py-2 text-white dark:text-white">
-                    <%= number_to_currency(revenues.sum(&:amount)) %>
-                  </td>
-                  <td colspan="4"></td>
-                </tr>
-
-                <!-- Donations Section -->
-                <tr class="bg-gray-50 dark:bg-gray-600 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500" data-action="click->table#toggleGroup" data-group="donations">
-                  <td colspan="5" class="px-4 py-2">
-                    <div class="flex items-center text-gray-700 dark:text-gray-200">
-                      <svg class="w-4 h-4 mr-2 transition-transform" data-group-icon="donations" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                      </svg>
-                      <span class="font-medium">Donations</span>
-                    </div>
-                  </td>
-                </tr>
-                <% donations = @combined_records.select { |r| r.is_a?(Donation) } %>
-                <% donations.each_with_index do |record, index| %>
-                  <tr class="<%= index.even? ? 'bg-white' : 'bg-gray-50' %> dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 shadow-sm" data-group-content="donations">
-                    <td class="px-6 py-4 font-medium whitespace-nowrap">
-                      <%= link_to "#{record.contact.first_name} #{record.contact.middle_name} #{record.contact.last_name}".squish, donation_path(record), class: "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline" %>
-                    </td>
-                    <td class="px-6 py-4"><%= number_to_currency(record.amount) %></td>
-                    <td class="px-6 py-4"><%= record.created_at.strftime("%B %d, %Y") %></td>
-                    <td class="px-6 py-4"><%= record.fundraiser&.name || '-' %></td>
-                    <td class="px-6 py-4"><%= record.pledge&.name || '-' %></td>
-                  </tr>
-                <% end %>
-                <!-- Donation Total -->
-                <tr class="bg-blue-600 dark:bg-blue-400 font-bold" data-group-content="donations">
-                  <td class="px-4 py-2 text-right text-white dark:text-white" colspan="1">Donation Total:</td>
-                  <td class="px-4 py-2 text-white dark:text-white">
-                    <%= number_to_currency(donations.sum(&:amount)) %>
-                  </td>
-                  <td colspan="4"></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <!-- Fixed position totals at bottom -->
-          <div class="absolute bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
-            <!-- Grand Total -->
-            <div class="bg-green-500 dark:bg-green-500 font-bold">
-              <div class="px-4 py-3 flex text-sm">
-                <span class="text-white dark:text-white text-right">Grand Total:</span>
-                <span class="text-white dark:text-white px-6">
-                  <%= number_to_currency(revenues.sum(&:amount) + donations.sum(&:amount)) %>
-                </span>
+        <!-- Calendar Grid -->
+        <div class="grid grid-cols-7 gap-1">
+          <%# Empty cells before month starts %>
+          <% @current_date.beginning_of_month.wday.times do %>
+            <div class="h-14 rounded p-1 bg-gray-50 dark:bg-gray-700"></div>
+          <% end %>
+          <%# Days of the month %>
+          <% (@current_date.beginning_of_month..@current_date.end_of_month).each do |date| %>
+            <div class="h-14 rounded p-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-600 relative">
+              <%# Date number %>
+              <div class="text-xs text-gray-900 dark:text-white">
+                <%= date.day %>
               </div>
+              <%# Event indicator with popup %>
+              <% if @events_by_date[date].present? %>
+                <div class="group relative">
+                  <%# Blue dot indicator %>
+                  <div class="absolute bottom-1 right-1 w-2.5 h-2.5 bg-blue-500 rounded-full cursor-pointer"></div>
+                  <%# Hover popup - repositioned much closer to dot %>
+                  <div class="hidden group-hover:block absolute z-[100] bg-white dark:bg-gray-800 shadow-lg rounded-lg p-2 w-48 border border-gray-200 dark:border-gray-700 bottom-0 right-0">
+                    <%# Events list %>
+                    <% @events_by_date[date].each do |event| %>
+                      <%= link_to event_path(event), data: { turbo: false }, class: "block mb-2 last:mb-0 hover:bg-gray-50 dark:hover:bg-gray-700 rounded p-1" do %>
+                        <p class="text-sm font-medium text-gray-900 dark:text-white"><%= event.name %></p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">
+                          <%= event.event_date.strftime("%l:%M %p") %>
+                        </p>
+                      <% end %>
+                    <% end %>
+                  </div>
+                </div>
+              <% end %>
             </div>
-          </div>
+          <% end %>
         </div>
-
-        <div
+      </div>
+    </div>
+    <div class="grid grid-cols-2 gap-4">
+      <div
           class="bg-white dark:bg-gray-800 border-2 rounded-lg border-gray-300 dark:border-gray-600 p-6 h-[500px] flex flex-col relative"
         >
-          <!-- Recent Expenses Header -->
-          <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Recent Expenses</h3>
-          </div>
-
-          <!-- Expenses Table -->
-          <div class="overflow-x-auto overflow-y-auto h-[calc(100%-100px)]">
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-              <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-800 dark:text-gray-400">
-                <tr class="shadow-md">
-                  <th scope="col" class="px-6 py-4 font-bold text-gray-900 dark:text-white">Expense Name</th>
-                  <th scope="col" class="px-6 py-4 font-bold text-gray-900 dark:text-white">Amount</th>
-                  <th scope="col" class="px-6 py-4 font-bold text-gray-900 dark:text-white">Date</th>
+        <!-- Combined Revenue & Donations Header -->
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Revenue & Donations</h3>
+        </div>
+        <!-- Combined Table -->
+        <div class="overflow-x-auto overflow-y-auto h-[calc(100%-100px)]" data-controller="table">
+          <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-800 dark:text-gray-400">
+              <tr class="shadow-md">
+                <th scope="col" class="px-6 py-4 font-bold text-gray-900 dark:text-white">Name/Contact</th>
+                <th scope="col" class="px-6 py-4 font-bold text-gray-900 dark:text-white">Amount</th>
+                <th scope="col" class="px-6 py-4 font-bold text-gray-900 dark:text-white">Date</th>
+                <th scope="col" class="px-6 py-4 font-bold text-gray-900 dark:text-white">Fundraiser</th>
+                <th scope="col" class="px-6 py-4 font-bold text-gray-900 dark:text-white">Pledge</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Revenues Section -->
+              <tr class="bg-gray-50 dark:bg-gray-600 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500" data-action="click->table#toggleGroup" data-group="revenues">
+                <td colspan="5" class="px-4 py-2">
+                  <div class="flex items-center text-gray-700 dark:text-gray-200">
+                    <svg class="w-4 h-4 mr-2 transition-transform" data-group-icon="revenues" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                    <span class="font-medium">Revenues</span>
+                  </div>
+                </td>
+              </tr>
+              <% revenues = @combined_records.select { |r| r.is_a?(Revenue) } %>
+              <% revenues.each_with_index do |record, index| %>
+                <tr class="<%= index.even? ? 'bg-white' : 'bg-gray-50' %> dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 shadow-sm" data-group-content="revenues">
+                  <td class="px-6 py-4 font-medium whitespace-nowrap">
+                    <%= link_to record.name, revenue_path(record), class: "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline" %>
+                  </td>
+                  <td class="px-6 py-4"><%= number_to_currency(record.amount) %></td>
+                  <td class="px-6 py-4"><%= record.date %></td>
+                  <td class="px-6 py-4">-</td>
+                  <td class="px-6 py-4">-</td>
                 </tr>
-              </thead>
-              <tbody>
-                <% @expenses.each_with_index do |expense, index| %>
-                  <tr class="<%= index.even? ? 'bg-white' : 'bg-gray-50' %> dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 shadow-sm">
-                    <td class="px-6 py-4 font-medium whitespace-nowrap">
-                      <%= link_to expense.name, expense_path(expense), class: "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline" %>
-                    </td>
-                    <td class="px-6 py-4">
-                      <%= number_to_currency(expense.amount) %>
-                    </td>
-                    <td class="px-6 py-4">
-                      <%= expense.date %>
-                    </td>
-                  </tr>
-                <% end %>
-              </tbody>
-            </table>
-          </div>
-
-          <!-- Fixed position total at bottom -->
-          <div class="absolute bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
-            <!-- Expenses Total -->
-            <div class="bg-red-500 dark:bg-red-500 font-bold">
-              <div class="px-4 py-3 flex text-sm">
-                <span class="text-white dark:text-white text-right" colspan="1">Total Expenses:</span>
-                <span class="text-white dark:text-white px-6">
-                  <%= number_to_currency(@expenses.sum(&:amount)) %>
-                </span>
-              </div>
+              <% end %>
+              <!-- Revenue Total -->
+              <tr class="bg-blue-600 dark:bg-blue-400 font-bold" data-group-content="revenues">
+                <td class="px-4 py-2 text-right text-white dark:text-white" colspan="1">Revenue Total:</td>
+                <td class="px-4 py-2 text-white dark:text-white">
+                  <%= number_to_currency(revenues.sum(&:amount)) %>
+                </td>
+                <td colspan="4"></td>
+              </tr>
+              <!-- Donations Section -->
+              <tr class="bg-gray-50 dark:bg-gray-600 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-500" data-action="click->table#toggleGroup" data-group="donations">
+                <td colspan="5" class="px-4 py-2">
+                  <div class="flex items-center text-gray-700 dark:text-gray-200">
+                    <svg class="w-4 h-4 mr-2 transition-transform" data-group-icon="donations" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                    <span class="font-medium">Donations</span>
+                  </div>
+                </td>
+              </tr>
+              <% donations = @combined_records.select { |r| r.is_a?(Donation) } %>
+              <% donations.each_with_index do |record, index| %>
+                <tr class="<%= index.even? ? 'bg-white' : 'bg-gray-50' %> dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 shadow-sm" data-group-content="donations">
+                  <td class="px-6 py-4 font-medium whitespace-nowrap">
+                    <%= link_to "#{record.contact.first_name} #{record.contact.middle_name} #{record.contact.last_name}".squish, donation_path(record), class: "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline" %>
+                  </td>
+                  <td class="px-6 py-4"><%= number_to_currency(record.amount) %></td>
+                  <td class="px-6 py-4"><%= record.created_at.strftime("%B %d, %Y") %></td>
+                  <td class="px-6 py-4"><%= record.fundraiser&.name || '-' %></td>
+                  <td class="px-6 py-4"><%= record.pledge&.name || '-' %></td>
+                </tr>
+              <% end %>
+              <!-- Donation Total -->
+              <tr class="bg-blue-600 dark:bg-blue-400 font-bold" data-group-content="donations">
+                <td class="px-4 py-2 text-right text-white dark:text-white" colspan="1">Donation Total:</td>
+                <td class="px-4 py-2 text-white dark:text-white">
+                  <%= number_to_currency(donations.sum(&:amount)) %>
+                </td>
+                <td colspan="4"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- Fixed position totals at bottom -->
+        <div class="absolute bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+          <!-- Grand Total -->
+          <div class="bg-green-500 dark:bg-green-500 font-bold">
+            <div class="px-4 py-3 flex text-sm">
+              <span class="text-white dark:text-white text-right">Grand Total:</span>
+              <span class="text-white dark:text-white px-6">
+                <%= number_to_currency(revenues.sum(&:amount) + donations.sum(&:amount)) %>
+              </span>
             </div>
           </div>
         </div>
       </div>
+      <div
+          class="bg-white dark:bg-gray-800 border-2 rounded-lg border-gray-300 dark:border-gray-600 p-6 h-[500px] flex flex-col relative"
+        >
+        <!-- Recent Expenses Header -->
+        <div class="flex justify-between items-center mb-4">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Recent Expenses</h3>
+        </div>
+        <!-- Expenses Table -->
+        <div class="overflow-x-auto overflow-y-auto h-[calc(100%-100px)]">
+          <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-100 dark:bg-gray-800 dark:text-gray-400">
+              <tr class="shadow-md">
+                <th scope="col" class="px-6 py-4 font-bold text-gray-900 dark:text-white">Expense Name</th>
+                <th scope="col" class="px-6 py-4 font-bold text-gray-900 dark:text-white">Amount</th>
+                <th scope="col" class="px-6 py-4 font-bold text-gray-900 dark:text-white">Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @expenses.each_with_index do |expense, index| %>
+                <tr class="<%= index.even? ? 'bg-white' : 'bg-gray-50' %> dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 shadow-sm">
+                  <td class="px-6 py-4 font-medium whitespace-nowrap">
+                    <%= link_to expense.name, expense_path(expense), class: "text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline" %>
+                  </td>
+                  <td class="px-6 py-4">
+                    <%= number_to_currency(expense.amount) %>
+                  </td>
+                  <td class="px-6 py-4">
+                    <%= expense.date %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+        <!-- Fixed position total at bottom -->
+        <div class="absolute bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
+          <!-- Expenses Total -->
+          <div class="bg-red-500 dark:bg-red-500 font-bold">
+            <div class="px-4 py-3 flex text-sm">
+              <span class="text-white dark:text-white text-right" colspan="1">Total Expenses:</span>
+              <span class="text-white dark:text-white px-6">
+                <%= number_to_currency(@expenses.sum(&:amount)) %>
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
-    </main>
-  </div>
+    </div>
+  </section>
+</div>

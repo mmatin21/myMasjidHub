@@ -12,15 +12,15 @@
   <div class="grid gap-4 mb-4 grid-cols-2">
     <div class="col-span-2">
       <%= form.label :name, "Fundraiser Name*", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white"%>
-      <%= form.text_field :name, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", placeholder: "Enter a fundraiser name" %>
+      <%= form.text_field :name, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", placeholder: "Enter a fundraiser name", required: true %>
     </div>
      <div class="col-span-2">
       <%= form.label :description, "Fundraiser Description*", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white"%>
-      <%= form.text_area :description, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", placeholder: "Enter a description" %>
+      <%= form.text_area :description, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", placeholder: "Enter a description", required: true %>
     </div>
     <div class="col-span-2 sm:col-span-1">
       <%= form.label :goal_amount, "Goal Amount*", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white"%>
-      <%= form.number_field :goal_amount, step: 0.01, min: 0.01, class:"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", placeholder: "$20,000" %>
+      <%= form.number_field :goal_amount, step: 0.01, min: 0.01, class:"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", placeholder: "$20,000", required: true %>
     </div>
     <div class="col-span-2 sm:col-span-1">
       <%= form.label :end_date, "End Date", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white"%>

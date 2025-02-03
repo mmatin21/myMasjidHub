@@ -1,9 +1,7 @@
 <div class="antialiased">
-  <main class="p-4 md:ml-64 h-auto pt-20">
-    <section>
-      <% unless masjid_signed_in? %>
-        <%= render 'signed_in' %>
-      <% end %>
-    </section>
-  </main>
+  <section class="p-4 md:ml-64 h-auto pt-20">
+    <% unless masjid_signed_in? %>
+      <%= render 'signed_in' %>
+    <% end %>
+  </section>
 </div>

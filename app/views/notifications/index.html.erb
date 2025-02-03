@@ -1,5 +1,5 @@
 <div class="antialiased">
-  <main class="p-4 md:ml-64 h-auto pt-20">
+  <section class="p-4 md:ml-64 h-auto pt-20">
     <h1>Notifications</h1>
     <%= turbo_stream_from "notifications_#{current_masjid.id}" %>
     <ul id="notification-list">
@@ -11,5 +11,5 @@
         </li>
       <% end %>
     </ul>
-  </main>
+  </section>
 </div>
