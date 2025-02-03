@@ -5,6 +5,7 @@ class Donation < ApplicationRecord
   belongs_to :masjid
   belongs_to :contact
   belongs_to :pledge, optional: true
+  has_many :notifications, dependent: :destroy
 
   validates :amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :contact, presence: true

@@ -2,7 +2,7 @@ class FundraisersController < ApplicationController
   before_action :authenticate_masjid!
   before_action :set_fundraiser, only: %i[show edit update destroy]
   include Pagy::Backend
-  Pagy::DEFAULT[:limit] = 7
+  Pagy::DEFAULT[:limit] = 30
 
   # GET /fundraisers or /fundraisers.json
   def index
