@@ -27,7 +27,9 @@ class EventsController < ApplicationController
       if @event.save
         format.html { redirect_to event_url(@event), notice: 'Event was successfully created.' }
         format.turbo_stream do
-          render turbo_stream: turbo_stream.prepend('events', partial: 'events/event', locals: { event: @event })
+          render turbo_stream: [turbo_stream.prepend('events', partial: 'events/event', locals: { event: @event }),
+                                turbo_stream.replace('flash', partial: 'shared/alert',
+                                                              locals: { notice: 'Fundraiser was successfully created.' })]
         end
         format.json { render :show, status: :created, location: @event }
       else
@@ -43,6 +45,10 @@ class EventsController < ApplicationController
       if @event.update(event_params)
         format.html { redirect_to event_url(@event), notice: 'Event was successfully updated.' }
         format.json { render :show, status: :ok, location: @event }
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace('flash',
+                                                    partial: 'shared/alert', locals: { notice: 'Event was successfully edited.' })
+        end
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @event.errors, status: :unprocessable_entity }
