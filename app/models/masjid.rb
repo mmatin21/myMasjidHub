@@ -15,10 +15,7 @@ class Masjid < ApplicationRecord
   has_many :events
   has_many :notifications
 
-
   def full_address
-    address + " " + city + " " +  state
+    "#{address}, #{city} #{state}, #{zipcode}"
   end
-  
-
 end
