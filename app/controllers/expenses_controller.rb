@@ -53,8 +53,12 @@ class ExpensesController < ApplicationController
       if @expense.update(expense_params)
         format.html { redirect_to expense_url(@expense), notice: 'Expense was successfully updated.' }
         format.turbo_stream do
-          render turbo_stream: turbo_stream.replace("item_#{@expense.id}", partial: 'tables/table_row',
-                                                                           locals: { item: @expense })
+          render turbo_stream: [turbo_stream.replace("item_#{@expense.id}", partial: 'tables/table_row',
+                                                                            locals: { item: @expense }),
+                                turbo_stream.replace("show_#{@expense.id}", partial: 'expenses/expense',
+                                                                            locals: { expense: @expense }),
+                                turbo_stream.replace('flash',
+                                                     partial: 'shared/alert', locals: { notice: 'Expense was successfully edited.' })]
         end
         format.json { render :show, status: :ok, location: @expense }
       else
