@@ -43,12 +43,12 @@ class EventsController < ApplicationController
   def update
     respond_to do |format|
       if @event.update(event_params)
-        format.html { redirect_to event_url(@event), notice: 'Event was successfully updated.' }
-        format.json { render :show, status: :ok, location: @event }
         format.turbo_stream do
           render turbo_stream: turbo_stream.replace('flash',
                                                     partial: 'shared/alert', locals: { notice: 'Event was successfully edited.' })
         end
+        format.html { redirect_to event_url(@event), notice: 'Event was successfully updated.' }
+        format.json { render :show, status: :ok, location: @event }
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @event.errors, status: :unprocessable_entity }

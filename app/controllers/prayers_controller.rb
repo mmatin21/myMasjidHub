@@ -27,7 +27,9 @@ class PrayersController < ApplicationController
       if @prayer.save
         format.html { redirect_to prayer_url(@prayer), notice: 'Prayer was successfully created.' }
         format.turbo_stream do
-          render turbo_stream: turbo_stream.prepend('prayers', partial: 'prayers/prayer', locals: { prayer: @prayer })
+          render turbo_stream: [turbo_stream.prepend('prayers', partial: 'prayers/prayer', locals: { prayer: @prayer }),
+                                turbo_stream.replace('flash', partial: 'shared/alert',
+                                                              locals: { notice: 'Prayer was successfully created.' })]
         end
         format.json { render :show, status: :created, location: @prayer }
       else
@@ -41,8 +43,13 @@ class PrayersController < ApplicationController
   def update
     respond_to do |format|
       if @prayer.update(prayer_params)
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace('flash',
+                                                    partial: 'shared/alert', locals: { notice: 'Prayer was successfully edited.' })
+        end
         format.html { redirect_to prayer_url(@prayer), notice: 'Prayer was successfully updated.' }
         format.json { render :show, status: :ok, location: @prayer }
+
       else
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @prayer.errors, status: :unprocessable_entity }
