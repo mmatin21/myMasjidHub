@@ -33,8 +33,10 @@ class RevenuesController < ApplicationController
       if @revenue.save
         format.html { redirect_to revenue_url(@revenue), notice: 'Revenue was successfully created.' }
         format.turbo_stream do
-          render turbo_stream: turbo_stream.append('revenue_table', partial: 'tables/table_row',
-                                                                    locals: { item: @revenue })
+          render turbo_stream: [turbo_stream.append('revenue_table', partial: 'tables/table_row',
+                                                                     locals: { item: @revenue }),
+                                turbo_stream.replace('flash',
+                                                     partial: 'shared/alert', locals: { notice: 'Revenue was successfully created.' })]
         end
         format.json { render :show, status: :created, location: @revenue }
       else
@@ -50,8 +52,10 @@ class RevenuesController < ApplicationController
       if @revenue.update(revenue_params)
         format.html { redirect_to revenue_url(@revenue), notice: 'Revenue was successfully updated.' }
         format.turbo_stream do
-          render turbo_stream: turbo_stream.replace("item_#{@revenue.id}", partial: 'tables/table_row',
-                                                                           locals: { item: @revenue })
+          render turbo_stream: [turbo_stream.replace("item_#{@revenue.id}", partial: 'tables/table_row',
+                                                                            locals: { item: @revenue }),
+                                turbo_stream.replace('flash',
+                                                     partial: 'shared/alert', locals: { notice: 'Revenue was successfully edited.' })]
         end
         format.json { render :show, status: :ok, location: @revenue }
       else
