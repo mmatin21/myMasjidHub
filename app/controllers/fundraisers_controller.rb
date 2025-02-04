@@ -34,8 +34,10 @@ class FundraisersController < ApplicationController
       if @fundraiser.save
         format.html { redirect_to fundraiser_url(@fundraiser), notice: 'Fundraiser was successfully created.' }
         format.turbo_stream do
-          render turbo_stream: turbo_stream.prepend('fundraisers', partial: 'fundraisers/fundraiser',
-                                                                   locals: { fundraiser: @fundraiser })
+          render turbo_stream: [turbo_stream.prepend('fundraisers', partial: 'fundraisers/fundraiser',
+                                                                    locals: { fundraiser: @fundraiser }),
+                                turbo_stream.replace('flash',
+                                                     partial: 'shared/alert', locals: { notice: 'Fundraiser was successfully created.' })]
         end
         format.json { render :show, status: :created, location: @fundraiser }
       else
@@ -49,6 +51,10 @@ class FundraisersController < ApplicationController
   def update
     respond_to do |format|
       if @fundraiser.update(fundraiser_params)
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace('flash',
+                                                    partial: 'shared/alert', locals: { notice: 'Fundraiser was successfully edited.' })
+        end
         format.html { redirect_to fundraiser_url(@fundraiser), notice: 'Fundraiser was successfully updated.' }
         format.json { render :show, status: :ok, location: @fundraiser }
       else
