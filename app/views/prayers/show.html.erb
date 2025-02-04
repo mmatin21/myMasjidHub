@@ -1,6 +1,6 @@
 <div class="antialiased">
   <section class="p-4 md:ml-64 h-auto pt-20">
-    <div class="py-8 mx-auto max-w-6xl lg:py-16">
+    <div class="max-w-3xl bg-white rounded-xl shadow-sm dark:bg-gray-800 p-4">
       <%= render "detail", prayer: @prayer %>
       <div class="flex items-center px-4 space-x-4">
         <%= link_to edit_prayer_path(@prayer), data: { turbo_frame: "turbo-modal" } do %>
