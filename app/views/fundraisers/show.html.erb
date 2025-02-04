@@ -3,23 +3,7 @@
     <div class="py-8 mx-auto max-w-6xl lg:py-16">
       <div class="grid gap-4 px-4 mb-4 sm:mb-5 sm:grid-cols-3 sm:gap-6 md:gap-12">
         <!-- Column -->
-        <div>
-          <dl class="p-4 bg-gray-50 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
-            <h2 class="flex items-center mb-4 text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white sm:mb-5">
-              <%= @fundraiser.name %>
-            </h2>
-            <dt class="mb-2 leading-none text-gray-500 dark:text-gray-400">Fundraiser Goal</dt>
-            <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white"><%= number_to_currency(@fundraiser.goal_amount) %></dd>
-            <dt class="mb-2 leading-none text-gray-500 dark:text-gray-400">Amount Raised</dt>
-            <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white"><%= number_to_currency(@fundraiser.donations.sum(:amount)) %></dd>
-            <dt class="mb-2 leading-none text-gray-500 dark:text-gray-400">Donations Made</dt>
-            <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white"><%= @fundraiser.donations.count %></dd>
-            <dt class="mb-2 leading-none text-gray-500 dark:text-gray-400">Amount Pledged</dt>
-            <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white"><%= number_to_currency(@fundraiser.pledges.sum(:amount)) %></dd>
-            <dt class="mb-2 leading-none text-gray-500 dark:text-gray-400">Pledges Made</dt>
-            <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white"><%= @fundraiser.pledges.count %></dd>
-          </dl>
-        </div>
+        <%= render "detail", fundraiser: @fundraiser %>
         <!-- Column -->
         <dl class="p-4 bg-gray-50 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
           <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Donations</dt>

@@ -52,8 +52,10 @@ class FundraisersController < ApplicationController
     respond_to do |format|
       if @fundraiser.update(fundraiser_params)
         format.turbo_stream do
-          render turbo_stream: turbo_stream.replace('flash',
-                                                    partial: 'shared/alert', locals: { notice: 'Fundraiser was successfully edited.' })
+          render turbo_stream: [turbo_stream.replace("detail_#{@fundraiser.id}", partial: 'fundraisers/detail',
+                                                                                 locals: { fundraiser: @fundraiser }),
+                                turbo_stream.replace('flash',
+                                                     partial: 'shared/alert', locals: { notice: 'Fundraiser was successfully edited.' })]
         end
         format.html { redirect_to fundraiser_url(@fundraiser), notice: 'Fundraiser was successfully updated.' }
         format.json { render :show, status: :ok, location: @fundraiser }
