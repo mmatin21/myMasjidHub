@@ -64,6 +64,8 @@ class DonationsController < ApplicationController
         format.turbo_stream do
           render turbo_stream: [turbo_stream.replace("donation_#{@donation.id}", partial: 'tables/donation_row',
                                                                                  locals: { item: @donation }),
+                                turbo_stream.replace("show_#{@donation.id}", partial: 'donations/donation',
+                                                                             locals: { donation: @donation }),
                                 turbo_stream.replace('flash',
                                                      partial: 'shared/alert', locals: { notice: 'Donation was successfully edited.' })]
         end
