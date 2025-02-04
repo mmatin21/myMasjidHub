@@ -71,6 +71,8 @@ class PledgesController < ApplicationController
         format.turbo_stream do
           render turbo_stream: [turbo_stream.replace("pledge_#{@pledge.id}", partial: 'tables/pledge_row',
                                                                              locals: { item: @pledge }),
+                                turbo_stream.replace("show_#{@pledge.id}", partial: 'pledges/pledge',
+                                                                           locals: { pledge: @pledge }),
                                 turbo_stream.replace('flash',
                                                      partial: 'shared/alert', locals: { notice: 'Pledge was successfully edited.' })]
         end
