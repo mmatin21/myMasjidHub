@@ -43,8 +43,10 @@ class DonationsController < ApplicationController
       if @donation.save
         format.html { redirect_to donation_url(@donation), notice: 'Donation was successfully created.' }
         format.turbo_stream do
-          render turbo_stream: turbo_stream.prepend('donation_table', partial: 'tables/donation_row',
-                                                                      locals: { item: @donation })
+          render turbo_stream: [turbo_stream.prepend('donation_table', partial: 'tables/donation_row',
+                                                                       locals: { item: @donation }),
+                                turbo_stream.replace('flash',
+                                                     partial: 'shared/alert', locals: { notice: 'Donation was successfully created.' })]
         end
         format.json { render :show, status: :created, location: @donation }
       else
@@ -60,8 +62,10 @@ class DonationsController < ApplicationController
       if @donation.update(donation_params)
         format.html { redirect_to donation_url(@donation), notice: 'Donation was successfully updated.' }
         format.turbo_stream do
-          render turbo_stream: turbo_stream.replace("donation_#{@donation.id}", partial: 'tables/donation_row',
-                                                                                locals: { item: @donation })
+          render turbo_stream: [turbo_stream.replace("donation_#{@donation.id}", partial: 'tables/donation_row',
+                                                                                 locals: { item: @donation }),
+                                turbo_stream.replace('flash',
+                                                     partial: 'shared/alert', locals: { notice: 'Donation was successfully edited.' })]
         end
         format.json { render :show, status: :ok, location: @donation }
       else
