@@ -49,8 +49,10 @@ class ContactsController < ApplicationController
           end
         end
         format.turbo_stream do
-          render turbo_stream: turbo_stream.append('contact_table', partial: 'tables/contact_row',
-                                                                    locals: { item: @contact })
+          render turbo_stream: [turbo_stream.append('contact_table', partial: 'tables/contact_row',
+                                                                     locals: { item: @contact }),
+                                turbo_stream.replace('flash',
+                                                     partial: 'shared/alert', locals: { notice: 'Contact was successfully created.' })]
         end
         format.json { render :show, status: :created, location: @contact }
       else
@@ -84,8 +86,10 @@ class ContactsController < ApplicationController
       if @contact.update(contact_params)
         format.html { redirect_to contact_url(@contact), notice: 'Contact was successfully updated.' }
         format.turbo_stream do
-          render turbo_stream: turbo_stream.replace("contact_#{@contact.id}", partial: 'tables/contact_row',
-                                                                              locals: { item: @contact })
+          render turbo_stream: [turbo_stream.replace("contact_#{@contact.id}", partial: 'tables/contact_row',
+                                                                               locals: { item: @contact }),
+                                turbo_stream.replace('flash',
+                                                     partial: 'shared/alert', locals: { notice: 'Contact was successfully edited.' })]
         end
         format.json { render :show, status: :ok, location: @contact }
       else
