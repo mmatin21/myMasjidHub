@@ -54,6 +54,8 @@ class RevenuesController < ApplicationController
         format.turbo_stream do
           render turbo_stream: [turbo_stream.replace("item_#{@revenue.id}", partial: 'tables/table_row',
                                                                             locals: { item: @revenue }),
+                                turbo_stream.replace("show_#{@revenue.id}", partial: 'revenues/revenue',
+                                                                            locals: { revenue: @revenue }),
                                 turbo_stream.replace('flash',
                                                      partial: 'shared/alert', locals: { notice: 'Revenue was successfully edited.' })]
         end
