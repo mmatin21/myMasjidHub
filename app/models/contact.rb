@@ -45,7 +45,7 @@ class Contact < ApplicationRecord
   private
 
   def check_duplicate_email
-    return unless Contact.exists?(masjid_id: masjid_id, email: email)
+    return unless Contact.where(masjid_id: masjid_id, email: email).where.not(id: id).exists?
 
     errors.add(:email, 'is already associated with a contact in this masjid.')
   end

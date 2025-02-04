@@ -88,6 +88,8 @@ class ContactsController < ApplicationController
         format.turbo_stream do
           render turbo_stream: [turbo_stream.replace("contact_#{@contact.id}", partial: 'tables/contact_row',
                                                                                locals: { item: @contact }),
+                                turbo_stream.replace("show_#{@contact.id}", partial: 'contacts/contact',
+                                                                            locals: { contact: @contact }),
                                 turbo_stream.replace('flash',
                                                      partial: 'shared/alert', locals: { notice: 'Contact was successfully edited.' })]
         end
