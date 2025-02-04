@@ -50,8 +50,10 @@ class PledgesController < ApplicationController
         end
         format.html { redirect_to pledge_url(@pledge), notice: 'Pledge was successfully created.' }
         format.turbo_stream do
-          render turbo_stream: turbo_stream.prepend('pledge_table', partial: 'tables/pledge_row',
-                                                                    locals: { item: @pledge })
+          render turbo_stream: [turbo_stream.prepend('pledge_table', partial: 'tables/pledge_row',
+                                                                     locals: { item: @pledge }),
+                                turbo_stream.replace('flash',
+                                                     partial: 'shared/alert', locals: { notice: 'Pledge was successfully created.' })]
         end
         format.json { render :show, status: :created, location: @pledge }
       else
@@ -67,8 +69,10 @@ class PledgesController < ApplicationController
       if @pledge.update(pledge_params)
         format.html { redirect_to pledge_url(@pledge), notice: 'Pledge was successfully updated.' }
         format.turbo_stream do
-          render turbo_stream: turbo_stream.replace("pledge_#{@pledge.id}", partial: 'tables/pledge_row',
-                                                                            locals: { item: @pledge })
+          render turbo_stream: [turbo_stream.replace("pledge_#{@pledge.id}", partial: 'tables/pledge_row',
+                                                                             locals: { item: @pledge }),
+                                turbo_stream.replace('flash',
+                                                     partial: 'shared/alert', locals: { notice: 'Pledge was successfully edited.' })]
         end
         format.json { render :show, status: :ok, location: @pledge }
       else
