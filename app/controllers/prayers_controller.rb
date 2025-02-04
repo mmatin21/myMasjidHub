@@ -44,8 +44,10 @@ class PrayersController < ApplicationController
     respond_to do |format|
       if @prayer.update(prayer_params)
         format.turbo_stream do
-          render turbo_stream: turbo_stream.replace('flash',
-                                                    partial: 'shared/alert', locals: { notice: 'Prayer was successfully edited.' })
+          render turbo_stream: [turbo_stream.replace("detail_#{@prayer.id}", partial: 'prayers/detail',
+                                                                                 locals: { prayer: @prayer }),
+                                turbo_stream.replace('flash',
+                                                     partial: 'shared/alert', locals: { notice: 'Prayer was successfully edited.' })]
         end
         format.html { redirect_to prayer_url(@prayer), notice: 'Prayer was successfully updated.' }
         format.json { render :show, status: :ok, location: @prayer }
