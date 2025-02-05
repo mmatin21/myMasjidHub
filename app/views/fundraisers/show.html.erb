@@ -3,19 +3,11 @@
     <div class="flex justify-between items-center">
       <h1 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Fundraiser Details</h1>
     </div>
-    <div class="py-8 mx-auto max-w-6xl">
-      <div class="grid gap-4 px-4 mb-4 sm:mb-5 sm:grid-cols-3 sm:gap-6 md:gap-12">
+    <div class="py-8 mx-auto w-full">
+      <div class="grid gap-4 px-4 mb-4 sm:mb-5 sm:grid-cols-2 sm:gap-6 md:gap-12">
         <!-- Column -->
         <%= render "detail", fundraiser: @fundraiser %>
         <!-- Column -->
-        <dl class="p-4 bg-gray-50 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
-          <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">Recent Donations</dt>
-          <% @donations.each do |donation| %>
-            <dd class="font-light text-gray-500 dark:text-gray-400">
-              <%= donation.contact.first_name %> <%= donation.contact.last_name %> - <%= number_to_currency(donation.amount) %> on <%= donation.created_at.strftime("%B %d, %Y") %>
-            </dd>
-          <% end %>
-        </dl>
         <dl class="p-4 bg-gray-50 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
           <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">QR Code</dt>
           <% if @fundraiser.qr_code.attached? %>
@@ -30,6 +22,11 @@
           <% end %>
         </dl>
       </div>
+      <div id="donations" class="py-4 mx-auto max-w-6xl border-gray-300 dark:border-gray-600 rounded-xl h-128">
+      <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+        <%= render "tables/donation_table",  table: @table_donations, query: @q, pagy: @pagy, model: :donation %>
+      </div>
+    </div>
       <div class="flex items-center px-4 space-x-4">
         <% if @fundraiser.qr_code.attached? %>
           <%= link_to "Download QR Code", rails_blob_path(@fundraiser.qr_code, disposition: "attachment"), class: "py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" %>
