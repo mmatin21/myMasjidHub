@@ -20,13 +20,20 @@
           <dt class="mb-2 font-semibold leading-none text-gray-900 dark:text-white">QR Code</dt>
           <% if @fundraiser.qr_code.attached? %>
             <%= image_tag qr_code_url(@fundraiser), alt: "Fundraiser QR Code" if @fundraiser.qr_code.attached? %>
+            <dd class="font-light text-gray-500 dark:text-gray-400 py-2">
+              <%= link_to "Click here to visit fundraiser.", "https://mobile.mymasjidhub.com/masjids/1/fundraisers/1" %>
+            </dd>
           <% else %>
-            <p>QR Code is not available yet.</p>
+            <dd class="font-light text-gray-500 dark:text-gray-400">
+              QR Code is not available yet.
+            </dd>
           <% end %>
         </dl>
       </div>
       <div class="flex items-center px-4 space-x-4">
-        <%= link_to "Download QR Code", rails_blob_path(@fundraiser.qr_code, disposition: "attachment"), class: "py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" %>
+        <% if @fundraiser.qr_code.attached? %>
+          <%= link_to "Download QR Code", rails_blob_path(@fundraiser.qr_code, disposition: "attachment"), class: "py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" %>
+        <% end %>
         <%= link_to "Back to Fundraisers", fundraisers_path, class: "py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" %>
         <%= link_to edit_fundraiser_path(@fundraiser), data: { turbo_frame: "turbo-modal" } do %>
           <button type="button" class="inline-flex items-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
