@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   post '/graphql', to: 'graphql#execute'
 
   resources :prayers
-  resources :fundraisers
   resources :events
   resources :landing
 
@@ -17,6 +16,12 @@ Rails.application.routes.draw do
     member do
       get :connect_stripe
       get :open_stripe_dashboard
+    end
+  end
+
+  resources :fundraisers do
+    member do
+      patch :toggle_active
     end
   end
 

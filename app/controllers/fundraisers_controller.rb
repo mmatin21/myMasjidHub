@@ -11,10 +11,10 @@ class FundraisersController < ApplicationController
 
   # GET /fundraisers/1 or /fundraisers/1.json
   def show
-    @donations = Donation.where(fundraiser_id: @fundraiser.id).order(created_at: :desc).limit(8)
+    donations = @fundraiser.donations
 
-    @q = @donations.ransack(params[:q])
-    @pagy, @table_donations = pagy(@donations)
+    @q = donations.ransack(params[:q])
+    @pagy, @table_donations = pagy(donations)
   end
 
   # GET /fundraisers/new
@@ -81,6 +81,29 @@ class FundraisersController < ApplicationController
                                                     partial: 'shared/error', locals:
                                                      { notice: 'Error: Please remove the linked pledges/donations.' })
         end
+      end
+    end
+  end
+
+  def toggle_active
+    @fundraiser = Fundraiser.find(params[:id])
+    Rails.logger.debug 'Toggling fundraiser active'
+
+    @fundraiser.update(active: !@fundraiser.active)
+
+    Rails.logger.debug "Fundraiser after patch #{@fundraiser.active}"
+
+    notice = @fundraiser.active ? 'Fundraiser was set to active.' : 'Fundraiser was set to inactive.'
+
+    respond_to do |format|
+      format.html { redirect_to fundraiser_path(@fundraiser), notice: notice }
+      format.turbo_stream do
+        render turbo_stream: [turbo_stream.replace('flash',
+                                                   partial: 'shared/alert', locals:
+                                                    { notice: notice }),
+                              turbo_stream.replace('toggle',
+                                                   partial: 'fundraisers/toggle_button', locals:
+                                                    { fundraiser: @fundraiser })]
       end
     end
   end
