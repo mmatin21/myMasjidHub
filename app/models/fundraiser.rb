@@ -1,8 +1,8 @@
 require 'rqrcode'
 class Fundraiser < ApplicationRecord
   belongs_to :masjid
-  has_many :donations
-  has_many :pledges
+  has_many :donations, dependent: :restrict_with_error
+  has_many :pledges, dependent: :restrict_with_error
   has_one_attached :qr_code
 
   after_create :generate_qr_code

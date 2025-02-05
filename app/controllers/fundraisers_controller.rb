@@ -68,11 +68,20 @@ class FundraisersController < ApplicationController
 
   # DELETE /fundraisers/1 or /fundraisers/1.json
   def destroy
-    @fundraiser.destroy
+    if @fundraiser.destroy
 
-    respond_to do |format|
-      format.html { redirect_to fundraisers_url, notice: 'Fundraiser was successfully destroyed.' }
-      format.json { head :no_content }
+      respond_to do |format|
+        format.html { redirect_to fundraisers_url, notice: 'Fundraiser was successfully destroyed.' }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace('flash',
+                                                    partial: 'shared/error', locals:
+                                                     { notice: 'Error: Please remove the linked pledges/donations.' })
+        end
+      end
     end
   end
 

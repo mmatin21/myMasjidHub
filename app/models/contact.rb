@@ -1,7 +1,7 @@
 class Contact < ApplicationRecord
   belongs_to :masjid
-  has_many :donations
-  has_many :pledges
+  has_many :donations, dependent: :restrict_with_error
+  has_many :pledges, dependent: :restrict_with_error
 
   before_validation :check_duplicate_email
 

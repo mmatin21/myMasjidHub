@@ -103,11 +103,20 @@ class ContactsController < ApplicationController
 
   # DELETE /contacts/1 or /contacts/1.json
   def destroy
-    @contact.destroy
+    if @contact.destroy
 
-    respond_to do |format|
-      format.html { redirect_to contacts_url, notice: 'Contact was successfully destroyed.' }
-      format.json { head :no_content }
+      respond_to do |format|
+        format.html { redirect_to contacts_url, notice: 'contact was successfully destroyed.' }
+        format.json { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace('flash',
+                                                    partial: 'shared/error', locals:
+                                                     { notice: 'Error: Please remove the linked pledges/donations.' })
+        end
+      end
     end
   end
 
