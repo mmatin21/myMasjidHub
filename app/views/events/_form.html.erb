@@ -11,38 +11,37 @@
   <% end %>
   <div class="grid gap-4 mb-4 grid-cols-2">
     <div class="col-span-2">
-      <%= form.label :name, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-      <%= form.text_field :name, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", placeholder: "Event name" %>
+      <%= form.label :name, "Event name*", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+      <%= form.text_field :name, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", placeholder: "Enter event name", required: true %>
     </div>
     <div class="col-span-2">
-      <%= form.label :description, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-      <%= form.text_area :description, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", placeholder: "Event description", rows: 3 %>
+      <%= form.label :description, "Event description*", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+      <%= form.text_area :description, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", placeholder: "Enter event description", rows: 3, required: true %>
     </div>
     <div class="col-span-2 sm:col-span-1">
-      <%= form.label :event_date, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-      <%= form.datetime_field :event_date, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" %>
+      <%= form.label :event_date, "Event date*", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+      <%= form.datetime_field :event_date, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", required: true %>
     </div>
     <div class="col-span-2">
-      <%= form.label :address, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-      <%= form.text_field :address, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", placeholder: "Street address", data: { places_target: "autocomplete" } %>
+      <%= form.label :address, "Address*", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+      <%= form.text_field :address, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", placeholder: "Street address", data: { places_target: "autocomplete" }, required: true %>
     </div>
     <div class="col-span-2 sm:col-span-1">
-      <%= form.label :city, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-      <%= form.text_field :city, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", data: { places_target: "city" } %>
+      <%= form.label :city, "City*", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+      <%= form.text_field :city, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", placeholder: "City", data: { places_target: "city" }, required: true %>
     </div>
     <div class="col-span-2 sm:col-span-1">
-      <%= form.label :state, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-      <%= form.text_field :state, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", data: { places_target: "state" } %>
+      <%= form.label :state, "State*", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+      <%= form.text_field :state, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", placeholder: "State", data: { places_target: "state" }, required: true %>
     </div>
     <div class="col-span-2 sm:col-span-1">
-      <%= form.label :zipcode, class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
-      <%= form.text_field :zipcode, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", data: { places_target: "zipcode" } %>
+      <%= form.label :zipcode, "Zipcode*", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+      <%= form.number_field :zipcode, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", placeholder: "Zipcode", data: { places_target: "zipcode" }, required: true %>
     </div>
   </div>
   <%= form.hidden_field :latitude, data: { places_target: "latitude" } %>
   <%= form.hidden_field :longitude, data: { places_target: "longitude" } %>
   <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-    <svg class="me-1 -ms-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"></path></svg>
     Submit
   </button>
 <% end %>

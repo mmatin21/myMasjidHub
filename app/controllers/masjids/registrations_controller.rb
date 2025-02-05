@@ -5,14 +5,13 @@ class Masjids::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
-  # def new
-  #   super
-  # end
+  def new
+    redirect_to root_path, alert: 'Sign-ups are disabled.'
+  end
 
-  # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    redirect_to root_path, alert: 'Sign-ups are disabled.'
+  end
 
   # GET /resource/edit
   # def edit
@@ -51,9 +50,9 @@ class Masjids::RegistrationsController < Devise::RegistrationsController
   # end
 
   # The path used after sign up.
-   def after_sign_up_path_for(resource)
-     edit_masjid_path(resource)
-   end
+  # def after_sign_up_path_for(resource)
+  #   edit_masjid_path(resource)
+  # end
 
   # The path used after sign up for inactive accounts.
   # def after_inactive_sign_up_path_for(resource)

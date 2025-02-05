@@ -1,54 +1,50 @@
-  
-<div class="max-w-lg px-4 py-6 mx-auto bg-white rounded-lg shadow dark:bg-gray-700">
-  <h2 class="mb-4 text-xl font-bold text-gray-900 dark:text-white">Update Masjid</h2>
-  <%= form_with(model: masjid, class: "contents", data: { controller: "places" }) do |form| %>
-    <% if masjid.errors.any? %>
-      <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mb-4">
-        <h2><%= pluralize(masjid.errors.count, "error") %> prohibited this masjid from being saved:</h2>
-        <ul>
-          <% masjid.errors.each do |error| %>
-            <li><%= error.full_message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-    <div class="space-y-4">
-      <div>
-        <%= form.label :name, class: "block mb-1 text-sm font-medium text-gray-900 dark:text-white" %>
-        <%= form.text_field :name, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" %>
-      </div>
-      <div>
-        <%= form.label :address, class: "block mb-1 text-sm font-medium text-gray-900 dark:text-white" %>
-        <%= form.text_field :address, id: 'autocomplete', class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", data: { places_target: 'autocomplete' } %>
-      </div>
-      <div class="grid grid-cols-2 gap-4">
-        <div>
-          <%= form.label :city, class: "block mb-1 text-sm font-medium text-gray-900 dark:text-white" %>
-          <%= form.text_field :city, id: 'city', class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", data: { places_target: 'city' } %>
-        </div>
-        <div>
-          <%= form.label :state, class: "block mb-1 text-sm font-medium text-gray-900 dark:text-white" %>
-          <%= form.text_field :state, id: 'state', class:"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", data: { places_target: 'state' } %>
-        </div>
-      </div>
-      <div class="grid grid-cols-2 gap-4">
-        <div>
-          <%= form.label :zipcode, class: "block mb-1 text-sm font-medium text-gray-900 dark:text-white" %>
-          <%= form.text_field :zipcode, id: 'zipcode', class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", data: { places_target: 'zipcode' } %>
-        </div>
-        <div>
-          <%= form.label :phone_number, class: "block mb-1 text-sm font-medium text-gray-900 dark:text-white" %>
-          <%= form.text_field :phone_number, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" %>
-        </div>
-      </div>
-      <%= form.hidden_field :latitude, data: { places_target: "latitude" } %>
-      <%= form.hidden_field :longitude, data: { places_target: "longitude" } %>
-      <div class="flex items-center space-x-4 mt-6">
-        <%= form.submit class: "py-2 px-4 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-700" %>
-        <% if @masjid.stripe_account_id.present? %>
-          <%= link_to "Back to Profile", masjid_path(@masjid), class: "py-2 px-4 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700" %>
+<%= form_with(model: masjid, class: "contents", data: { controller: "places" }) do |form| %>
+  <% if masjid.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mb-4">
+      <h2><%= pluralize(masjid.errors.count, "error") %> prohibited this masjid from being saved:</h2>
+      <ul>
+        <% masjid.errors.each do |error| %>
+          <li><%= error.full_message %></li>
         <% end %>
-      </div>
+      </ul>
     </div>
   <% end %>
-</div>
+  <div class="space-y-4">
+    <div>
+      <%= form.label :name, class: "block mb-1 text-sm font-medium text-gray-900 dark:text-white" %>
+      <%= form.text_field :name, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" %>
+    </div>
+    <div>
+      <%= form.label :address, class: "block mb-1 text-sm font-medium text-gray-900 dark:text-white" %>
+      <%= form.text_field :address, id: 'autocomplete', class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", data: { places_target: 'autocomplete' } %>
+    </div>
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <%= form.label :city, class: "block mb-1 text-sm font-medium text-gray-900 dark:text-white" %>
+        <%= form.text_field :city, id: 'city', class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", data: { places_target: 'city' } %>
+      </div>
+      <div>
+        <%= form.label :state, class: "block mb-1 text-sm font-medium text-gray-900 dark:text-white" %>
+        <%= form.text_field :state, id: 'state', class:"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", data: { places_target: 'state' } %>
+      </div>
+    </div>
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <%= form.label :zipcode, class: "block mb-1 text-sm font-medium text-gray-900 dark:text-white" %>
+        <%= form.text_field :zipcode, id: 'zipcode', class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", data: { places_target: 'zipcode' } %>
+      </div>
+      <div>
+        <%= form.label :phone_number, class: "block mb-1 text-sm font-medium text-gray-900 dark:text-white" %>
+        <%= form.text_field :phone_number, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" %>
+      </div>
+    </div>
+    <%= form.hidden_field :latitude, data: { places_target: "latitude" } %>
+    <%= form.hidden_field :longitude, data: { places_target: "longitude" } %>
+    <div class="flex items-center space-x-4 mt-6">
+      <%= form.submit class: "py-2 px-4 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-700" %>
+      <% if @masjid.stripe_account_id.present? %>
+        <%= link_to "Back to Profile", masjid_path(@masjid), class: "py-2 px-4 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:bg-gray-700" %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

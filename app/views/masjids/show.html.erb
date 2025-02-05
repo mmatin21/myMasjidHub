@@ -1,74 +1,63 @@
 <div class="antialiased">
-  <main class="p-4 md:ml-64 h-auto pt-20">
-    <div class="mx-auto">
-      <% if notice.present? %>
-        <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
-      <% end %>
+  <section class="p-4 md:ml-64 h-auto pt-20">
+    <div class="flex justify-between items-center">
+      <h1 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Account</h1>
     </div>
-    <section>
-      <div class="py-8 mx-auto max-w-6xl lg:py-16">
-        <div class="grid gap-4 px-4 mb-4 sm:mb-5 sm:grid-cols-3 sm:gap-6 md:gap-12">
-          <!-- Column -->
-          <div class="sm:col-span-2">
-            <h2 class="flex items-center mb-4 text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white sm:mb-5">
-              <%= @masjid.name %>
-            </h2>
-            <dl class="flex items-center mb-4 space-x-4 sm:mb-5">
-              <div>
-                <dt class="sr-only">Todays Date</dt>
-                <dd class="flex items-center text-gray-900 dark:text-white">
-                  <svg class="w-4 h-4 mr-1.5 text-gray-400 dark:text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-                  <span class="font-semibold"><%= Date.today.strftime("%A, %B %e") %></span>
-                </dd>
-              </div>
-              <div>
-                <dt class="sr-only">Location</dt>
-                <dd class="flex items-center text-gray-900 dark:text-white">
-                  <svg class="w-4 h-4 mr-1.5 text-gray-400 dark:text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>
-                  <span class="font-semibold"><%= @masjid.full_address %></span>
-                </dd>
-              </div>
-            </dl>
-            <dl>
-              <dt class="mb-2 leading-none text-gray-500 dark:text-gray-400">Email</dt>
-              <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white"><%= @masjid.email %></dd>
-              <dt class="mb-2 leading-none text-gray-500 dark:text-gray-400">Phone Number</dt>
-              <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white"><%= @masjid.phone_number %></dd>
-              <dt class="mb-2 leading-none text-gray-500 dark:text-gray-400">Available Balance </dt>
-              <% if @available_balance > 0 %>
-                <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white"><%= number_to_currency(@available_balance) %></dd>
-              <% else %>
-                <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white">No available balance for payout.</dd>
-              <% end %>
-              <dt class="mb-2 leading-none text-gray-500 dark:text-gray-400">Pending Balance </dt>
-              <% if @pending_balance > 0 %>
-                <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white"><%= number_to_currency(@pending_balance) %></dd>
-              <% else %>
-                <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white">No pending balance.</dd>
-              <% end %>
-            </dl>
-          </div>
-          <!-- Column -->
+    <div class="max-w-3xl bg-white rounded-xl shadow-sm dark:bg-gray-800 p-4">
+      <div class="grid gap-4 px-4 mb-4 sm:mb-5 sm:grid-cols-3 sm:gap-6 md:gap-12">
+        <!-- Column -->
+        <div class="sm:col-span-2">
+          <h2 class="flex items-center mb-4 text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white sm:mb-5">
+            <%= @masjid.name %>
+          </h2>
+          <dl class="flex items-center mb-4 space-x-4 sm:mb-5">
+            <div>
+              <dt class="sr-only">Location</dt>
+              <dd class="flex items-center text-gray-900 dark:text-white">
+                <svg class="w-4 h-4 mr-1.5 text-gray-400 dark:text-gray-500" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>
+                <span class="font-semibold"><%= @masjid.full_address %></span>
+              </dd>
+            </div>
+          </dl>
+          <dl>
+            <dt class="mb-2 leading-none text-gray-500 dark:text-gray-400">Email</dt>
+            <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white"><%= @masjid.email %></dd>
+            <dt class="mb-2 leading-none text-gray-500 dark:text-gray-400">Phone Number</dt>
+            <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white"><%= @masjid.phone_number %></dd>
+            <dt class="mb-2 leading-none text-gray-500 dark:text-gray-400">Available Balance </dt>
+            <% if @available_balance > 0 %>
+              <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white"><%= number_to_currency(@available_balance) %></dd>
+            <% else %>
+              <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white">No available balance for payout.</dd>
+            <% end %>
+            <dt class="mb-2 leading-none text-gray-500 dark:text-gray-400">Pending Balance </dt>
+            <% if @pending_balance > 0 %>
+              <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white"><%= number_to_currency(@pending_balance) %></dd>
+            <% else %>
+              <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white">No pending balance.</dd>
+            <% end %>
+          </dl>
         </div>
-        <div class="flex items-center px-4 space-x-4">
-          <%= link_to edit_masjid_path(@masjid) do %>
-            <button type="button" class="text-white inline-flex items-center bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
-              <svg aria-hidden="true" class="mr-1 -ml-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path></svg>
-              Edit
-            </button>
-          <%  end %>
-          <% if current_masjid.stripe_account_id.nil?%>
-            <%= link_to "Connect to Stripe", connect_stripe_masjid_path(@masjid), class: "py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" %>
-          <% elsif @stripe_onboarding_link %>
-            <%= link_to "Finish Onboarding", @stripe_onboarding_link, target: "_blank", rel: "noopener noreferrer", class: "py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" %>
-          <% else @stripe_onboarding_link %>
-            <%= link_to "Open Stripe Dashboard", open_stripe_dashboard_masjid_path(@masjid), class: "py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" %>
-          <% end %>
-          <% unless current_masjid.stripe_account_id.nil? %>
-            <%= link_to "Go to Payouts", new_masjid_payout_path(@masjid), data: { turbo: false }, class: "py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" %>
-          </div>
+        <!-- Column -->
+      </div>
+      <div class="flex items-center px-4 space-x-4">
+        <%= link_to edit_masjid_path(@masjid) do %>
+          <button type="button" class="inline-flex py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+            <svg aria-hidden="true" class="mr-1 -ml-1 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z"></path><path fill-rule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clip-rule="evenodd"></path></svg>
+            Edit
+          </button>
+        <%  end %>
+        <% if current_masjid.stripe_account_id.nil?%>
+          <%= link_to "Connect to Stripe", connect_stripe_masjid_path(@masjid), class: "py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" %>
+        <% elsif @stripe_onboarding_link %>
+          <%= link_to "Finish Onboarding", @stripe_onboarding_link, target: "_blank", rel: "noopener noreferrer", class: "py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" %>
+        <% else @stripe_onboarding_link %>
+          <%= link_to "Open Stripe Dashboard", open_stripe_dashboard_masjid_path(@masjid), class: "py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" %>
         <% end %>
-      </section>
-      <%=  %>
-    </main>
-  </div>
+        <% unless current_masjid.stripe_account_id.nil? %>
+          <%= link_to "Go to Payouts", new_masjid_payout_path(@masjid), data: { turbo: false }, class: "py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" %>
+        <% end %>
+      </div>
+    </div>
+  </section>
+</div>

@@ -4,7 +4,11 @@ class WebhooksController < ApplicationController
   def stripe
     payload = request.body.read
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
-    endpoint_secret = ENV['STRIPE_WEBHOOK_SECRET'] || Rails.application.credentials.dig(:stripe, :webhook_key)
+    endpoint_secret = if Rails.env.development?
+                        Rails.application.credentials.dig(:stripe, :webhook_key)
+                      else
+                        Rails.application.credentials.dig(:stripe, :webhook_qa_key)
+                      end
 
     unless endpoint_secret.is_a?(String) && endpoint_secret.present?
       Rails.logger.error "Invalid webhook secret: #{endpoint_secret.inspect}"
@@ -68,26 +72,33 @@ class WebhooksController < ApplicationController
   def handle_payment_paid(payment_intent)
     metadata = payment_intent['metadata']
 
-    contact = Contact.find_by(email: metadata['contact_email']) || Contact.new(email: metadata['contact_email'])
+    masjid_id = metadata['masjid_id']
+
+    contact = Contact.find_by(email: metadata['contact_email'], masjid_id: masjid_id) ||
+              Contact.new(email: metadata['contact_email'], masjid_id: masjid_id)
     if contact.new_record?
       contact.first_name = metadata['contact_first_name']
       contact.last_name = metadata['contact_last_name']
-      contact.masjid_id = metadata['masjid_id']
+      contact.masjid_id = masjid_id
 
-      unless contact.save
-        return { donation: nil, errors: contact.errors.full_messages}
-      end
+      return { donation: nil, errors: contact.errors.full_messages } unless contact.save
     end
-    amount = payment_intent['amount'] / 100.0
-    fee = payment_intent['application_fee_amount'] / 100.0
-    amount_after_fee = amount - fee
+    amount = payment_intent['amount'].to_f / 100.0
+    fee = payment_intent['application_fee_amount'].to_f / 100.0
+    amount_after_fee = (amount - fee).round(2)
     donation = Donation.new(
       amount: amount_after_fee,
       fundraiser_id: metadata['fundraiser_id'],
-      masjid_id: metadata['masjid_id'],
+      masjid_id: masjid_id,
       contact_id: contact.id
     )
     donation.save!
     DonationConfirmationMailer.donation_confirmation(donation, amount).deliver_now
-  end 
+
+    Notification.create!(
+      masjid_id: masjid_id,
+      message: "A new donation of $#{'%.2f' % amount_after_fee} has been made to your fundraiser #{donation.fundraiser.name} by #{donation.contact.name}!",
+      donation_id: donation.id
+    )
+  end
 end

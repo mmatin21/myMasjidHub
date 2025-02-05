@@ -426,12 +426,12 @@
   .ts-wrapper {
     position: relative;
     color: white;
-    background: #374151;
+    background: #4B5563;
   }
 
   .ts-control,
   .ts-wrapper.single.input-active .ts-control {
-    background: #374151;
+    background: #4B5563;
     cursor: text;
     color: white;
   }
@@ -443,15 +443,16 @@
     position: relative;
     display: flex;
     flex-wrap: wrap;
-    background: #374151;
+    background: #4B5563;
   }
   .full .ts-control {
-    background: #374151;
+    background: #4B5563;
+    
   }
 
   .ts-dropdown [data-selectable] {
     cursor: pointer;
-    background: #374151;
+    background: #4B5563;
     overflow: hidden;
     color: #fff;
     border-radius: 0.5rem;
@@ -464,8 +465,8 @@
     left: 0;
     width: 100%;
     z-index: 10;
-    border: 5px solid #374151;
-    background: #374151;
+    border: 5px solid #4B5563;
+    background: #4B5563;
     margin: 0.25rem 0 0 0;
     border-top: 0 none;
     box-sizing: border-box;

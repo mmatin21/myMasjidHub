@@ -3,25 +3,6 @@ import { Controller } from "@hotwired/stimulus";
 export default class extends Controller {
   connect() {
     this.modal = this.element;
-    // Add click event listener to the modal backdrop
-    document.addEventListener('click', this.handleClickOutside.bind(this))
-  }
-
-  disconnect() {
-    // Clean up event listener when controller is disconnected
-    document.removeEventListener('click', this.handleClickOutside.bind(this))
-  }
-
-  handleClickOutside(event) {
-    // Check if click is outside the form
-    if (!this.element.contains(event.target) && !event.target.closest('[data-modal-target]')) {
-      // Close the modal using Turbo
-      const frame = this.element.closest('turbo-frame')
-      if (frame) {
-        frame.src = undefined
-        frame.innerHTML = ''
-      }
-    }
   }
 
   close() {

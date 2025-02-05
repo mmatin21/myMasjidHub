@@ -1,0 +1,15 @@
+<div id="detail_<%= fundraiser.id %>">
+  <dl class="p-4 bg-gray-50 rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600">
+    <h2 class="flex items-center mb-4 text-xl font-bold leading-none text-gray-900 sm:text-2xl dark:text-white sm:mb-5">
+      <%= fundraiser.name %>
+    </h2>
+    <dt class="mb-2 leading-none text-gray-500 dark:text-gray-400">Goal Amount</dt>
+    <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white"><%= number_to_currency(fundraiser.goal_amount) %></dd>
+    <dt class="mb-2 leading-none text-gray-500 dark:text-gray-400">Description</dt>
+    <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white"><%= fundraiser.description %></dd>
+    <dt class="mb-2 leading-none text-gray-500 dark:text-gray-400">Donations Made / Amount Donated</dt>
+    <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white"><%="#{fundraiser.donations.count} / #{number_to_currency(fundraiser.donations.sum(:amount))}" %></dd>
+    <dt class="mb-2 leading-none text-gray-500 dark:text-gray-400">Pledges Made / Amount Pledged</dt>
+    <dd class="mb-4 font-medium text-gray-900 sm:mb-5 dark:text-white"><%= "#{fundraiser.pledges.count} / #{number_to_currency(fundraiser.pledges.sum(:amount))}" %></dd>
+  </dl>
+</div>

@@ -1,0 +1,15 @@
+<div class="antialiased">
+  <section class="p-4 md:ml-64 h-auto pt-20">
+    <h1>Notifications</h1>
+    <%= turbo_stream_from "notifications_#{current_masjid.id}" %>
+    <ul id="notification-list">
+      <% @notifications.each do |notification| %>
+        <li>
+          <strong><%= notification.message %></strong>
+          <br>
+          <small><%= time_ago_in_words(notification.created_at) %> ago</small>
+        </li>
+      <% end %>
+    </ul>
+  </section>
+</div>

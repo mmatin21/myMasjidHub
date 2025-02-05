@@ -9,9 +9,7 @@ export default class extends Controller {
   };
 
   connect() {
-    if (this.selectTarget.id === "") {
-      this.selectTarget.id = Math.random().toString(36); // Ensure each select has a unique ID
-    }
+    
     this.getPledges();
   }
 

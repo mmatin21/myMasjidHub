@@ -1,20 +1,20 @@
 class FundraisersController < ApplicationController
-  before_action :set_fundraiser, only: %i[ show edit update destroy ]
+  before_action :authenticate_masjid!
+  before_action :set_fundraiser, only: %i[show edit update destroy]
   include Pagy::Backend
-  Pagy::DEFAULT[:limit] = 7
+  Pagy::DEFAULT[:limit] = 30
 
   # GET /fundraisers or /fundraisers.json
   def index
-    @fundraisers = Fundraiser.where(masjid_id: current_masjid.id)
+    @fundraisers = current_masjid.fundraisers
   end
 
   # GET /fundraisers/1 or /fundraisers/1.json
   def show
-    @donations = Donation.where(fundraiser_id: @fundraiser.id)
+    @donations = Donation.where(fundraiser_id: @fundraiser.id).order(created_at: :desc).limit(8)
 
     @q = @donations.ransack(params[:q])
     @pagy, @table_donations = pagy(@donations)
-
   end
 
   # GET /fundraisers/new
@@ -23,21 +23,22 @@ class FundraisersController < ApplicationController
   end
 
   # GET /fundraisers/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /fundraisers or /fundraisers.json
   def create
     @fundraiser = Fundraiser.new(fundraiser_params)
     @fundraiser.masjid_id = current_masjid.id
 
-
     respond_to do |format|
       if @fundraiser.save
-        format.html { redirect_to fundraiser_url(@fundraiser), notice: "Fundraiser was successfully created." }
+        format.html { redirect_to fundraiser_url(@fundraiser), notice: 'Fundraiser was successfully created.' }
         format.turbo_stream do
-          render turbo_stream: turbo_stream.prepend("fundraisers", partial: "fundraisers/fundraiser", locals: { fundraiser: @fundraiser }) 
-        end 
+          render turbo_stream: [turbo_stream.prepend('fundraisers', partial: 'fundraisers/fundraiser',
+                                                                    locals: { fundraiser: @fundraiser }),
+                                turbo_stream.replace('flash',
+                                                     partial: 'shared/alert', locals: { notice: 'Fundraiser was successfully created.' })]
+        end
         format.json { render :show, status: :created, location: @fundraiser }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -50,7 +51,13 @@ class FundraisersController < ApplicationController
   def update
     respond_to do |format|
       if @fundraiser.update(fundraiser_params)
-        format.html { redirect_to fundraiser_url(@fundraiser), notice: "Fundraiser was successfully updated." }
+        format.turbo_stream do
+          render turbo_stream: [turbo_stream.replace("detail_#{@fundraiser.id}", partial: 'fundraisers/detail',
+                                                                                 locals: { fundraiser: @fundraiser }),
+                                turbo_stream.replace('flash',
+                                                     partial: 'shared/alert', locals: { notice: 'Fundraiser was successfully edited.' })]
+        end
+        format.html { redirect_to fundraiser_url(@fundraiser), notice: 'Fundraiser was successfully updated.' }
         format.json { render :show, status: :ok, location: @fundraiser }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -64,19 +71,20 @@ class FundraisersController < ApplicationController
     @fundraiser.destroy
 
     respond_to do |format|
-      format.html { redirect_to fundraisers_url, notice: "Fundraiser was successfully destroyed." }
+      format.html { redirect_to fundraisers_url, notice: 'Fundraiser was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_fundraiser
-      @fundraiser = Fundraiser.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def fundraiser_params
-      params.require(:fundraiser).permit(:name, :description, :goal_amount, :masjid_id, :end_date)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_fundraiser
+    @fundraiser = Fundraiser.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def fundraiser_params
+    params.require(:fundraiser).permit(:name, :description, :goal_amount, :masjid_id, :end_date)
+  end
 end

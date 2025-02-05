@@ -1,19 +1,17 @@
 class PayoutsController < ApplicationController
+  before_action :authenticate_masjid!
   before_action :set_masjid
 
   def new
     # Fetch available balance for the connected account
-    begin
-      balance = Stripe::Balance.retrieve({},{stripe_account: @masjid.stripe_account_id})
-      withdrawal_balance = balance['pending'].first['amount'] / 100
-      @available_balance = balance['available'].first['amount'] / 100.0 # Convert cents to dollars
-        if withdrawal_balance < 0
-          @available_balance = @available_balance + withdrawal_balance
-        end
-    rescue Stripe::StripeError => e
-      flash[:alert] = "Error retrieving balance: #{e.message}"
-      @available_balance = 0.0
-    end
+
+    balance = Stripe::Balance.retrieve({}, { stripe_account: @masjid.stripe_account_id })
+    withdrawal_balance = balance['pending'].first['amount'] / 100
+    @available_balance = balance['available'].first['amount'] / 100.0 # Convert cents to dollars
+    @available_balance += withdrawal_balance if withdrawal_balance.negative?
+  rescue Stripe::StripeError => e
+    flash[:alert] = "Error retrieving balance: #{e.message}"
+    @available_balance = 0.0
   end
 
   def create
@@ -21,10 +19,10 @@ class PayoutsController < ApplicationController
 
     begin
       # Create a payout
-      payout = Stripe::Payout.create(
+      Stripe::Payout.create(
         {
           amount: amount.to_i,
-          currency: 'usd',
+          currency: 'usd'
         },
         { stripe_account: @masjid.stripe_account_id }
       )
@@ -32,7 +30,7 @@ class PayoutsController < ApplicationController
       flash[:notice] = "Payout of $#{params[:amount]} created successfully!"
       redirect_to masjid_path(@masjid)
     rescue Stripe::StripeError => e
-      Rails.logger.debug "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Payout Failed #{e.message}!!!!!!!!!!!!!!!!!!!!!!!!" 
+      Rails.logger.debug "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Payout Failed #{e.message}!!!!!!!!!!!!!!!!!!!!!!!!"
       flash[:notice] = "Payout failed: #{e.message}"
       redirect_to new_masjid_payout_path(@masjid)
     end

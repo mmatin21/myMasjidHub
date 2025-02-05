@@ -1,96 +1,66 @@
-<%= form_with(model: donation, class: "max-w-2xl mx-auto") do |form| %>
-  <% if donation.errors.any? %>
-    <div class="mb-6 p-4 rounded-lg bg-red-50 dark:bg-red-900/50 border border-red-200 dark:border-red-800">
-      <div class="flex items-center mb-2">
-        <svg class="w-5 h-5 text-red-500 dark:text-red-400 mr-2" fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
-        </svg>
-        <h2 class="text-red-800 dark:text-red-200 font-semibold"><%= pluralize(donation.errors.count, "error") %> prohibited this donation from being saved:</h2>
+<div id="parent-form">
+  <%= form_with(model: donation, class: "p-4 md:p-5") do |form| %>
+    <% if donation.errors.any? %>
+      <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+        <h2><%= pluralize(donation.errors.count, "error") %> prohibited this donation from being saved:</h2>
+        <ul>
+          <% donation.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
       </div>
-      <ul class="list-disc list-inside text-red-600 dark:text-red-300">
-        <% donation.errors.each do |error| %>
-          <li><%= error.full_message %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
-
-  <% if @fundraiser %>
-    <%= form.hidden_field :fundraiser_id, value: @fundraiser.id %>
-  <% end %>
-
-  <div class="space-y-6">
-    <div>
-      <%= form.label :fundraiser_id, class: "block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1" %>
-      <%= form.select :fundraiser_id, 
-          Fundraiser.where(masjid_id: current_masjid.id).map{|m| [m.name, m.id]}, 
-          {prompt: "Select a fundraiser"}, 
+    <% end %>
+    <% if @fundraiser %>
+      <%= form.hidden_field :fundraiser_id, value: @fundraiser.id %>
+    <% end %>
+    <div class="grid gap-4 mb-4 grid-cols-2">
+      <div class="col-span-2">
+        <%= form.label :fundraiser_id, "Fundraisers*", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+        <%= form.select :fundraiser_id, Fundraiser.where(masjid_id: current_masjid.id).map{|m| [m.name, m.id]}, {prompt: "Select a fundraiser"}, 
           { data: {
-              controller: "select",
-              action: "change->select#change",
-              select_param: "fundraiser_id",
-              select_url_value: "/options/pledges"
+            controller: "select",
+            action: "change->select#change",
+            select_param: "fundraiser_id",
+            select_url_value: "/options/pledges"
             },
-            class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm 
-                   bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
-                   focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150" } %>
-    </div>
-
-    <div>
-      <%= form.label :contact_id, class: "block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1" %>
-      <%= form.select :contact_id,
-          @contacts.map{|m| [m.full_name, m.id]},
-          { include_blank: "Select or Add Contact" },
-          { data: { 
-              controller: "search-select select", 
-              action: "change->search-select#openModal change->select#change",
-              select_param: "fundraiser_id",
-              select_url_value: "/options/pledges"
-            },
-            class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm 
-                   bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
-                   focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150" } %>
-    </div>
-
-    <div>
-      <%= form.label :pledge_id, id: "pledge-select", class: "block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1" %>
-      <%= form.select :pledge_id,
-          [],
-          { include_blank: "Select or Add Contact" },
-          { data: { 
-              controller: "select",
-              select_target: "select" 
-            }, 
-            class: "w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm 
-                   bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
-                   focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150" } %>
-    </div>
-
-    <div>
-      <%= form.label :amount, class: "block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1" %>
-      <div class="relative">
-        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-          <span class="text-gray-500 dark:text-gray-400 sm:text-sm">$</span>
-        </div>
-        <%= form.text_field :amount,
-            class: "w-full pl-7 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg shadow-sm 
-                   bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100
-                   focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150
-                   placeholder-gray-400 dark:placeholder-gray-500",
-            placeholder: "0.00" %>
+            class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", required: true }
+        %>
       </div>
+      <div class="col-span-2">
+        <%= form.label :contact_id, "Contacts*", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+        <%= form.select :contact_id,
+                    @contacts.map{|m| [m.full_name, m.id]},
+                    { include_blank: "Select or add a contact" },
+                    { data: { controller: "search-select select", 
+                    action: "change->select#change",
+                    search_select_target: "contact",
+                    select_param: "fundraiser_id",
+                    select_url_value: "/options/pledges"
+                    },
+                    class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", required: true } %>
+      </div>
+      <div class="col-span-2">
+        <%= form.label :pledge_id, "Pledges*", id: "pledge-select", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
+        <%= form.select :pledge_id,
+                    [],
+                    { include_blank: "Select a fundraiser and contact to populate" },
+                    { data: { controller: "select",
+                     select_target: "select",
+                     search_select_target: "pledge"
+                    }, 
+                     class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" } %>
+      </div>
+      <div class="col-span-2">
+        <%= form.label :amount, "Donation Amount*", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white"%>
+        <%= form.number_field :amount,  step: 0.01, min: 0.01, class: "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500", placeholder: "$29.99", required: true %>
+      </div>
+      <button type="submit" class="text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+        Submit
+      </button>
     </div>
-
-    <div class="flex justify-end mt-6">
-      <%= form.submit class: "inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg 
-                             shadow-sm text-white bg-blue-600 dark:bg-blue-500 hover:bg-blue-700 dark:hover:bg-blue-600 
-                             focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 
-                             dark:focus:ring-offset-gray-800 transition duration-150" do %>
-        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
-        </svg>
-        Save Donation
-      <% end %>
-    </div>
-  </div>
-<% end %>
+  <% end %>
+</div>
+<!-- Contact Modal !-->
+<%= render 'shared/contact_modal', contact: @contact %>
+<!-- New Pledge Form !-->
+<%= render 'shared/pledge_modal', pledge: @pledge %>
