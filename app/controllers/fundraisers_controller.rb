@@ -85,6 +85,29 @@ class FundraisersController < ApplicationController
     end
   end
 
+  def toggle_active
+    @fundraiser = Fundraiser.find(params[:id])
+    Rails.logger.debug 'Toggling fundraiser active'
+
+    @fundraiser.update(active: !@fundraiser.active)
+
+    Rails.logger.debug "Fundraiser after patch #{@fundraiser.active}"
+
+    notice = @fundraiser.active ? 'Fundraiser was set to active.' : 'Fundraiser was set to inactive.'
+
+    respond_to do |format|
+      format.html { redirect_to fundraiser_path(@fundraiser), notice: notice }
+      format.turbo_stream do
+        render turbo_stream: [turbo_stream.replace('flash',
+                                                   partial: 'shared/alert', locals:
+                                                    { notice: notice }),
+                              turbo_stream.replace('toggle',
+                                                   partial: 'fundraisers/toggle_button', locals:
+                                                    { fundraiser: @fundraiser })]
+      end
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_02_02_195626) do
+ActiveRecord::Schema[7.0].define(version: 2025_02_05_154802) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -130,6 +130,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_02_195626) do
     t.datetime "end_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "active", default: true
     t.index ["masjid_id"], name: "index_fundraisers_on_masjid_id"
   end
 
