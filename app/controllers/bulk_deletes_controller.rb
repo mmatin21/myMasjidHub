@@ -24,7 +24,10 @@ class BulkDeletesController < ApplicationController
                                 table: @table_records,
                                 query: @q,
                                 pagy: @pagy
-                              })
+                              }),
+          turbo_stream.replace('flash',
+                               partial: 'shared/alert', locals: { notice: 'Items were successfully destroyed.' })
+
         ]
       end
     end
@@ -52,7 +55,9 @@ class BulkDeletesController < ApplicationController
                                 table: @table_records,
                                 query: @q,
                                 pagy: @pagy
-                              })
+                              }),
+          turbo_stream.replace('flash',
+                               partial: 'shared/alert', locals: { notice: 'Pledges were successfully destroyed.' })
         ]
       end
     end
@@ -65,6 +70,15 @@ class BulkDeletesController < ApplicationController
     Rails.logger.debug "ids: #{params[:ids]}"
     items = klass.where(id: params[:ids].split(','))
     items.destroy_all
+
+    Rails.logger.debug "items count #{items.count}"
+    alert_type = 'alert'
+    notice = 'Contacts were successfully destroyed.'
+
+    if items.count > 0
+      alert_type = 'error'
+      notice = 'Error deleting some or all contacts.'
+    end
 
     @q = klass.where(masjid_id: current_masjid.id).ransack(params[:q])
     @records = @q.result
@@ -80,7 +94,9 @@ class BulkDeletesController < ApplicationController
                                 table: @table_records,
                                 query: @q,
                                 pagy: @pagy
-                              })
+                              }),
+          turbo_stream.replace('flash',
+                               partial: "shared/#{alert_type}", locals: { notice: notice })
         ]
       end
     end
@@ -108,7 +124,9 @@ class BulkDeletesController < ApplicationController
                                 table: @table_records,
                                 query: @q,
                                 pagy: @pagy
-                              })
+                              }),
+          turbo_stream.replace('flash',
+                               partial: 'shared/alert', locals: { notice: 'Donations were successfully destroyed.' })
         ]
       end
     end
