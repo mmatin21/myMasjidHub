@@ -4,7 +4,7 @@ class Notification < ApplicationRecord
 
   # After a new notification is created, broadcast updates to the relevant targets
   after_create_commit do
-    broadcast_update_to "bell_notifications_#{masjid.id}", target: 'notification-badge',
+    broadcast_update_to "bell_notifications_#{masjid.id}", target: 'notification-wrapper',
                                                            partial: 'navbar/topbar/notification_badge',
                                                            locals: {
                                                              masjid: masjid
