@@ -29,7 +29,7 @@ class EventsController < ApplicationController
         format.turbo_stream do
           render turbo_stream: [turbo_stream.prepend('events', partial: 'events/event', locals: { event: @event }),
                                 turbo_stream.replace('flash', partial: 'shared/alert',
-                                                              locals: { notice: 'Fundraiser was successfully created.' })]
+                                                              locals: { notice: 'Event was successfully created.' })]
         end
         format.json { render :show, status: :created, location: @event }
       else
