@@ -6,5 +6,5 @@ test:
 
 production:
   adapter: redis
-  url: <%= ENV.fetch("REDIS_URL") { "redis://red-cuk3rl2j1k6c73d3tp0g:6379" } %>
+  url: <%= ENV.fetch("REDIS_URL") { "redis://red-cuk3kkbv2p9s7388bih0:6379" } %>
   channel_prefix: MosqueApp_production
