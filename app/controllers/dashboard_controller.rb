@@ -21,7 +21,7 @@ class DashboardController < ApplicationController
     # Group events by date
     @events_by_date = @events.group_by { |event| event.event_date.to_date }
 
-    @combined_records = (Revenue.all + Donation.all).sort_by do |record|
+    @combined_records = (@masjid.revenues + @masjid.donations).sort_by do |record|
       [
         record.is_a?(Donation) ? 1 : 0, # Revenues (0) come before Donations (1)
         -(record.is_a?(Revenue) ? record.date : record.created_at).to_time.to_i # Most recent dates first
