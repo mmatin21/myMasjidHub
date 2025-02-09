@@ -4,11 +4,7 @@ class WebhooksController < ApplicationController
   def stripe
     payload = request.body.read
     sig_header = request.env['HTTP_STRIPE_SIGNATURE']
-    endpoint_secret = if Rails.env.development?
-                        Rails.application.credentials.dig(:stripe, :webhook_key)
-                      else
-                        Rails.application.credentials.dig(:stripe, :webhook_qa_key)
-                      end
+    endpoint_secret = Rails.application.credentials.dig(:stripe, :webhook_qa_key)
 
     unless endpoint_secret.is_a?(String) && endpoint_secret.present?
       Rails.logger.error "Invalid webhook secret: #{endpoint_secret.inspect}"
