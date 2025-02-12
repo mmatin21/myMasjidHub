@@ -9,6 +9,7 @@ module Types
     field :last_name, String
     field :email, String
     field :phone_number, String
+    field :stripe_customer_id, String
     field :created_at, GraphQL::Types::ISO8601DateTime, null: false
     field :updated_at, GraphQL::Types::ISO8601DateTime, null: false
   end
