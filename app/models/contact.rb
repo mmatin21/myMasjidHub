@@ -18,7 +18,7 @@ class Contact < ApplicationRecord
   end
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[first_name last_name email phone_number]
+    %w[first_name last_name email phone_number email]
   end
 
   def self.to_csv

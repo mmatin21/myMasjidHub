@@ -14,6 +14,7 @@ class FundraisersController < ApplicationController
     donations = @fundraiser.donations
 
     @q = donations.ransack(params[:q])
+    donations = @q.result.includes(:contact, :fundraiser)
     @pagy, @table_donations = pagy(donations)
   end
 

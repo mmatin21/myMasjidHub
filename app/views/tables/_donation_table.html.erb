@@ -64,8 +64,8 @@
             <th scope="col" class="px-4 py-3">
               <%= sort_link(query, :contact_email, 'Email') %>
             </th>
-            <th scope="col" class="px-4 py-3">
-              Fundraiser
+             <th scope="col" class="px-4 py-3">
+              <%= sort_link(query, :fundraiser_name, 'Fundraiser') %>
             </th>
             <th scope="col" class="px-4 py-3">
               <%= sort_link(query, :amount, 'Amount') %>
@@ -85,6 +85,7 @@
         </tbody>
       </table>
       <nav class="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4" aria-label="Table navigation">
+        <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
         <%= form_tag donations_bulk_deletes_path, method: :delete, data: { turbo: true } do %>
           <%= hidden_field_tag :model_type, model.to_s %>
           <%= hidden_field_tag :ids, '', id: 'selected_ids' %>

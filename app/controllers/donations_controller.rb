@@ -8,7 +8,7 @@ class DonationsController < ApplicationController
   def index
     @donations = current_masjid.donations.order(created_at: 'desc')
     @q = @donations.ransack(params[:q])
-    @donations = @q.result.includes(:contact)
+    @donations = @q.result.includes(:contact, :fundraiser)
     @pagy, @table_donations = pagy(@donations)
   end
 

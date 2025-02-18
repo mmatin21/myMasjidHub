@@ -14,7 +14,13 @@ class ContactsController < ApplicationController
   end
 
   # GET /contacts/1 or /contacts/1.json
-  def show; end
+  def show
+    donations = @contact.donations.order(created_at: 'desc')
+
+    @q = donations.ransack(params[:q])
+    donations = @q.result.includes(:contact, :fundraiser)
+    @pagy, @table_donations = pagy(donations)
+  end
 
   # GET /contacts/new
   def new
