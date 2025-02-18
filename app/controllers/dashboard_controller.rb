@@ -4,7 +4,7 @@ class DashboardController < ApplicationController
 
   def index
     year = params[:year].presence || Time.current.year
-    month = params[:month].presence || Time.current.month
+    month = params[:month]
 
     @expenses = @masjid.expenses.by_year(year).by_month(month)
     @revenues = @masjid.revenues.by_year(year).by_month(month)
