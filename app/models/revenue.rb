@@ -5,6 +5,7 @@ class Revenue < ApplicationRecord
   validates :name, presence: true
   validates :amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :date, presence: true
+  validates :note, length: { maximum: 250 }, allow_blank: true
 
   scope :by_year, ->(year) { where('extract(year from date) = ?', year) }
   scope :by_month, ->(month) { where('EXTRACT(MONTH FROM date) = ?', month) if month.present? }

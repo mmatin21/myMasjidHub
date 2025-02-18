@@ -104,6 +104,6 @@ class RevenuesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def revenue_params
-    params.require(:revenue).permit(:name, :amount, :date)
+    params.require(:revenue).permit(:name, :amount, :date, :note)
   end
 end
