@@ -10,12 +10,15 @@ class Donation < ApplicationRecord
   validates :amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :contact, presence: true
 
+  scope :by_year, ->(year) { where('extract(year from created_at) = ?', year) }
+  scope :by_month, ->(month) { where('EXTRACT(MONTH FROM created_at) = ?', month) if month.present? }
+
   def self.ransackable_attributes(_auth_object = nil)
     %w[created_at amount]
   end
 
   def self.ransackable_associations(_auth_object = nil)
-    ['contact']
+    %w[contact fundraiser]
   end
 
   def self.to_csv

@@ -2,7 +2,7 @@ class FundraisersController < ApplicationController
   before_action :authenticate_masjid!
   before_action :set_fundraiser, only: %i[show edit update destroy]
   include Pagy::Backend
-  Pagy::DEFAULT[:limit] = 30
+  Pagy::DEFAULT[:limit] = 25
 
   # GET /fundraisers or /fundraisers.json
   def index
@@ -14,6 +14,7 @@ class FundraisersController < ApplicationController
     donations = @fundraiser.donations
 
     @q = donations.ransack(params[:q])
+    donations = @q.result.includes(:contact, :fundraiser)
     @pagy, @table_donations = pagy(donations)
   end
 

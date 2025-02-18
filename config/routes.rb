@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   }
   resources :masjids do
     resources :payouts, only: %i[new create]
-    resources :dashboard, only: [:index]
+    resources :dashboard, only: %i[index get]
     member do
       get :connect_stripe
       get :open_stripe_dashboard

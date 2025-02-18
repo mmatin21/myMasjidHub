@@ -2,7 +2,7 @@ class RevenuesController < ApplicationController
   before_action :authenticate_masjid!
   before_action :set_revenue, only: %i[show edit update destroy]
   include Pagy::Backend
-  Pagy::DEFAULT[:limit] = 30
+  Pagy::DEFAULT[:limit] = 25
 
   # GET /revenues or /revenues.json
   def index

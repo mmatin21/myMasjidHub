@@ -3,7 +3,7 @@ class ContactsController < ApplicationController
   before_action :set_contact, only: %i[show edit update destroy]
 
   include Pagy::Backend
-  Pagy::DEFAULT[:limit] = 30
+  Pagy::DEFAULT[:limit] = 25
 
   # GET /contacts or /contacts.json
   def index
@@ -14,7 +14,13 @@ class ContactsController < ApplicationController
   end
 
   # GET /contacts/1 or /contacts/1.json
-  def show; end
+  def show
+    donations = @contact.donations.order(created_at: 'desc')
+
+    @q = donations.ransack(params[:q])
+    donations = @q.result.includes(:contact, :fundraiser)
+    @pagy, @table_donations = pagy(donations)
+  end
 
   # GET /contacts/new
   def new
