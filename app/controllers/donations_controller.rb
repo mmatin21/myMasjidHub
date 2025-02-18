@@ -2,7 +2,7 @@ class DonationsController < ApplicationController
   before_action :authenticate_masjid!
   before_action :set_donation, only: %i[show edit update destroy]
   include Pagy::Backend
-  Pagy::DEFAULT[:limit] = 30
+  Pagy::DEFAULT[:limit] = 25
 
   # GET /donations or /donations.json
   def index

@@ -3,7 +3,7 @@ class ContactsController < ApplicationController
   before_action :set_contact, only: %i[show edit update destroy]
 
   include Pagy::Backend
-  Pagy::DEFAULT[:limit] = 30
+  Pagy::DEFAULT[:limit] = 25
 
   # GET /contacts or /contacts.json
   def index
