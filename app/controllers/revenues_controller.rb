@@ -1,8 +1,9 @@
 class RevenuesController < ApplicationController
   before_action :authenticate_masjid!
   before_action :set_revenue, only: %i[show edit update destroy]
+  include CsvImportable
   include Pagy::Backend
-  Pagy::DEFAULT[:limit] = 30
+  Pagy::DEFAULT[:limit] = 25
 
   # GET /revenues or /revenues.json
   def index
@@ -85,16 +86,6 @@ class RevenuesController < ApplicationController
     end
   end
 
-  def import_csv
-    if params[:file].present?
-      masjid_id = current_masjid.id # Get the masjid_id for the current user
-      Revenue.import(params[:file], masjid_id)
-      redirect_to revenues_path, notice: 'Records imported successfully.'
-    else
-      redirect_to revenues_path, alert: 'Please upload a valid CSV file.'
-    end
-  end
-
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -104,6 +95,6 @@ class RevenuesController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def revenue_params
-    params.require(:revenue).permit(:name, :amount, :date)
+    params.require(:revenue).permit(:name, :amount, :date, :note)
   end
 end

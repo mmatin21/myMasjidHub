@@ -2,7 +2,8 @@ class PledgesController < ApplicationController
   before_action :authenticate_masjid!
   before_action :set_pledge, only: %i[show edit update destroy]
   include Pagy::Backend
-  Pagy::DEFAULT[:limit] = 30
+  include CsvImportable
+  Pagy::DEFAULT[:limit] = 25
 
   # GET /pledges or /pledges.json
   def index
@@ -99,16 +100,6 @@ class PledgesController < ApplicationController
 
     respond_to do |format|
       format.csv { send_data @pledges.to_csv, filename: "pledges_#{Date.today}.csv" }
-    end
-  end
-
-  def import_csv
-    if params[:file].present?
-      masjid_id = current_masjid.id # Get the masjid_id for the current user
-      Pledge.import(params[:file], masjid_id)
-      redirect_to pledges_path, notice: 'Records imported successfully.'
-    else
-      redirect_to pledges_path, alert: 'Please upload a valid CSV file.'
     end
   end
 

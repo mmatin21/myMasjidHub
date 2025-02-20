@@ -2,13 +2,14 @@ class DonationsController < ApplicationController
   before_action :authenticate_masjid!
   before_action :set_donation, only: %i[show edit update destroy]
   include Pagy::Backend
-  Pagy::DEFAULT[:limit] = 30
+  include CsvImportable
+  Pagy::DEFAULT[:limit] = 25
 
   # GET /donations or /donations.json
   def index
     @donations = current_masjid.donations.order(created_at: 'desc')
     @q = @donations.ransack(params[:q])
-    @donations = @q.result.includes(:contact)
+    @donations = @q.result.includes(:contact, :fundraiser)
     @pagy, @table_donations = pagy(@donations)
   end
 
@@ -92,16 +93,6 @@ class DonationsController < ApplicationController
 
     respond_to do |format|
       format.csv { send_data @donations.to_csv, filename: "donations_#{Date.today}.csv" }
-    end
-  end
-
-  def import_csv
-    if params[:file].present?
-      masjid_id = current_masjid.id # Get the masjid_id for the current user
-      Donation.import(params[:file], masjid_id)
-      redirect_to donations_path, notice: 'Records imported successfully.'
-    else
-      redirect_to donations_path, alert: 'Please upload a valid CSV file.'
     end
   end
 

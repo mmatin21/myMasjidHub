@@ -11,3 +11,33 @@
 }
 
 */
+
+.pagy {
+  @apply flex space-x-1 font-semibold text-sm text-gray-500;
+}
+
+.pagy a {
+  @apply flex items-center justify-center px-3 h-8 text-sm font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white;
+}
+
+.pagy a:hover {
+  @apply bg-gray-300;
+}
+
+.pagy a:not([href]) {
+  /* disabled links */
+  @apply text-gray-300 bg-gray-100 cursor-default dark:text-gray-600 dark:bg-gray-700;
+}
+
+.pagy a.current {
+  @apply text-white bg-gray-400 dark:bg-gray-600;
+}
+
+.pagy label {
+  @apply inline-block whitespace-nowrap bg-gray-200 rounded-lg px-3 py-0.5 dark:bg-gray-700;
+}
+
+.pagy label input {
+  @apply bg-gray-100 border-none rounded-md dark:bg-gray-600 dark:border-gray-500;
+}
+

@@ -35,6 +35,8 @@ class WebhooksController < ApplicationController
       handle_payout_updated(event['data']['object'])
     when 'payment_intent.succeeded'
       handle_payment_paid(event['data']['object'])
+    when 'invoice.paid'
+      handle_invoice_paid(event['data']['object'])
     else
       Rails.logger.info "Unhandled event type: #{event['type']}"
     end
@@ -98,6 +100,52 @@ class WebhooksController < ApplicationController
     Notification.create!(
       masjid_id: masjid_id,
       message: "A new donation of $#{'%.2f' % amount_after_fee} has been made to your fundraiser #{donation.fundraiser.name} by #{donation.contact.name}!",
+      donation_id: donation.id
+    )
+  end
+
+  def handle_invoice_paid(invoice)
+    Rails.logger.debug "Invoice: #{invoice.inspect}"
+    metadata = invoice['subscription_details']['metadata']
+    masjid_id = metadata['masjid_id']
+
+    contact = Contact.find_by(email: metadata['contact_email'], masjid_id: masjid_id) ||
+              Contact.new(email: metadata['contact_email'], masjid_id: masjid_id)
+    if contact.new_record?
+      contact.first_name = metadata['contact_first_name']
+      contact.last_name = metadata['contact_last_name']
+      contact.masjid_id = masjid_id
+
+      return { donation: nil, errors: contact.errors.full_messages } unless contact.save
+    end
+
+    contact.stripe_customer_id = invoice['customer'] if contact.stripe_customer_id.nil?
+    contact.save
+
+    amount = invoice['amount_paid'].to_f / 100.0
+    fee = invoice['application_fee_amount'].to_f / 100
+    amount_after_fee = (amount - fee).round(2)
+
+    total_amount = metadata['total_amount'].to_f / 100.0
+    total_installments = metadata['total_installments'].to_i
+
+    Rails.logger.debug "amount after fee #{amount_after_fee}"
+
+    donation = Donation.new(
+      amount: amount_after_fee,
+      fundraiser_id: metadata['fundraiser_id'],
+      masjid_id: masjid_id,
+      contact_id: contact.id
+    )
+    donation.save!
+    DonationConfirmationMailer.donation_installment_confirmation(donation, amount).deliver_now
+
+    Notification.create!(
+      masjid_id: masjid_id,
+      message: "A new installment donation of $#{'%.2f' % amount_after_fee} per month for #{total_installments}
+                months (total: $#{'%.2f' % total_amount}) has been made to your fundraiser
+                #{donation.fundraiser.name} by #{donation.contact.name}!
+                The initial payment of $#{'%.2f' % amount_after_fee} has been processed.",
       donation_id: donation.id
     )
   end

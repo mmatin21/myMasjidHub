@@ -29,8 +29,8 @@
             </button>
             <div id="actionsDropdown" class="z-10 hidden w-48 p-3 bg-white rounded-lg shadow dark:bg-gray-700">
               <ul class="py-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="actionsDropdownButton">
-                 <li>
-                  <button type="button" data-controller="table-delete" data-action="click->table-delete#toggleDeleteCheckboxes" class="block w-full text-left px-4 py-2 hover:rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Mass Delete</button>
+                <li>
+                  <button type="button" data-controller="bulk-actions" data-action="click->bulk-actions#toggleDeleteCheckboxes" class="block w-full text-left px-4 py-2 hover:rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Mass Delete</button>
                 </li>
                 <li>
                   <%= link_to "Export to CSV", export_csv_contacts_path(format: :csv), class: "block w-full text-left px-4 py-2 hover:rounded-lg hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" %>
@@ -47,7 +47,7 @@
           <tr class="border-b dark:border-gray-700">
             <th scope="col" class="p-4">
               <div class="flex items-center">
-                <input id="checkbox-all" type="checkbox" data-controller="table-delete" data-action="input->table-delete#checkAll" class=" hidden w-4 h-4 text-primary-600 bg-gray-100 rounded border-gray-300 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                <input id="checkbox-all" type="checkbox" data-controller="bulk-actions" data-action="input->bulk-actions#checkAll" class=" hidden w-4 h-4 text-primary-600 bg-gray-100 rounded border-gray-300 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                 <label for="checkbox-all" class="sr-only">checkbox</label>
               </div>
             </th>
@@ -80,31 +80,8 @@
           <% end %>
         </tbody>
       </table>
-      <nav class="flex items-center flex-column flex-wrap md:flex-row justify-between pt-4" aria-label="Table navigation">
-        <%= form_tag contacts_bulk_deletes_path, method: :delete, data: { turbo: true } do %>
-          <%= hidden_field_tag :model_type, model.to_s %>
-          <%= hidden_field_tag :ids, '', id: 'selected_ids' %>
-          <%= button_to "Delete Selected", contacts_bulk_deletes_path,
-            method: :delete,
-            id: "deleteAllButton",
-            data: { turbo_confirm: "Are you sure you want to delete the selected items?" },
-            class: "hidden text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800" %>
-        <% end %>
-        <%= form_with url: import_csv_contacts_path, multipart: true, method: :post do |form| %>
-          <div class="mb-4">
-              <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">
-                Upload file
-            </label>
-            <%= form.file_field :file, 
-                accept: ".csv", 
-                class: "block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" %>
-          </div>
-          <div class="mt-4">
-            <%= form.submit "Import CSV", 
-                class: "text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" %>
-          </div>
-          <% end %>
-      </nav>
+      <%= render "tables/table_footer", bulk_deletes_path: contacts_bulk_deletes_path, pagy: pagy, model: model %>
     <% end %>
   </div>
 <% end %>
+<%= render "shared/import_csv_modal", import_from_csv: import_csv_contacts_path%>
