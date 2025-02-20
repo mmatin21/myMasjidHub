@@ -2,6 +2,7 @@ class DonationsController < ApplicationController
   before_action :authenticate_masjid!
   before_action :set_donation, only: %i[show edit update destroy]
   include Pagy::Backend
+  include CsvImportable
   Pagy::DEFAULT[:limit] = 25
 
   # GET /donations or /donations.json
@@ -92,16 +93,6 @@ class DonationsController < ApplicationController
 
     respond_to do |format|
       format.csv { send_data @donations.to_csv, filename: "donations_#{Date.today}.csv" }
-    end
-  end
-
-  def import_csv
-    if params[:file].present?
-      masjid_id = current_masjid.id # Get the masjid_id for the current user
-      Donation.import(params[:file], masjid_id)
-      redirect_to donations_path, notice: 'Records imported successfully.'
-    else
-      redirect_to donations_path, alert: 'Please upload a valid CSV file.'
     end
   end
 

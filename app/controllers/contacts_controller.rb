@@ -1,7 +1,7 @@
 class ContactsController < ApplicationController
   before_action :authenticate_masjid!
   before_action :set_contact, only: %i[show edit update destroy]
-
+  include CsvImportable
   include Pagy::Backend
   Pagy::DEFAULT[:limit] = 25
 
@@ -132,17 +132,6 @@ class ContactsController < ApplicationController
     respond_to do |format|
       format.csv { send_data @contacts.to_csv, filename: "contacts_#{Date.today}.csv" }
     end
-  end
-
-  def import_csv
-    if params[:file].present?
-      masjid_id = current_masjid.id # Get the masjid_id for the current user
-      Contact.import(params[:file], masjid_id)
-      redirect_to contacts_path, notice: 'Records imported successfully.'
-    else
-      redirect_to contacts_path, alert: 'Please upload a valid CSV file.'
-    end
-    Rails.logger.warn 'No file uploaded'
   end
 
   private

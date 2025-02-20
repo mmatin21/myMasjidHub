@@ -6,7 +6,7 @@ class BulkDeletesController < ApplicationController
     return unless params[:model_type].present?
 
     klass = params[:model_type].classify.constantize
-    Rails.logger.debug "ids: #{params[:ids]}"
+    Rails.logger.debug "!!!!!! BULK DELETE EXPENSE OR REVENUE: #{params[:ids]}"
     items = klass.where(id: params[:ids].split(','))
     items.destroy_all
 

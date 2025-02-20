@@ -23,6 +23,16 @@ export default class extends Controller {
     })
   }
 
+  openImportModal() {
+    const importModal = document.getElementById("import-modal")
+    importModal.classList.remove("hidden")
+  }
+
+  closeImportModal() {
+    const importModal = document.getElementById("import-modal")
+    importModal.classList.add("hidden")
+  }
+
   toggleRow(event) {
     this.updateSelectedIds(event.target)
   }

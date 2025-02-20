@@ -1,6 +1,7 @@
 class RevenuesController < ApplicationController
   before_action :authenticate_masjid!
   before_action :set_revenue, only: %i[show edit update destroy]
+  include CsvImportable
   include Pagy::Backend
   Pagy::DEFAULT[:limit] = 25
 
@@ -82,16 +83,6 @@ class RevenuesController < ApplicationController
 
     respond_to do |format|
       format.csv { send_data @revenues.to_csv, filename: "revenues_#{Date.today}.csv" }
-    end
-  end
-
-  def import_csv
-    if params[:file].present?
-      masjid_id = current_masjid.id # Get the masjid_id for the current user
-      Revenue.import(params[:file], masjid_id)
-      redirect_to revenues_path, notice: 'Records imported successfully.'
-    else
-      redirect_to revenues_path, alert: 'Please upload a valid CSV file.'
     end
   end
 

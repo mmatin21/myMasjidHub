@@ -2,6 +2,13 @@ Rails.application.routes.draw do
   mount GraphiQL::Rails::Engine, at: '/graphiql', graphql_path: '/graphql' if Rails.env.development?
   post '/graphql', to: 'graphql#execute'
 
+  concern :csv_importable do
+    collection do
+      get :export_csv
+      post :import_csv
+    end
+  end
+
   resources :prayers
   resources :events
   resources :landing
@@ -25,39 +32,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :pledges do
-    collection do
-      get :export_csv
-      post :import_csv
-    end
-  end
-
-  resources :contacts do
-    collection do
-      get :export_csv
-      post :import_csv
-    end
-  end
-
-  resources :donations do
-    collection do
-      get :export_csv
-      post :import_csv
-    end
-  end
-
-  resources :revenues do
-    collection do
-      get :export_csv
-      post :import_csv
-    end
-  end
-  resources :expenses do
-    collection do
-      get :export_csv
-      post :import_csv
-    end
-  end
+  resources :pledges, concerns: :csv_importable
+  resources :contacts, concerns: :csv_importable
+  resources :donations, concerns: :csv_importable
+  resources :revenues, concerns: :csv_importable
+  resources :expenses, concerns: :csv_importable
 
   resources :months do
     collection do
