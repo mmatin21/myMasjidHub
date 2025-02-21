@@ -117,7 +117,9 @@ class ExpensesController < ApplicationController
     params.require(:expense).permit(
       :name,
       :amount,
-      :date
+      :date,
+      :expense_type,
+      :merchant
     )
   end
 end
