@@ -74,6 +74,15 @@
               <%= sort_link(query, :amount, 'Amount') %>
             </th>
             <th scope="col" class="px-4 py-3">
+              <%= sort_link(query, :payment_method, 'Payment Method') %>
+            </th>
+            <th scope="col" class="px-4 py-3">
+              <%= sort_link(query, :donation_type, 'Donation Type') %>
+            </th>
+            <th scope="col" class="px-4 py-3">
+              <%= sort_link(query, :mymasjidhub_donation, 'myMasjidHub Donation') %>
+            </th>
+            <th scope="col" class="px-4 py-3">
               <%= sort_link(query, :created_at, 'Create Date') %>
             </th>
             <th scope="col" class="px-4 py-3">
@@ -87,7 +96,7 @@
           <% end %>
         </tbody>
       </table>
-     <%= render "tables/table_footer", bulk_deletes_path: donations_bulk_deletes_path, pagy: pagy, model: model %>
+      <%= render "tables/table_footer", bulk_deletes_path: donations_bulk_deletes_path, pagy: pagy, model: model %>
     <% end %>
   </div>
 <% end %>
