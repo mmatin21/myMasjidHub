@@ -9,6 +9,29 @@ class Expense < ApplicationRecord
   scope :by_year, ->(year) { where('extract(year from date) = ?', year) }
   scope :by_month, ->(month) { where('EXTRACT(MONTH FROM date) = ?', month) if month.present? }
 
+  EXPENSE_TYPES = [
+    'Rent/Mortgage',
+    'Utilities',
+    'Phone/Internet',
+    'Office Supplies',
+    'Software Subscriptions',
+    'Advertising/Marketing',
+    'Meals & Entertainment',
+    'Travel',
+    'Fuel/Gas',
+    'Insurance',
+    'Maintenance & Repairs',
+    'Taxes & Licenses',
+    'Professional Services',
+    'Salaries & Wages',
+    'Training & Education',
+    'Bank Fees',
+    'Shipping & Postage',
+    'Equipment Purchases',
+    'Medical Expenses',
+    'Charitable Donations'
+  ].freeze
+
   def self.grouped_by_year
     group('extract(year from date)').sum(:amount)
   end
