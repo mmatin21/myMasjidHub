@@ -89,4 +89,6 @@ gem 'rqrcode', '~> 2.2'
 
 gem 'aws-sdk-s3', '~> 1.179'
 
-gem "redis", "~> 5.3"
+gem 'redis', '~> 5.3'
+
+gem 'sendgrid-ruby'

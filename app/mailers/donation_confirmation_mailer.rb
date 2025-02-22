@@ -1,5 +1,5 @@
 class DonationConfirmationMailer < ApplicationMailer
-  default from: 'noreply@mymasjidhub.com'
+  default from: 'no-reply@mymasjidhub.com'
 
   def donation_confirmation(donation, amount)
     @donation = donation
