@@ -126,9 +126,6 @@ class WebhooksController < ApplicationController
     fee = invoice['application_fee_amount'].to_f / 100
     amount_after_fee = (amount - fee).round(2)
 
-    total_amount = metadata['total_amount'].to_f / 100.0
-    total_installments = metadata['total_installments'].to_i
-
     Rails.logger.debug "amount after fee #{amount_after_fee}"
 
     donation = Donation.new(
@@ -138,14 +135,16 @@ class WebhooksController < ApplicationController
       contact_id: contact.id
     )
     donation.save!
-    DonationConfirmationMailer.donation_installment_confirmation(donation, amount).deliver_now
+    if metadata['total_installments'].present?
+      DonationConfirmationMailer.installment_donation_confirmation(donation, amount).deliver_now
+    else
+      DonationConfirmationMailer.recurring_donation_confirmation(donation, amount).deliver_now
+    end
 
     Notification.create!(
       masjid_id: masjid_id,
-      message: "A new installment donation of $#{'%.2f' % amount_after_fee} per month for #{total_installments}
-                months (total: $#{'%.2f' % total_amount}) has been made to your fundraiser
-                #{donation.fundraiser.name} by #{donation.contact.name}!
-                The initial payment of $#{'%.2f' % amount_after_fee} has been processed.",
+      message: "A new donation of $#{'%.2f' % amount_after_fee} has been made to your fundraiser
+                #{donation.fundraiser.name} by #{donation.contact.name}!",
       donation_id: donation.id
     )
   end
