@@ -6,9 +6,9 @@
     <title>Donation Confirmation</title>
   </head>
   <body>
-    <h1>Recurring Donation Confirmation</h1>
-    <p>Thank you for your recurring donation!</p>
-    <p>Your recurring donation has been received.</p>
+    <h1>Donation Installment Confirmation</h1>
+    <p>Thank you for your installment donation!</p>
+    <p>Your installment donation has been received.</p>
     <p>Donation Amount: <%= number_to_currency(@amount) %></p>
     <p>Donation Date: <%= @donation.created_at.strftime("%B %d, %Y") %></p>
     <p>Masjid: <%= @donation.masjid.name %></p>

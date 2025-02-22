@@ -7,15 +7,9 @@ class DonationConfirmationMailer < ApplicationMailer
     mail(to: @donation.contact.email, subject: 'Donation Confirmation')
   end
 
-  def installment_donation_confirmation(donation, amount)
+  def donation_installment_confirmation(donation, amount)
     @donation = donation
     @amount = amount
-    mail(to: @donation.contact.email, subject: 'Installment Donation Confirmation')
-  end
-
-  def recurring_donation_confirmation(donation, amount)
-    @donation = donation
-    @amount = amount
-    mail(to: @donation.contact.email, subject: 'Recurring Donation Confirmation')
+    mail(to: @donation.contact.email, subject: 'Donation Installment Confirmation')
   end
 end
