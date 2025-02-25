@@ -1,5 +1,5 @@
 class DonationConfirmationMailer < ApplicationMailer
-  default from: 'noreply@mymasjidhub.com'
+  default from: 'no-reply@mymasjidhub.com'
 
   def donation_confirmation(donation, amount)
     @donation = donation
@@ -7,9 +7,15 @@ class DonationConfirmationMailer < ApplicationMailer
     mail(to: @donation.contact.email, subject: 'Donation Confirmation')
   end
 
-  def donation_installment_confirmation(donation, amount)
+  def installment_donation_confirmation(donation, amount)
     @donation = donation
     @amount = amount
-    mail(to: @donation.contact.email, subject: 'Donation Installment Confirmation')
+    mail(to: @donation.contact.email, subject: 'Installment Donation Confirmation')
+  end
+
+  def recurring_donation_confirmation(donation, amount)
+    @donation = donation
+    @amount = amount
+    mail(to: @donation.contact.email, subject: 'Recurring Donation Confirmation')
   end
 end

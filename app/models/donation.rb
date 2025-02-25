@@ -9,12 +9,17 @@ class Donation < ApplicationRecord
 
   validates :amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
   validates :contact, presence: true
+  validates :payment_method, presence: true
+  validates :donation_type, presence: true
+
+  PAYMENT_METHODS = ['Card', 'Bank Transfer', 'Cash'].freeze
+  DONATION_TYPES = ['One Time', 'Recurring', 'Installment'].freeze
 
   scope :by_year, ->(year) { where('extract(year from created_at) = ?', year) }
   scope :by_month, ->(month) { where('EXTRACT(MONTH FROM created_at) = ?', month) if month.present? }
 
   def self.ransackable_attributes(_auth_object = nil)
-    %w[created_at amount]
+    %w[created_at amount payment_method donation_type mymasjidhub_donation]
   end
 
   def self.ransackable_associations(_auth_object = nil)

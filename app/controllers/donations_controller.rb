@@ -37,6 +37,7 @@ class DonationsController < ApplicationController
     @fundraiser = Fundraiser.where(id: params[:donation][:fundraiser_id]).first
     @donation.fundraiser_id = params[:donation][:fundraiser_id]
     @donation.masjid_id = @fundraiser.masjid_id
+    @donation.mymasjidhub_donation = false
 
     @donation.pledge_id = params[:pledge_id] unless params[:pledge_id].nil?
 
@@ -105,6 +106,6 @@ class DonationsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def donation_params
-    params.require(:donation).permit(:amount, :contact_id, :fundraiser_id, :pledge_id)
+    params.require(:donation).permit(:amount, :contact_id, :fundraiser_id, :pledge_id, :payment_method, :donation_type)
   end
 end

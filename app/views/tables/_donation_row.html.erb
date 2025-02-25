@@ -5,7 +5,7 @@
              value="<%= item.id %>"
              data-controller="bulk-actions"
              data-action="change->bulk-actions#toggleRow"
-             class="hidden row-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+      class="hidden row-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
     </div>
   </td>
   <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
@@ -19,6 +19,15 @@
   </th>
   <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
     <%= number_to_currency(item.amount) %>
+  </th>
+  <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+    <%= item.payment_method.present? ? item.payment_method : '' %>
+  </th>
+  <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+    <%= item.donation_type %>
+  </th>
+  <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+    <%= item.mymasjidhub_donation %>
   </th>
   <th scope="row" class="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
     <%= item.created_at.strftime("%b %d, %Y") %>
@@ -38,8 +47,8 @@
         </li>
         <li>
           <%= link_to item, id: item.id, class: "block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white", data: { turbo_method: :delete, turbo_confirm: 'Are you sure you want to delete this item?'} do %>
-          Delete
-        <%  end %>
+            Delete
+          <%  end %>
         </li>
       </ul>
     </div>
