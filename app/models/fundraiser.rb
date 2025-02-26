@@ -1,5 +1,7 @@
 require 'rqrcode'
 class Fundraiser < ApplicationRecord
+  extend FriendlyId
+
   belongs_to :masjid
   has_many :donations, dependent: :restrict_with_error
   has_many :pledges, dependent: :restrict_with_error
@@ -14,6 +16,18 @@ class Fundraiser < ApplicationRecord
 
   scope :active, -> { where(active: true) }
 
+  friendly_id :slug_candidates, use: [:slugged, :finders]
+
+  def slug_candidates
+    [
+      %i[name id]
+    ]
+  end
+
+  def should_generate_new_friendly_id?
+    slug.blank? || name_changed?
+  end
+  
   def self.ransackable_attributes(_auth_object = nil)
     ['name']
   end

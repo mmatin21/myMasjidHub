@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     sessions: 'masjids/sessions',
     registrations: 'masjids/registrations'
   }
-  resources :masjids do
+  resources :masjids, param: :slug do
     resources :payouts, only: %i[new create]
     resources :dashboard, only: %i[index get]
     member do
@@ -26,7 +26,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :fundraisers do
+  resources :fundraisers, param: :slug do
     member do
       patch :toggle_active
     end
