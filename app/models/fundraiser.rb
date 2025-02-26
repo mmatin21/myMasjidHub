@@ -43,7 +43,7 @@ class Fundraiser < ApplicationRecord
   private
 
   def generate_qr_code
-    fundraiser_url = "https://mymasjidfinder.onrender.com/masjids/#{masjid.slug}/fundraisers/#{slug}"
+    fundraiser_url = "https://mobile.mymasjidhub.com/masjids/#{masjid.slug}/fundraisers/#{slug}"
     qr = RQRCode::QRCode.new(fundraiser_url)
 
     qr_png = StringIO.new(qr.as_png(size: 300, border_modules: 2).to_s)
