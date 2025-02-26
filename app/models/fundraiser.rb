@@ -9,6 +9,7 @@ class Fundraiser < ApplicationRecord
 
   after_create :generate_qr_code
   after_destroy :delete_qr_code_from_s3
+  after_create :regenerate_slug_with_id
 
   validates :name, presence: true
   validates :description, presence: true
@@ -27,7 +28,14 @@ class Fundraiser < ApplicationRecord
   def should_generate_new_friendly_id?
     slug.blank? || name_changed?
   end
-  
+
+  def regenerate_slug_with_id
+    return unless slug.present? && !slug.match?(/\d+$/) # If the slug is missing an ID
+
+    update(slug: nil) # Forces FriendlyId to regenerate the slug
+    save!
+  end
+
   def self.ransackable_attributes(_auth_object = nil)
     ['name']
   end
