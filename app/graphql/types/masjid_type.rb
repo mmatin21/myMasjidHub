@@ -18,5 +18,6 @@ module Types
     field :events, [Types::EventType], null: true
     field :fundraisers, [Types::FundraiserType], null: true
     field :prayers, [Types::PrayerType], null: true
+    field :slug, String, null: false
   end
 end

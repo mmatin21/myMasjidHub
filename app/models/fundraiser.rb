@@ -1,5 +1,7 @@
 require 'rqrcode'
 class Fundraiser < ApplicationRecord
+  extend FriendlyId
+
   belongs_to :masjid
   has_many :donations, dependent: :restrict_with_error
   has_many :pledges, dependent: :restrict_with_error
@@ -7,12 +9,32 @@ class Fundraiser < ApplicationRecord
 
   after_create :generate_qr_code
   after_destroy :delete_qr_code_from_s3
+  after_create :regenerate_slug_with_id
 
   validates :name, presence: true
   validates :description, presence: true
   validates :goal_amount, presence: true, numericality: { greater_than_or_equal_to: 0 }
 
   scope :active, -> { where(active: true) }
+
+  friendly_id :slug_candidates, use: [:slugged, :finders]
+
+  def slug_candidates
+    [
+      %i[name id]
+    ]
+  end
+
+  def should_generate_new_friendly_id?
+    slug.blank? || name_changed?
+  end
+
+  def regenerate_slug_with_id
+    return unless slug.present? && !slug.match?(/\d+$/) # If the slug is missing an ID
+
+    update(slug: nil) # Forces FriendlyId to regenerate the slug
+    save!
+  end
 
   def self.ransackable_attributes(_auth_object = nil)
     ['name']
@@ -21,7 +43,7 @@ class Fundraiser < ApplicationRecord
   private
 
   def generate_qr_code
-    fundraiser_url = "https://mobile.mymasjidhub.com/masjids/#{masjid_id}/fundraisers/#{id}"
+    fundraiser_url = "https://mymasjidfinder.onrender.com/masjids/#{masjid.slug}/fundraisers/#{slug}"
     qr = RQRCode::QRCode.new(fundraiser_url)
 
     qr_png = StringIO.new(qr.as_png(size: 300, border_modules: 2).to_s)
