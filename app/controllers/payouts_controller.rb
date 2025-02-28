@@ -39,6 +39,6 @@ class PayoutsController < ApplicationController
   private
 
   def set_masjid
-    @masjid = Masjid.find(params[:masjid_id])
+    @masjid = Masjid.find_by(id: current_masjid.id)
   end
 end
