@@ -11,7 +11,7 @@ class FundraisersController < ApplicationController
 
   # GET /fundraisers/1 or /fundraisers/1.json
   def show
-    donations = @fundraiser.donations
+    donations = @fundraiser.donations.order(created_at: 'desc')
 
     @q = donations.ransack(params[:q])
     donations = @q.result.includes(:contact, :fundraiser)

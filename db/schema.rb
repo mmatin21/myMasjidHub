@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_02_26_063117) do
+ActiveRecord::Schema[7.0].define(version: 2025_02_28_025322) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -94,6 +94,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_26_063117) do
     t.string "payment_method"
     t.string "donation_type"
     t.boolean "mymasjidhub_donation"
+    t.string "stripe_invoice_id"
+    t.string "status"
     t.index ["contact_id"], name: "index_donations_on_contact_id"
     t.index ["fundraiser_id"], name: "index_donations_on_fundraiser_id"
     t.index ["masjid_id"], name: "index_donations_on_masjid_id"
