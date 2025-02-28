@@ -166,24 +166,39 @@ class WebhooksController < ApplicationController
   def handle_balance_available(balance, account)
     return if account
 
-    donations = Donation.where(status: 'Pending Transfer').order(created_at: :asc)
+    donations = Donation.where(status: 'Pending Transfer').order(:created_at)
+    return if donations.empty?
+
+    invoice_ids = donations.pluck(:stripe_invoice_id)
+
+    # Batch retrieve invoices
+    invoices_map = invoice_ids.index_with { |id| Stripe::Invoice.retrieve(id, expand: ['charge']) }
+
+    # Batch retrieve charges
+    charge_ids = invoices_map.values.map(&:charge).compact
+    charges_map = charge_ids.index_with { |id| Stripe::Charge.retrieve(id) }
+
+    # Batch retrieve balance transactions
+    balance_transaction_ids = charges_map.values.map(&:balance_transaction).compact
+    balance_transactions_map = balance_transaction_ids.index_with { |id| Stripe::BalanceTransaction.retrieve(id) }
 
     donations.each do |donation|
-      next unless donation.stripe_invoice_id
+      invoice = invoices_map[donation.stripe_invoice_id]
+      charge = charges_map[invoice&.charge]
+      balance_transaction = balance_transactions_map[charge&.balance_transaction]
 
-      invoice = Stripe::Invoice.retrieve(donation.stripe_invoice_id)
-      charge = Stripe::Charge.retrieve(invoice.charge)
-      balance_transaction = Stripe::BalanceTransaction.retrieve(charge.balance_transaction) if charge&.balance_transaction
-      next unless balance_transaction.status == 'available'
+      next unless balance_transaction&.status == 'available'
+
       Rails.logger.debug "Balance available for donation #{donation.id}"
 
-      amount = donation.amount * 100
+      amount = (donation.amount * 100).to_i
 
       Stripe::Transfer.create(
-        amount: amount.to_i,
+        amount: amount,
         currency: 'usd',
         destination: donation.masjid.stripe_account_id
       )
+
       donation.update(status: 'Transferred')
     end
   end
