@@ -94,6 +94,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_02_22_064749) do
     t.string "payment_method"
     t.string "donation_type"
     t.boolean "mymasjidhub_donation"
+    t.string "stripe_invoice_id"
+    t.string "status"
     t.index ["contact_id"], name: "index_donations_on_contact_id"
     t.index ["fundraiser_id"], name: "index_donations_on_fundraiser_id"
     t.index ["masjid_id"], name: "index_donations_on_masjid_id"

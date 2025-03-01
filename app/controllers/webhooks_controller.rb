@@ -33,6 +33,8 @@ class WebhooksController < ApplicationController
       handle_payment_paid(event['data']['object'])
     when 'invoice.paid'
       handle_invoice_paid(event['data']['object'])
+    when 'balance.available'
+      handle_balance_available(event['data']['object'], event['account'])
     else
       Rails.logger.info "Unhandled event type: #{event['type']}"
     end
@@ -123,13 +125,12 @@ class WebhooksController < ApplicationController
     contact.save
 
     amount = invoice['amount_paid'].to_f / 100.0
-    fee = invoice['application_fee_amount'].to_f / 100
-    amount_after_fee = (amount - fee).round(2)
-
-    Rails.logger.debug "amount after fee #{amount_after_fee}"
-
     donation_type = metadata['total_installments'].present? ? 'Installment' : 'Recurring'
     payment_method = metadata['payment_method'] == 'us_bank_account' ? 'Bank Transfer' : 'Card'
+
+    fee = calculate_fee(invoice['amount_paid'], metadata['payment_method'])
+    amount_after_fee = invoice['amount_paid'] - fee
+    amount_after_fee = (amount_after_fee.to_f.round(2) / 100.0).round.to_i
 
     donation = Donation.new(
       amount: amount_after_fee,
@@ -138,9 +139,12 @@ class WebhooksController < ApplicationController
       contact_id: contact.id,
       payment_method: payment_method,
       donation_type: donation_type,
-      mymasjidhub_donation: true
+      mymasjidhub_donation: true,
+      status: 'Pending Transfer',
+      stripe_invoice_id: invoice['id']
     )
     donation.save!
+
     if metadata['total_installments'].present?
       DonationConfirmationMailer.installment_donation_confirmation(donation, amount).deliver_now
     else
@@ -153,5 +157,58 @@ class WebhooksController < ApplicationController
                 #{donation.fundraiser.name} by #{donation.contact.name}!",
       donation_id: donation.id
     )
+  end
+
+  def handle_balance_available(balance, account)
+    return if account
+
+    donations = Donation.where(status: 'Pending Transfer').order(:created_at)
+    return if donations.empty?
+
+    invoice_ids = donations.pluck(:stripe_invoice_id)
+
+    # Batch retrieve invoices
+    invoices_map = invoice_ids.index_with { |id| Stripe::Invoice.retrieve(id, expand: ['charge']) }
+
+    # Batch retrieve charges
+    charge_ids = invoices_map.values.map(&:charge).compact
+    charges_map = charge_ids.index_with { |id| Stripe::Charge.retrieve(id) }
+
+    # Batch retrieve balance transactions
+    balance_transaction_ids = charges_map.values.map(&:balance_transaction).compact
+    balance_transactions_map = balance_transaction_ids.index_with { |id| Stripe::BalanceTransaction.retrieve(id) }
+
+    donations.each do |donation|
+      invoice = invoices_map[donation.stripe_invoice_id]
+      charge = charges_map[invoice&.charge]
+      balance_transaction = balance_transactions_map[charge&.balance_transaction]
+
+      next unless balance_transaction&.status == 'available'
+
+      Rails.logger.debug "Balance available for donation #{donation.id}"
+
+      amount = (donation.amount * 100).to_i
+
+      Stripe::Transfer.create(
+        amount: amount,
+        currency: 'usd',
+        destination: donation.masjid.stripe_account_id
+      )
+
+      donation.update(status: 'Transferred')
+    end
+  end
+
+  def calculate_fee(amount, payment_method)
+    case payment_method
+    when 'card'
+      app_fee = [(amount * 0.01), 1000].min # 1% application fee, capped at $10
+      process_fee = ((amount * 0.029) + 30) # 2.9% processing fee + $0.30
+      (app_fee + process_fee).round
+    when 'us_bank_account'
+      app_fee = [(amount * 0.01), 1000].min # 1% application fee, capped at $10
+      process_fee = [(amount * 0.008), 500].min # 0.8% processing fee, capped at $5
+      (app_fee + process_fee).round
+    end
   end
 end

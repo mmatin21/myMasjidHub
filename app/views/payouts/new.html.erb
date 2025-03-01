@@ -1,22 +1,23 @@
-<div class="antialiased">
-  <section class="p-4 md:ml-64 h-auto pt-20">
+<section class="antialiased">
+  <div class="p-4 md:ml-64 h-auto pt-20">
     <div class="flex justify-between items-center">
       <h1 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Payout</h1>
     </div>
     <div class="max-w-2xl px-4 2xl:px-0">
       <p class="text-gray-500 dark:text-gray-400 mb-6 md:mb-8">You have <a href="#" class="font-medium text-gray-900 dark:text-white hover:underline"><%= number_to_currency(@available_balance) %></a> available to withdraw.</p>
       <div class="space-y-4 sm:space-y-2 rounded-lg border border-gray-100 bg-gray-50 p-6 dark:border-gray-700 dark:bg-gray-800 mb-6 md:mb-8">
-        <%= form_with url: masjid_payouts_path(@masjid), method: :post, local: true, data: { turbo: false } do |form| %>
+        <%= form_with url: masjid_payouts_path(@masjid), method: :post, local: true, data: { controller: "submit-form", action: "submit->submit-form#handleSubmit" } do |form| %>
           <%= form.label :amount, "Payout Amount (USD)", class: "block mb-2 text-sm font-medium text-gray-900 dark:text-white" %>
           <%= form.number_field :amount, step: 0.01, min: 1, max: @available_balance, class:"bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500", placeholder: "#{number_to_currency(@available_balance)}", required: true %>
         </div>
         <div class="flex items-center space-x-4">
           <%= form.submit "Request Payout", 
-                class: "py-2.5 px-5 font-medium text-white border border-blue-900 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800",
-                disabled: @available_balance <= 0 %>
+                id: "submit-button",
+                class: "py-2.5 px-5 font-medium text-white border border-blue-900 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
+               %>
         <% end %>
         <%= link_to "Return to Profile", masjid_path(@masjid), class: "py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" %>
       </div>
     </div>
-  </section>
-</div>
+  </div>
+</section>
