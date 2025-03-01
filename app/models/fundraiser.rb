@@ -7,7 +7,7 @@ class Fundraiser < ApplicationRecord
   has_many :pledges, dependent: :restrict_with_error
   has_one_attached :qr_code
 
-  after_create :generate_qr_code
+  after_create_commit :generate_qr_code
   after_destroy :delete_qr_code_from_s3
   after_create :regenerate_slug_with_id
 
