@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Thank You for Your Pledge!</h1>
+    <p>Dear <%= @contact.first_name %>,</p>
+    <p>Thank you for pledging to support <%= @masjid.name %>'s "<%= @fundraiser.name %>" fundraiser.</p>
+    <h2>Your Pledge Details:</h2>
+    <ul>
+      <li>Monthly Amount: $<%= sprintf('%.2f', @pledge.amount) %></li>
+      <li>Duration: <%= @pledge.months %> months</li>
+      <li>Total Pledge: $<%= sprintf('%.2f', @pledge.total_amount) %></li>
+    </ul>
+    <p>You will receive reminders when it's time to fulfill your pledge. If you would like to contribute to your pledge now, please click the button below:</p>
+    <p>
+      <a href="<%= @return_url %>" style="display: inline-block; padding: 10px 20px; background-color: #4A5568; color: white; text-decoration: none; border-radius: 4px;">
+        Contribute to My Pledge
+      </a>
+    </p>
+    <p>Thank you for your generous support!</p>
+    <p>Sincerely,<br>
+      <%= @masjid.name %></p>
+  </body>
+</html>
