@@ -100,6 +100,14 @@ class WebhooksController < ApplicationController
       donation_type: 'One Time',
       mymasjidhub_donation: true
     )
+
+    # Associate with pledge if pledge_id is present in metadata
+    if metadata['pledge_id'].present?
+      pledge_id = metadata['pledge_id']
+      donation.pledge_id = pledge_id
+      Rails.logger.info "Associating donation with pledge ID: #{pledge_id}"
+    end
+
     donation.save!
     DonationConfirmationMailer.donation_confirmation(donation, amount).deliver_now
 
@@ -147,6 +155,14 @@ class WebhooksController < ApplicationController
       status: 'Pending Transfer',
       stripe_invoice_id: invoice['id']
     )
+
+    # Associate with pledge if pledge_id is present in metadata
+    if metadata['pledge_id'].present?
+      pledge_id = metadata['pledge_id']
+      donation.pledge_id = pledge_id
+      Rails.logger.info "Associating subscription donation with pledge ID: #{pledge_id}"
+    end
+
     donation.save!
 
     if metadata['total_installments'].present?
@@ -163,7 +179,7 @@ class WebhooksController < ApplicationController
     )
   end
 
-  def handle_balance_available(balance, account)
+  def handle_balance_available(_balance, account)
     return if account
 
     donations = Donation.where(status: 'Pending Transfer').order(:created_at)
