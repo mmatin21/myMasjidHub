@@ -6,8 +6,10 @@ class PledgeMailer < ApplicationMailer
     @contact = pledge.contact
     @fundraiser = pledge.fundraiser
     @masjid = pledge.masjid
+    host = Rails.env.production? ? 'mymasjidfinder.onrender.com' : 'localhost:3000'
+    protocol = Rails.env.production? ? 'https' : 'http'
 
-    @return_url = "localhost:3001/masjids/#{@masjid.slug}/fundraisers/#{@fundraiser.slug}/donations/new?pledge_id=#{@pledge.id}"
+    @return_url = "#{protocol}://#{host}/masjids/#{@masjid.slug}/fundraisers/#{@fundraiser.slug}/donations/new?pledge_id=#{@pledge.id}"
 
     mail(
       to: @contact.email,
