@@ -13,6 +13,7 @@ module Mutations
     field :pledge, Types::PledgeType, null: true
     field :errors, [String], null: true
 
+    # In app/graphql/mutations/create_pledge.rb
     def resolve(fundraiser_id:, amount:, contact_email:, contact_first_name:, contact_last_name:)
       fundraiser = Fundraiser.find_by(id: fundraiser_id)
       Rails.logger.info "Creating pledge for fundraiser: #{fundraiser_id}"
@@ -41,6 +42,21 @@ module Mutations
 
       if pledge.save
         Rails.logger.info "Pledge saved successfully: #{pledge.id}"
+
+        # Send confirmation email to the user
+        PledgeMailer.confirmation_email(pledge).deliver_now
+        Rails.logger.info "Sent confirmation email to #{contact.email}"
+
+        # Create notification for the masjid
+        Notification.create!(
+          masjid_id: fundraiser.masjid_id,
+          message: "#{contact.first_name} #{contact.last_name} has pledged $#{'%.2f' % pledge.amount} to the '#{fundraiser.name}' fundraiser."
+          # No donation_id since this is a pledge
+        )
+
+        Rails.logger.info "Created notification for masjid #{fundraiser.masjid_id}"
+
+        # Return success response
         { pledge: pledge, errors: [] }
       else
         Rails.logger.error "Pledge save failed: #{pledge.errors.full_messages}"
